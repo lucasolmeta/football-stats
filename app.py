@@ -17,4 +17,4 @@ def get_data():
 
     response = requests.get(url, headers=headers, params=querystring)
 
-    return(response.json())
+    return(jsonify(response.json()))
