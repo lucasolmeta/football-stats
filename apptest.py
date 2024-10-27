@@ -16,4 +16,4 @@ headers = {
 
 response = requests.get(url, headers=headers, params=querystring)
 
-print(jsonify(response.json()))
+print(response.json())
