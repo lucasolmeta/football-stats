@@ -1,4 +1,4 @@
 Flask==3.0.3
-Python==3.13.0
+Python==3.13.x
 pandas==2.2.3
 requests==2.32.3
