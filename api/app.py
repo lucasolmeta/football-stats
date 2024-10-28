@@ -42,7 +42,7 @@ def filter_data_to_match_query(data,query):
 
     return filtered_players
 
-@app.route('/search/<query>')
+@app.route('/search/<query>', METHOD=['GET'])
 def get_data(query):
 
     logging.debug(f"Search query received: {query}")
@@ -66,7 +66,7 @@ def get_data(query):
         try:
             results = requests.get(url, headers=headers, params=querystring)
             results.raise_for_status()  
-            
+
             data = results.json()
 
             logging.debug(f"Results received: {data}")
