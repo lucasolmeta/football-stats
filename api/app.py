@@ -7,6 +7,7 @@ import logging
 RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY")
 
 app = Flask(__name__)
+app.logger.setLevel(logging.DEBUG)
 
 @app.route('/')
 def index():
@@ -20,7 +21,6 @@ if __name__ == '__main__':
     logging.debug("Starting the Flask application.")
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
-    app.logger.setLevel(logging.DEBUG)
 
 def get_last_word(query):
     words = query.split("-")
@@ -65,7 +65,7 @@ def get_data(query):
         try:
             results = requests.get(url, headers=headers, params=querystring)
             results.raise_for_status()  
-            results = jsonify(results)
+            results = results.json()
 
             logging.debug(f"Results received: {results}")
             return results
@@ -85,7 +85,7 @@ def get_data(query):
         results = requests.get(url, headers=headers, params=querystring)
         results.raise_for_status()  
 
-        results = jsonify(results)
+        results = results.json
 
         results = filter_data_to_match_query(results, query)
 
