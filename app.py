@@ -12,7 +12,7 @@ def get_data():
     querystring = {"team":"33"}
 
     headers = {
-	    "x-rapidapi-key": os.getenv("RAPIDAPI_KEY"),
+	    "x-rapidapi-key": RAPIDAPI_KEY,
 	    "x-rapidapi-host": "api-football-v1.p.rapidapi.com"    
     }   
 
