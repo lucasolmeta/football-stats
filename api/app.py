@@ -13,9 +13,9 @@ def index():
     return "Welcome to the Football Stats API!"
 
 if __name__ == '__main__':
-        logging.debug("Starting the Flask application.")
-        app.run(debug=True)
-        app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    logging.debug("Starting the Flask application.")
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
 
 def get_last_word(query):
     words = query.split("-")
