@@ -7,9 +7,9 @@ app = Flask(__name__)
 
 @app.route('/data')
 def get_data():
-    url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
+    url = "https://api-football-v1.p.rapidapi.com/v3/leagues"
 
-    querystring = {"date":"2024-10-26"}
+    querystring = {"team":"33"}
 
     headers = {
 	    "x-rapidapi-key": os.getenv("RAPIDAPI_KEY"),
