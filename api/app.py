@@ -43,9 +43,6 @@ def filter_data_to_match_query(data,query):
 
 @app.route('/search/<query>', methods=['GET'])
 def get_data(query):
-
-    logging.debug(f"Search query received: {query}")
-
     #set url
 
     url = "https://api-football-v1.p.rapidapi.com/v3/players/profiles"
@@ -64,8 +61,9 @@ def get_data(query):
     querystring = {"search":query}
     results = requests.get(url, headers=headers, params=querystring)
     results.raise_for_status()  
-    results = results.json()
-    return jsonify(results)
+    data = results.json()
+       
+    return jsonify(data)
 
     #
 
