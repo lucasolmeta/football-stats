@@ -71,19 +71,15 @@ def get_data(query):
             results.raise_for_status()  
             results = results.json()
 
-            logging.debug(f"Results received: {results}")
             return jsonify(results)
         except requests.exceptions.HTTPError as http_err:
-            logging.error(f"HTTP error occurred: {str(http_err)}")
             return jsonify({"error": str(http_err)}), 500
         except Exception as err:
-            logging.error(f"An error occurred: {str(err)}")
             return jsonify({"error": str(err)}), 500
 
     #-------- MULTI WORD QUERY --------#
 
     querystring = {"search":get_last_word(query)}
-    logging.debug(f"Multiple word query, last word: {querystring}")
 
     try:
         results = requests.get(url, headers=headers, params=querystring)
@@ -93,13 +89,10 @@ def get_data(query):
 
         results = filter_data_to_match_query(results, query)
 
-        logging.debug(f"Filtered results: {results}")
         return jsonify(results)
     except requests.exceptions.HTTPError as http_err:
-        logging.error(f"HTTP error occurred: {str(http_err)}")
         return jsonify({"error": str(http_err)}), 500
     except Exception as err:
-        logging.error(f"HTTP error occurred: {str(http_err)}")
         return jsonify({"error": str(err)}), 500
     
 #-------- RUN APP (MUST COME LAST) --------#
