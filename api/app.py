@@ -7,30 +7,36 @@ import logging
 RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY")
 
 app = Flask(__name__)
-app.logger.setLevel(logging.DEBUG)
+
+#-------- ESTABLISH ROOT PAGE --------#
 
 @app.route('/')
 def index():
     return "Welcome to the Football Stats API!"
 
+#-------- ESTABLISH 404 PAGE --------#
+
 @app.errorhandler(404)
 def not_found(e):
     return "Page not found", 404
 
-if __name__ == '__main__':
-    logging.debug("Starting the Flask application.")
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+#-------- FIND LAST WORD IN QUERY --------#
 
 def get_last_word(query):
     words = query.split("-")
     return words[-1]
 
+#-------- FILTER JSON BY QUERY --------#
+
 def filter_data_to_match_query(data,query):
     players = data.get("response", [])
 
+    #-------- DECLARE AND SET NEW FILTERED JSON --------#
+
     filtered_players = [
         player for player in players
+
+        #-------- FILTER BY WORDS IN SEARCH QUERY --------#
 
         if all(
             word.lower() in (
@@ -43,29 +49,19 @@ def filter_data_to_match_query(data,query):
 
 @app.route('/search/<query>', methods=['GET'])
 def get_data(query):
-    #set url
+
+    #-------- SET URL --------#
 
     url = "https://api-football-v1.p.rapidapi.com/v3/players/profiles"
 
-    #get api key from environmental variable and set host
+    #-------- GET API KEY AND SET HEADERS --------#
 
     headers = {
 	    "x-rapidapi-key": RAPIDAPI_KEY,
 	    "x-rapidapi-host": "api-football-v1.p.rapidapi.com"    
     }
 
-    #if query is one word long, search for single word
-
-    #
-
-    querystring = {"search":query}
-    results = requests.get(url, headers=headers, params=querystring)
-    results.raise_for_status()  
-    data = results.json()
-       
-    return jsonify(data)
-
-    #
+    #-------- ONE WORD QUERY --------#
 
     if "-" not in query:
         logging.debug(f"Single word query: {querystring}")
@@ -84,7 +80,7 @@ def get_data(query):
             logging.error(f"An error occurred: {str(err)}")
             return jsonify({"error": str(err)}), 500
 
-    #if query is multiple words, search by last word and filter results to only those who include previous words
+    #-------- MULTI WORD QUERY --------#
 
     querystring = {"search":get_last_word(query)}
     logging.debug(f"Multiple word query, last word: {querystring}")
@@ -105,3 +101,10 @@ def get_data(query):
     except Exception as err:
         logging.error(f"HTTP error occurred: {str(http_err)}")
         return jsonify({"error": str(err)}), 500
+    
+#-------- RUN APP (MUST COME LAST) --------#
+
+if __name__ == '__main__':
+    logging.debug("Starting the Flask application.")
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
