@@ -1,8 +1,8 @@
 from flask import Flask, jsonify
 import pandas as pd
 import requests
-import json
 import os
+import logging
 
 RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY")
 
@@ -13,6 +13,7 @@ def index():
     return "Welcome to the Football Stats API!"
 
 if __name__ == '__main__':
+        logging.debug("Starting the Flask application.")
         app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
 
 def get_last_word(query):
@@ -37,6 +38,8 @@ def filter_data_to_match_query(data,query):
 @app.route('/search/<query>', methods=['GET'])
 def get_data(query):
 
+    logging.debug(f"Search query received: {query}")
+
     #set url
 
     url = "https://api-football-v1.p.rapidapi.com/v3/players/profiles"
@@ -51,20 +54,25 @@ def get_data(query):
     #if query is one word long, search for single word
 
     if "-" not in query:
+        logging.debug(f"Single word query: {querystring}")
         querystring = {"search":query}
         try:
             results = requests.get(url, headers=headers, params=querystring)
             results.raise_for_status()  
+            logging.debug(f"Results received: {results.json()}")
 
             return jsonify(results)
         except requests.exceptions.HTTPError as http_err:
+            logging.error(f"HTTP error occurred: {str(http_err)}")
             return jsonify({"error": str(http_err)}), 500
         except Exception as err:
+            logging.error(f"An error occurred: {str(err)}")
             return jsonify({"error": str(err)}), 500
 
     #if query is multiple words, search by last word and filter results to only those who include previous words
 
     querystring = {"search":get_last_word(query)}
+    logging.debug(f"Multiple word query, last word: {querystring}")
 
     try:
         results = requests.get(url, headers=headers, params=querystring)
@@ -72,8 +80,11 @@ def get_data(query):
         results = results.json()
         results = filter_data_to_match_query(results,query)
 
+        logging.debug(f"Filtered results: {filtered_results}")
         return jsonify(results)
     except requests.exceptions.HTTPError as http_err:
+        logging.error(f"HTTP error occurred: {str(http_err)}")
         return jsonify({"error": str(http_err)}), 500
     except Exception as err:
+        logging.error(f"HTTP error occurred: {str(http_err)}")
         return jsonify({"error": str(err)}), 500
