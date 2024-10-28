@@ -68,7 +68,7 @@ def get_data(query):
             results = results.json()
 
             logging.debug(f"Results received: {results}")
-            return results
+            return jsonify(results)
         except requests.exceptions.HTTPError as http_err:
             logging.error(f"HTTP error occurred: {str(http_err)}")
             return jsonify({"error": str(http_err)}), 500
@@ -85,12 +85,12 @@ def get_data(query):
         results = requests.get(url, headers=headers, params=querystring)
         results.raise_for_status()  
 
-        results = results.json
+        results = results.json()
 
         results = filter_data_to_match_query(results, query)
 
         logging.debug(f"Filtered results: {results}")
-        return results
+        return jsonify(results)
     except requests.exceptions.HTTPError as http_err:
         logging.error(f"HTTP error occurred: {str(http_err)}")
         return jsonify({"error": str(http_err)}), 500
