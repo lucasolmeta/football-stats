@@ -64,7 +64,6 @@ def get_data(query):
     #-------- ONE WORD QUERY --------#
 
     if "-" not in query:
-        logging.debug(f"Single word query: {querystring}")
         querystring = {"search":query}
         try:
             results = requests.get(url, headers=headers, params=querystring)
