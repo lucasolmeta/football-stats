@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 import pandas as pd
 import requests
 import json
@@ -7,6 +7,10 @@ import os
 RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY")
 
 app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return "Welcome to the Football Stats API!"
 
 if __name__ == '__main__':
         app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
@@ -47,10 +51,10 @@ def get_data(query):
     try:
         results = requests.get(url, headers=headers, params=querystring)
         results.raise_for_status()  
-
+        results = results.json()
         results = filter_data_to_match_query(results,query)
 
-        return results.json()
+        return jsonify(results)
     except requests.exceptions.HTTPError as http_err:
         return json.dumps({"error": str(http_err)}), 500
     except Exception as err:
