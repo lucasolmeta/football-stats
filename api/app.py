@@ -59,6 +59,16 @@ def get_data(query):
 
     #if query is one word long, search for single word
 
+    #
+
+    querystring = {"search":query}
+    results = requests.get(url, headers=headers, params=querystring)
+    results.raise_for_status()  
+    results = results.json()
+    return jsonify(results)
+
+    #
+
     if "-" not in query:
         logging.debug(f"Single word query: {querystring}")
         querystring = {"search":query}
