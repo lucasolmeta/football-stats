@@ -40,7 +40,7 @@ def filter_data_to_match_query(data,query):
 
     return filtered_players
 
-@app.route('/search/<query>', methods=['GET'])
+@app.route('/search/<query>'""", methods=['GET']""")
 def get_data(query):
 
     logging.debug(f"Search query received: {query}")
