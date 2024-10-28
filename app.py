@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 import pandas as pd
 import requests
-from config import RAPIDAPI_KEY
+from config.py import RAPIDAPI_KEY
 
 app = Flask(__name__)
 
