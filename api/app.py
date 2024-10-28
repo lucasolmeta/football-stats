@@ -7,8 +7,8 @@ RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY")
 
 app = Flask(__name__)
 
-@app.route('/data')
-def get_data():
+@app.route('/data/<search_query>', methods=['GET'])
+def get_data(search_query):
     url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
 
     querystring = {"date":"2024-10-27"}
