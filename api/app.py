@@ -14,6 +14,7 @@ def index():
 
 if __name__ == '__main__':
         logging.debug("Starting the Flask application.")
+        app.run(debug=True)
         app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
 
 def get_last_word(query):
