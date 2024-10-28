@@ -5,7 +5,7 @@ import os
 
 app = Flask(__name__)
 
-@app.route('')
+@app.route('/data')
 def get_data():
     url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
 
@@ -16,6 +16,14 @@ def get_data():
 	    "x-rapidapi-host": "api-football-v1.p.rapidapi.com"    
     }   
 
-    response = requests.get(url, headers=headers, params=querystring)
-
-    return(response.json())  
+    try:
+        response = requests.get(url, headers=headers, params=querystring)
+        response.raise_for_status()  # Raise an error for bad responses
+        return jsonify(response.json())  # Return the API response as JSON
+    except requests.exceptions.HTTPError as http_err:
+        return jsonify({"error": str(http_err)}), 500
+    except Exception as err:
+        return jsonify({"error": str(err)}), 500
+    
+if __name__ == '__main__':
+    app.run(debug=True)
