@@ -16,7 +16,7 @@ if __name__ == '__main__':
         app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
 
 def get_last_word(query):
-    words = query.split(" ")
+    words = query.split("-")
     return words[-1]
 
 def filter_data_to_match_query(data,query):
@@ -56,6 +56,6 @@ def get_data(query):
 
         return jsonify(results)
     except requests.exceptions.HTTPError as http_err:
-        return json.dumps({"error": str(http_err)}), 500
+        return jsonify({"error": str(http_err)}), 500
     except Exception as err:
-        return json.dumps({"error": str(err)}), 500
+        return jsonify({"error": str(err)}), 500
