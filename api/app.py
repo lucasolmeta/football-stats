@@ -36,17 +36,35 @@ def filter_data_to_match_query(data,query):
 
 @app.route('/search/<query>', methods=['GET'])
 def get_data(query):
+
+    #set url
+
     url = "https://api-football-v1.p.rapidapi.com/v3/players/profiles"
 
-    if "-" not in query:
-        querystring = {"search":query}
-    else:
-        querystring = {"search":get_last_word(query)}
+    #get api key from environmental variable and set host
 
     headers = {
 	    "x-rapidapi-key": RAPIDAPI_KEY,
 	    "x-rapidapi-host": "api-football-v1.p.rapidapi.com"    
-    }   
+    }
+
+    #if query is one word long, search for single word
+
+    if "-" not in query:
+        querystring = {"search":query}
+        try:
+            results = requests.get(url, headers=headers, params=querystring)
+            results.raise_for_status()  
+
+            return jsonify(results)
+        except requests.exceptions.HTTPError as http_err:
+            return jsonify({"error": str(http_err)}), 500
+        except Exception as err:
+            return jsonify({"error": str(err)}), 500
+
+    #if query is multiple words, search by last word and filter results to only those who include previous words
+
+    querystring = {"search":get_last_word(query)}
 
     try:
         results = requests.get(url, headers=headers, params=querystring)
