@@ -18,8 +18,8 @@ def get_data():
 
     try:
         response = requests.get(url, headers=headers, params=querystring)
-        response.raise_for_status()  # Raise an error for bad responses
-        return jsonify(response.json())  # Return the API response as JSON
+        response.raise_for_status()  
+        return jsonify(response.json())
     except requests.exceptions.HTTPError as http_err:
         return jsonify({"error": str(http_err)}), 500
     except Exception as err:
