@@ -42,7 +42,7 @@ def filter_data_to_match_query(data,query):
 
     return filtered_players
 
-@app.get('/search/<query>', methods=['GET'])
+@app.route('/search/<query>')
 def get_data(query):
 
     logging.debug(f"Search query received: {query}")
@@ -66,9 +66,11 @@ def get_data(query):
         try:
             results = requests.get(url, headers=headers, params=querystring)
             results.raise_for_status()  
-            logging.debug(f"Results received: {results.json()}")
+            
+            data = results.json()
 
-            return jsonify(results)
+            logging.debug(f"Results received: {data}")
+            return jsonify(data)  # Return JSON data
         except requests.exceptions.HTTPError as http_err:
             logging.error(f"HTTP error occurred: {str(http_err)}")
             return jsonify({"error": str(http_err)}), 500
@@ -84,11 +86,13 @@ def get_data(query):
     try:
         results = requests.get(url, headers=headers, params=querystring)
         results.raise_for_status()  
-        results = results.json()
-        results = filter_data_to_match_query(results,query)
+
+        data = results.json()
+
+        filtered_results = filter_data_to_match_query(data, query)  # Ensure `filtered_results` is returned
 
         logging.debug(f"Filtered results: {filtered_results}")
-        return jsonify(results)
+        return jsonify(filtered_results)
     except requests.exceptions.HTTPError as http_err:
         logging.error(f"HTTP error occurred: {str(http_err)}")
         return jsonify({"error": str(http_err)}), 500
