@@ -12,6 +12,10 @@ app = Flask(__name__)
 def index():
     return "Welcome to the Football Stats API!"
 
+@app.errorhandler(404)
+def not_found(e):
+    return "Page not found", 404
+
 if __name__ == '__main__':
     logging.debug("Starting the Flask application.")
     port = int(os.environ.get('PORT', 5000))
