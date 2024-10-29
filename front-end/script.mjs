@@ -6,13 +6,17 @@ window.addEventListener('resize', resizeScreen);
 
 resizeScreen();
 
-function submissionMade(e){
+async function submissionMade(e){
     if(e.key=='Enter'){
         let searchQuery = document.getElementById('searchBar').value;
 
         const regex = /^[a-zA-Z\s\-]+$/;
         
-        if(!regex.test(searchQuery)){
+        if(searchQuery == ""){
+            document.getElementById('errorField').innerHTML = "Please enter a player or team name!";
+            return;
+        }
+        else if(!regex.test(searchQuery)){
             document.getElementById('errorField').innerHTML = "Only letters, spaces, and hyphens are allowed!";
             return;
         }
@@ -21,9 +25,22 @@ function submissionMade(e){
             searchQuery = searchQuery.replace(" ","-");
             url += searchQuery;
 
-            let data = fetchData(url);
+            let data = await fetchData(url);
+
+            if(data.results == 0){
+                document.getElementById('errorField').innerHTML = "No players found for " + searchQuery;
+                return;
+            }
 
             console.log(data);
+
+            let playerNames = new Array(data.length);
+
+            for(let i = 0; i < data.length; i++){
+                playerNames[i] = data[i].player.name;
+            }
+
+            console.log(playerNames);
         }
     }
 }
