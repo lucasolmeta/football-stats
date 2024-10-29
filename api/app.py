@@ -3,10 +3,12 @@ import pandas as pd
 import requests
 import os
 import logging
+from flask_cors import CORS
 
 RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY")
 
 app = Flask(__name__)
+CORS(app)
 
 #-------- ESTABLISH ROOT PAGE --------#
 
