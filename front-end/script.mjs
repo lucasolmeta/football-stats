@@ -28,14 +28,17 @@ function submissionMade(e){
     }
 }
 
-function fetchData(url){
-    fetch(url)
-  .then( res => res.json ())
-  .then(
-    function(data){
-      return data;
+async function fetchData(url) {
+    try {
+        const res = await fetch(url);
+        if (!res.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
     }
-  )
 }
 
 function changeMade(){
