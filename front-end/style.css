@@ -2,6 +2,15 @@ body{
     background-color: black;
 }
 
+#linkedInButton{
+    position: fixed;
+    float: left;
+    width: auto;
+    top: 0;
+    right:0;
+    margin-left: auto;
+}
+
 #searchBar{
     background-color: rgba(0,0,0,0);
     border-color: rgb(100,100,100);
@@ -11,13 +20,13 @@ body{
     position: absolute;
     overflow-x: scroll;
     font-family: 'Raleway';
+    margin: 0;
 }
 
-#linkedInButton{
-    position: fixed;
-    float: left;
-    width: auto;
-    top: 0;
-    right:0;
-    margin-left: auto;
+#errorField{
+    background-color: rgba(0,0,0,0);
+    color: red;
+    position: absolute;
+    font-family: 'Raleway';
+    margin: 0;
 }
