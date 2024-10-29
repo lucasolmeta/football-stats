@@ -8,10 +8,11 @@ body{
     border-style: solid;
     color: yellow;
     outline: none;
+    position: absolute;
 
     font-family: 'Raleway';
 }
 
 ::placeholder{
-    color:yellow;
+    color:rgb(155,250,0);
 }
