@@ -17,9 +17,25 @@ function submissionMade(e){
             return;
         }
         else{
-            document.getElementById('errorField').innerHTML = "Success!";
+            let url = "https://football-stats-8ab918624cd1.herokuapp.com/search/";
+            searchQuery = searchQuery.replace(" ","-");
+            url += searchQuery;
+
+            let data = fetchData(url);
+
+            console.log(data);
         }
     }
+}
+
+function fetchData(url){
+    fetch(url)
+  .then( res => res.json ())
+  .then(
+    function(data){
+      return data;
+    }
+  )
 }
 
 function changeMade(){
