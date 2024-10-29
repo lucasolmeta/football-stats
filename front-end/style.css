@@ -1,0 +1,17 @@
+body{
+    background-color: black;
+}
+
+#searchBar{
+    background-color: rgba(0,0,0,0);
+    border-color: rgb(100,100,100);
+    border-style: solid;
+    color: yellow;
+    outline: none;
+
+    font-family: 'Raleway';
+}
+
+::placeholder{
+    color:yellow;
+}
