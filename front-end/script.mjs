@@ -40,8 +40,21 @@ async function submissionMade(e){
                 playerNames[i] = data[i].player.name;
             }
 
-            console.log(playerNames);
+            if(playerNames.length == 1){
+                document.getElementById('errorField').innerHTML = "1 player found for " + document.getElementById('searchBar').value;
+            } else {
+                buildNameOptions(playerNames);
+            }
         }
+    }
+}
+
+function buildNameOptions(playerNames){
+    document.createElement('dropdown');
+    const dropdown = document.getElementById('dropdown');
+
+    for(let i = 0; i < playerNames.length; i++){
+        dropdown.add(playerNames[i]);
     }
 }
 
