@@ -95,7 +95,7 @@ def get_data(query):
         return jsonify({"error": str(http_err)}), 500
     except Exception as err:
         return jsonify({"error": str(err)}), 500
-    
+            
 #-------- RUN APP (MUST COME LAST) --------#
 
 if __name__ == '__main__':
