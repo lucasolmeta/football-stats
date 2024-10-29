@@ -9,10 +9,6 @@ body{
     color: yellow;
     outline: none;
     position: absolute;
-
+    overflow-x: scroll;
     font-family: 'Raleway';
-}
-
-::placeholder{
-    color:rgb(155,250,0);
 }

@@ -17,4 +17,5 @@ function resizeScreen (){
     searchBar.style.paddingLeft = searchBarHeight/2 + 'px';
     searchBar.style.marginTop = searchBarMarginTop + 'px';
     searchBar.style.marginLeft = searchBarMarginLeft + 'px';
+    searchBar.style.marginRight = searchBarMarginLeft + 'px';
 }
