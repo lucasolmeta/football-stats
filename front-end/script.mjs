@@ -1,6 +1,7 @@
 const searchBar = document.getElementById('searchBar');
 
 searchBar.addEventListener('keydown', submissionMade);
+searchBar.addEventListener('input',changeMade);
 window.addEventListener('resize', resizeScreen);
 
 resizeScreen();
@@ -19,6 +20,10 @@ function submissionMade(e){
             document.getElementById('errorField').innerHTML = "Success!";
         }
     }
+}
+
+function changeMade(){
+    document.getElementById('errorField').innerHTML = "";
 }
 
 function resizeScreen (){
