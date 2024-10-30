@@ -25,40 +25,66 @@ async function submissionMade(e){
             searchQuery = searchQuery.replace(" ","-");
             url += searchQuery;
 
-            let data = await fetchData(url);
+            let data = await fetchDataByName(url);
 
-            if(data.results == 0){
-                document.getElementById('errorField').innerHTML = "No players found for " + searchQuery;
+            if(data.response != undefined && data.response.length == 0){
+                document.getElementById('errorField').innerHTML = "No players found for " + document.getElementById('searchBar').value;
                 return;
-            }
-
-            console.log(data);
-
-            let playerNames = new Array(data.length);
-
-            for(let i = 0; i < data.length; i++){
-                playerNames[i] = data[i].player.name;
-            }
-
-            if(playerNames.length == 1){
-                document.getElementById('errorField').innerHTML = "1 player found for " + document.getElementById('searchBar').value;
+            } else if (data.length == 1){
+                window.location.href = 'results.html';
             } else {
-                buildNameOptions(playerNames);
+                let playerNames = new Array(data.length);
+                let playerIds = new Array(data.length);
+
+                for(let i = 0; i < data.length; i++){
+                    playerNames[i] = data[i].player.firstname + " " + data[i].player.lastname;
+                    playerIds[i] = data[i].player.id;
+                }
+
+                console.log(playerNames);
+                console.log(playerIds);
+
+                buildNameOptions(playerNames, playerIds);
             }
         }
     }
 }
 
-function buildNameOptions(playerNames){
-    document.createElement('dropdown');
-    const dropdown = document.getElementById('dropdown');
-
+function buildNameOptions(playerNames, playerIds){
     for(let i = 0; i < playerNames.length; i++){
-        dropdown.add(playerNames[i]);
+        const button = document.createElement('button', );
+        button.className = 'button';
+        button.id = 'button' + i;
+        button.innerHTML = playerNames[i];
+
+        button.addEventListener('click',buttonClicked(playerIds[i]));
+    }
+
+    resizeScreen();
+}
+
+async function buttonClicked(playerId){
+    data = await fetchDataById(playerId);
+    window.location.href = 'results.html';
+}
+
+async function fetchDataByName(url) {
+    try {
+        const res = await fetch(url);
+        if (!res.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
     }
 }
 
-async function fetchData(url) {
+async function fetchDataById(id) {
+    let url = "https://football-stats-8ab918624cd1.herokuapp.com/id/";
+    url += id;
+
     try {
         const res = await fetch(url);
         if (!res.ok) {
