@@ -52,7 +52,7 @@ def filter_data_to_match_query(data,query):
 #-------- SEARCH BY NAME --------#
 
 @app.route('/search/<query>', methods=['GET'])
-def get_data(query):
+def get_data_by_name(query):
 
     #-------- SET URL --------#
 
@@ -101,7 +101,7 @@ def get_data(query):
 #-------- SEARCH BY ID --------#
 
 @app.route('/id/<id>', methods=['GET'])
-def get_data(id):
+def get_data_by_id(id):
 
     #-------- SET URL --------#
 
