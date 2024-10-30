@@ -31,6 +31,7 @@ async function submissionMade(e){
                 document.getElementById('errorField').innerHTML = "No players found for " + document.getElementById('searchBar').value;
                 return;
             } else if (data.length == 1){
+                window.data = data;
                 window.location.href = 'results.html';
             } else {
                 let playerNames = new Array(data.length);
@@ -64,7 +65,8 @@ function buildNameOptions(playerNames, playerIds){
 }
 
 async function buttonClicked(playerId){
-    data = await fetchDataById(playerId);
+    let data = await fetchDataById(playerId);
+    window.data = data;
     window.location.href = 'results.html';
 }
 
