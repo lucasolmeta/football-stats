@@ -3,12 +3,12 @@ import pandas as pd
 import requests
 import os
 import logging
-#from flask_cors import CORS
+from flask_cors import CORS
 
 RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY")
 
 app = Flask(__name__)
-#CORS(app)
+CORS(app)
 
 #-------- ESTABLISH ROOT PAGE --------#
 
@@ -113,7 +113,7 @@ def get_data(id):
     }
 
     querystring = {"id":id,"season":"2024"}
-    
+
     try:
         results = requests.get(url, headers=headers, params=querystring)
         results.raise_for_status()  
