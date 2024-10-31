@@ -29,8 +29,6 @@ async function submissionMade(e){
 
             let data = await fetchDataByName(url);
 
-            console.log(data);
-
             if(data.response != undefined && data.response.length == 0){
                 document.getElementById('errorField').innerHTML = "No players found for " + document.getElementById('searchBar').value;
                 return;
@@ -39,23 +37,22 @@ async function submissionMade(e){
                 window.location.href = 'results.html';
                 return;
             } else {
-                let playerNames = new Array(data.length);
-                let playerIds = new Array(data.length);
+                let playerNames = [];
+                let playerIds = [];
 
-                if(data[0]!=undefined){
-                    for(let i = 0; i < data.length; i++){
-                        playerNames[i] = data[i].player.firstname + " " + data[i].player.lastname;
-                        playerIds[i] = data[i].player.id;
-                    }
-                } else {
-
+                if(data[0]==undefined){
                     data = data.response;
+                } 
 
-                    for(let i = 0; i < data.length; i++){
-                        playerNames[i] = data[i].player.firstname + " " + data[i].player.lastname;
-                        playerIds[i] = data[i].player.id;
+                for(let i = 0; i < data.length; i++){
+                    if(data[i].player.firstname != null || data[i].player.lastname!=null){
+                        playerNames.push(data[i].player.firstname + " " + data[i].player.lastname);
+                        playerIds.push(data[i].player.id);
                     }
                 }
+
+                console.log(data);
+                console.log(playerNames);
 
                 buildNameOptions(playerNames, playerIds);
             }
@@ -81,6 +78,11 @@ function buildNameOptions(playerNames, playerIds){
 
 async function buttonClicked(playerId){
     let data = await fetchDataById(playerId);
+
+    if(data[0]==undefined){
+        data = data.response;
+    }
+
     window.data = data;
     window.location.href = 'results.html';
 }
