@@ -8,6 +8,8 @@ resizeScreen();
 
 async function submissionMade(e){
     if(e.key=='Enter'){
+        document.querySelectorAll('.buttons').forEach(element => element.remove());
+
         let searchQuery = document.getElementById('searchBar').value;
 
         const regex = /^[a-zA-Z\s\-]+$/;
@@ -27,23 +29,30 @@ async function submissionMade(e){
 
             let data = await fetchDataByName(url);
 
+            console.log(data);
+
             if(data.response != undefined && data.response.length == 0){
                 document.getElementById('errorField').innerHTML = "No players found for " + document.getElementById('searchBar').value;
                 return;
             } else if (data.length == 1){
                 window.data = data;
                 window.location.href = 'results.html';
+                return;
             } else {
                 let playerNames = new Array(data.length);
                 let playerIds = new Array(data.length);
 
-                for(let i = 0; i < data.length; i++){
-                    playerNames[i] = data[i].player.firstname + " " + data[i].player.lastname;
-                    playerIds[i] = data[i].player.id;
+                if(data[0]!=undefined){
+                    for(let i = 0; i < data.length; i++){
+                        playerNames[i] = data[i].player.firstname + " " + data[i].player.lastname;
+                        playerIds[i] = data[i].player.id;
+                    }
+                } else {
+                    for(let i = 0; i < data.response.length; i++){
+                        playerNames[i] = data.response[i].player.firstname + " " + data.response[i].player.lastname;
+                        playerIds[i] = data.response[i].player.id;
+                    }
                 }
-
-                console.log(playerNames);
-                console.log(playerIds);
 
                 buildNameOptions(playerNames, playerIds);
             }
@@ -53,12 +62,15 @@ async function submissionMade(e){
 
 function buildNameOptions(playerNames, playerIds){
     for(let i = 0; i < playerNames.length; i++){
-        const button = document.createElement('button', );
-        button.className = 'button';
+        const button = document.createElement('button');
+
+        button.className = 'buttons';
         button.id = 'button' + i;
         button.innerHTML = playerNames[i];
 
-        button.addEventListener('click',buttonClicked(playerIds[i]));
+        button.addEventListener('click', () => buttonClicked(playerIds[i]));
+
+        document.body.appendChild(button);
     }
 
     resizeScreen();
@@ -103,7 +115,7 @@ function changeMade(){
     document.getElementById('errorField').innerHTML = "";
 }
 
-function resizeScreen (){
+function resizeScreen(){
 
     //-------------- SET LINKEDIN BUTTON PROPERTIES --------------//
 
@@ -152,4 +164,15 @@ function resizeScreen (){
     errorField.style.paddingTop = searchBarHeight/16 + 'px';
     errorField.style.top = errorFieldTop + 'px';
     errorField.style.left = searchBarLeft + 'px';
+
+    document.querySelectorAll('.buttons').forEach((button, i) => {
+        button.style.width = searchBarWidth + 'px';
+        button.style.height = searchBarHeight + 'px';
+        button.style.lineHeight = searchBarHeight + 'px';
+        button.style.borderRadius = searchBarHeight + 'px';
+        button.style.fontSize = searchBarHeight*0.45 + 'px';
+        button.style.paddingLeft = searchBarHeight/2 + 'px';
+        button.style.top = searchBarTop + searchBarHeight + i*searchBarHeight + 'px';
+        button.style.left = searchBarLeft + 'px';
+    });
 }

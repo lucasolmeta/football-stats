@@ -2,6 +2,10 @@ body{
     background-color: black;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 #linkedInButton{
     position: fixed;
     float: left;
@@ -24,9 +28,15 @@ body{
 }
 
 #errorField{
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(0,0,0);
     color: red;
     position: absolute;
     font-family: 'Raleway';
     margin: 0;
+}
+
+.buttons{
+    position: absolute;
+    border-style: solid;
+    
 }
