@@ -48,9 +48,12 @@ async function submissionMade(e){
                         playerIds[i] = data[i].player.id;
                     }
                 } else {
-                    for(let i = 0; i < data.response.length; i++){
-                        playerNames[i] = data.response[i].player.firstname + " " + data.response[i].player.lastname;
-                        playerIds[i] = data.response[i].player.id;
+
+                    data = data.response;
+
+                    for(let i = 0; i < data.length; i++){
+                        playerNames[i] = data[i].player.firstname + " " + data[i].player.lastname;
+                        playerIds[i] = data[i].player.id;
                     }
                 }
 
