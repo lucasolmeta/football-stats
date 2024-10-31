@@ -29,7 +29,11 @@ async function submissionMade(e){
 
             let data = await fetchDataByName(url);
 
-            if(data.response != undefined && data.response.length == 0){
+            if(data[0]==undefined){
+                data = data.response;
+            }
+
+            if(data.length == 0){
                 document.getElementById('errorField').innerHTML = "No players found for " + document.getElementById('searchBar').value;
                 return;
             } else if (data.length == 1){
@@ -39,10 +43,6 @@ async function submissionMade(e){
             } else {
                 let playerNames = [];
                 let playerIds = [];
-
-                if(data[0]==undefined){
-                    data = data.response;
-                } 
 
                 for(let i = 0; i < data.length; i++){
                     if(data[i].player.firstname != null || data[i].player.lastname!=null){
@@ -174,7 +174,7 @@ function resizeScreen(){
         button.style.width = searchBarWidth + 'px';
         button.style.height = searchBarHeight + 'px';
         button.style.lineHeight = searchBarHeight + 'px';
-        button.style.borderRadius = searchBarHeight + 'px';
+        button.style.borderRadius = searchBarHeight/4 + 'px';
         button.style.fontSize = searchBarHeight*0.45 + 'px';
         button.style.paddingLeft = searchBarHeight/2 + 'px';
         button.style.top = searchBarTop + searchBarHeight + i*searchBarHeight + 'px';
