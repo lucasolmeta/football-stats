@@ -173,7 +173,7 @@ function resizeScreen(){
 
     let i = 0;
 
-    document.querySelectorAll('.buttons').forEach((button) => {
+    document.querySelectorAll('.buttons').forEach((button, i) => {
         button.style.width = searchBarWidth + 'px';
         button.style.height = searchBarHeight + 'px';
         button.style.lineHeight = searchBarHeight + 'px';
