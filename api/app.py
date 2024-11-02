@@ -74,6 +74,9 @@ def get_data_by_name(query):
             results.raise_for_status()  
             results = results.json()
 
+            if data[0] is None and data.response is None:
+                data = data.response
+
             return jsonify(results)
         except requests.exceptions.HTTPError as http_err:
             return jsonify({"error": str(http_err)}), 500
@@ -91,6 +94,10 @@ def get_data_by_name(query):
         results = results.json()
 
         results = filter_data_to_match_query(results, query)
+
+        if data[0] is None and data.response is None:
+            data = data.response
+            
 
         return jsonify(results)
     except requests.exceptions.HTTPError as http_err:

@@ -33,10 +33,6 @@ async function submissionMade(e){
 
             let data = await fetchDataByName(url);
 
-            if(data[0] == undefined && data.response != undefined){
-                data = data.response;
-            }
-
             if(data.length == 0){
                 document.getElementById('errorField').innerHTML = "No players found for " + document.getElementById('searchBar').value;
                 return;
@@ -82,10 +78,6 @@ function buildNameOptions(playerNames, playerIds){
 
 async function buttonClicked(playerId){
     let data = await fetchDataById(playerId);
-
-    if(data[0]==undefined){
-        data = data.response;
-    }
 
     window.localStorage.setItem('data', JSON.stringify(data));
     window.location.href = 'results.html';
