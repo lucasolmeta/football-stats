@@ -37,7 +37,7 @@ async function submissionMade(e){
                 document.getElementById('errorField').innerHTML = "No players found for " + document.getElementById('searchBar').value;
                 return;
             } else if (data.length == 1){
-                window.data = data;
+                window.localStorage.setItem('data', JSON.stringify(data));
                 window.location.href = 'results.html';
                 return;
             } else {
@@ -83,7 +83,7 @@ async function buttonClicked(playerId){
         data = data.response;
     }
 
-    window.data = data;
+    window.localStorage.setItem('data', JSON.stringify(data));
     window.location.href = 'results.html';
 }
 
@@ -125,6 +125,7 @@ function resizeScreen(){
     //-------------- SET LINKEDIN BUTTON PROPERTIES --------------//
 
     const linkedIn = document.getElementById('linkedInButton');
+
     const linkedInHeight = window.innerHeight/27*2;
 
     if(window.innerHeight<1050){
@@ -170,11 +171,13 @@ function resizeScreen(){
     errorField.style.top = errorFieldTop + 'px';
     errorField.style.left = searchBarLeft + 'px';
 
-    document.querySelectorAll('.buttons').forEach((button, i) => {
+    let i = 0;
+
+    document.querySelectorAll('.buttons').forEach((button) => {
         button.style.width = searchBarWidth + 'px';
         button.style.height = searchBarHeight + 'px';
         button.style.lineHeight = searchBarHeight + 'px';
-        button.style.borderRadius = searchBarHeight/4 + 'px';
+        button.style.borderRadius = searchBarHeight + 'px';
         button.style.fontSize = searchBarHeight*0.45 + 'px';
         button.style.paddingLeft = searchBarHeight/2 + 'px';
         button.style.top = searchBarTop + searchBarHeight + i*searchBarHeight + 'px';

@@ -40,5 +40,9 @@ body{
     border-style: solid;
     font-family: 'Raleway';
     margin: 0;
-    background-color: rgba(255,255,255,1);
+    background-color: rgba(255,255,255,0.3);
+}
+
+.buttons:hover{
+    background-color: rgba(255,255,255,0.4);
 }

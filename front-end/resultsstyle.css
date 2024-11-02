@@ -1,0 +1,59 @@
+body{
+    background-color: black;
+}
+
+#header{
+    width:100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom-color: rgb(50,50,50);
+    border-width: 0px;
+    border-bottom-width: 3px;
+    border-style: solid;
+    color: yellow;
+    text-align: left;
+    background-color: rgb(0,0,0);
+    z-index: 1;
+}
+
+#headerText{
+    font-family: 'Raleway';
+}
+
+#linkedInButton{
+    width: auto;
+    top: 0;
+    right:0;
+    margin-left: auto;
+}
+
+#section1{
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0;
+    padding: 0;
+}
+
+#basicinfo{
+    width: 30%;
+    border-color: rgb(100,100,100);
+    border-style: solid;
+    color: yellow;
+    font-family: 'Raleway';
+    margin: 0;
+}
+
+#basicstats{
+    width: 60%;
+    border-color: rgb(100,100,100);
+    border-style: solid;
+    color: yellow;
+    font-family: 'Raleway';
+    margin: 0;
+}
