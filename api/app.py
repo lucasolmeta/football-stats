@@ -74,7 +74,7 @@ def get_data_by_name(query):
             results.raise_for_status()  
             results = results.json()
 
-            print(jsonify(results))
+            return jsonify(results)
         except requests.exceptions.HTTPError as http_err:
             return jsonify({"error": str(http_err)}), 500
         except Exception as err:
@@ -92,7 +92,7 @@ def get_data_by_name(query):
 
         results = filter_data_to_match_query(results, query)
             
-        print(jsonify(results))
+        return jsonify(results)
     except requests.exceptions.HTTPError as http_err:
         return jsonify({"error": str(http_err)}), 500
     except Exception as err:
