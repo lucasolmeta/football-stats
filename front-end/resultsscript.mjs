@@ -85,7 +85,8 @@ function buildDisplay(){
     }
 
     if(basicInfo.innerHTML == ""){
-        basicInfo.innerHTML == "No Advanced Information Found";
+        basicInfo.style.color = 'red';
+        basicInfo.innerHTML = "No Advanced Information Found";
     }
 }
 
