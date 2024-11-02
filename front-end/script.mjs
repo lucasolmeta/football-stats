@@ -22,6 +22,10 @@ async function submissionMade(e){
             document.getElementById('errorField').innerHTML = "Only letters, spaces, and hyphens are allowed!";
             return;
         }
+        else if(searchQuery.length<3){
+            document.getElementById('errorField').innerHTML = "Please type at least 3 characters!";
+            return;
+        }
         else{
             let url = "https://football-stats-8ab918624cd1.herokuapp.com/search/";
             searchQuery = searchQuery.replace(" ","-");
