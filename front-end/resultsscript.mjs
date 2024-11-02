@@ -83,6 +83,10 @@ function buildDisplay(){
 
         basicInfo.innerHTML += birthday;
     }
+
+    if(basicInfo.innerHTML == ""){
+        basicInfo.innerHTML == "No Advanced Information Found";
+    }
 }
 
 function resizeScreen(){
