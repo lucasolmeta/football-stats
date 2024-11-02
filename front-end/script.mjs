@@ -33,7 +33,7 @@ async function submissionMade(e){
 
             let data = await fetchDataByName(url);
 
-            if(data[0]==undefined){
+            if(data[0] == undefined && data.response != undefined){
                 data = data.response;
             }
 
