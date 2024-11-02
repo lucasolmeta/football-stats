@@ -84,7 +84,7 @@ function buildDisplay(){
         basicInfo.innerHTML += birthday;
     }
 
-    if(basicInfo.innerHTML == ""){
+    if(basicInfo.innerHTML.trim() === ""){
         basicInfo.style.color = 'red';
         basicInfo.innerHTML = "No Advanced Information Found";
     }
