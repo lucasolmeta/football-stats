@@ -12,6 +12,12 @@ function buildDisplay(){
     const basicInfo = document.getElementById('basicinfo');
     const basicStats = document.getElementById('basicstats');
 
+    if (!data || !data[0] || !data[0].player) {
+        basicInfo.style.color = 'red';
+        basicInfo.innerHTML = "No Advanced Information Found";
+        return;
+    }
+
     if(data[0].player.name != undefined){
         let name = "NAME: ";
 
