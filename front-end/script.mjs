@@ -15,7 +15,7 @@ async function submissionMade(e){
         const regex = /^[a-zA-Z\s\-]+$/;
         
         if(searchQuery == ""){
-            document.getElementById('errorField').innerHTML = "Please enter a player or team name!";
+            document.getElementById('errorField').innerHTML = "Please enter a player name!";
             return;
         }
         else if(!regex.test(searchQuery)){
