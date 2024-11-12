@@ -2,9 +2,9 @@ window.addEventListener('resize', resizeScreen);
 
 resizeScreen();
 
-const data = JSON.parse(window.localStorage.getItem('data'));
-
-console.log(data);
+let data = window.localStorage.getItem('data');
+data = JSON.parse(data);
+data = data.response[0];
 
 buildDisplay();
 
@@ -12,79 +12,79 @@ function buildDisplay(){
     const basicInfo = document.getElementById('basicinfo');
     const basicStats = document.getElementById('basicstats');
 
-    if (!data || !data[0] || !data[0].player) {
+    if (!data || !data.player) {
         basicInfo.style.color = 'red';
         basicInfo.innerHTML = "No Advanced Information Found";
         return;
     }
 
-    if(data[0].player.name != undefined){
+    if(data.player.name != undefined){
         let name = "NAME: ";
 
-        name += data[0].player.name;
+        name += data.player.name;
         name += "<br>";
 
         basicInfo.innerHTML += name;
     }
 
-    if(data[0].player.nationality != undefined){
+    if(data.player.nationality != undefined){
         let country = "COUNTRY: ";
 
-        country += data[0].player.nationality;
+        country += data.player.nationality;
         country += "<br>";
 
         basicInfo.innerHTML += country;
     }
 
-    if(data[0].player.position != undefined){
+    if(data.player.position != undefined){
         let position = "POSITION: ";
 
-        position += data[0].player.position;
+        position += data.player.position;
         position += "<br>";
 
         basicInfo.innerHTML += position;
     }
 
-    if(data[0].player.age != undefined){
+    if(data.player.age != undefined){
         let age = "AGE: ";
 
-        age += data[0].player.age;
+        age += data.player.age;
         age += "<br>";
 
         basicInfo.innerHTML += age;
     }
 
-    if(data[0].player.number != undefined){
+    if(data.player.number != undefined){
         let number = "NUMBER: ";
 
-        number += data[0].player.number;
+        number += data.player.number;
         number += "<br>";
 
         basicInfo.innerHTML += number;
     }
 
-    if(data[0].player.height != undefined){
+    if(data.player.height != undefined){
         let height = "HEIGHT: ";
 
-        height += data[0].player.height;
+        height += data.player.height;
         height += "<br>";
 
         basicInfo.innerHTML += height;
     }
 
-    if(data[0].player.weight != undefined){
+    if(data.player.weight != undefined){
         let weight = "NUMBER: ";
 
-        weight += data[0].player.weight;
+        weight += data.player.weight;
         weight += "<br>";
 
         basicInfo.innerHTML += weight;
     }
 
-    if(data[0].player.birth.date != undefined){
+    if(data.player.birth.date != undefined){
         let birthday = "BIRTHDAY: ";
 
-        birthday += data[0].player.birth.date;
+        birthday += data.player.birth.date;
         birthday += "<br>";
 
         basicInfo.innerHTML += birthday;
