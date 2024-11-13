@@ -95,7 +95,9 @@ def get_data_by_id(id):
     seasons = get_seasons_for_player(id)
 
     recent_season = seasons[-1]
-    return seasons["response"][-1]
+
+
+    return get_seasons_for_player(id)
 
     url = "https://api-football-v1.p.rapidapi.com/v3/players"
 
