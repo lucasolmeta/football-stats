@@ -1,7 +1,5 @@
 window.addEventListener('resize', resizeScreen);
 
-resizeScreen();
-
 let data = window.localStorage.getItem('data');
 data = JSON.parse(data);
 data = data.response[0];
@@ -9,6 +7,8 @@ data = data.response[0];
 console.log(data);
 
 buildDisplay();
+
+resizeScreen();
 
 function buildDisplay(){
     const basicInfo = document.getElementById('basicinfo');
@@ -22,74 +22,76 @@ function buildDisplay(){
         return;
     }
 
+    basicInfo.innerHTML = "<span class='title'>BASIC INFO: </span><br><br>";
+
     if(data.player.name != undefined){
-        let name = "NAME: ";
+        let name = "NAME: <span class='answer'>";
 
         name += data.player.name;
-        name += "<br>";
+        name += "</span><br>";
 
         basicInfo.innerHTML += name;
     }
 
+    if(data.statistics[0].team.name != undefined){
+        let club = "CLUB: <span class='answer'>";
+
+        club += data.statistics[0].team.name;
+        club += "</span><br>";
+
+        basicInfo.innerHTML += club;
+    }
+
     if(data.player.nationality != undefined){
-        let country = "COUNTRY: ";
+        let country = "COUNTRY: <span class='answer'>";
 
         country += data.player.nationality;
-        country += "<br>";
+        country += "</span><br>";
 
         basicInfo.innerHTML += country;
     }
 
     if(data.statistics[0].games.position != undefined){
-        let position = "POSITION: ";
+        let position = "POSITION: <span class='answer'>";
 
         position += data.statistics[0].games.position;
-        position += "<br>";
+        position += "</span><br>";
 
         basicInfo.innerHTML += position;
     }
 
     if(data.player.age != undefined){
-        let age = "AGE: ";
+        let age = "AGE: <span class='answer'>";
 
         age += data.player.age;
-        age += "<br>";
+        age += "</span><br>";
 
         basicInfo.innerHTML += age;
     }
 
-    if(data.player.number != undefined){
-        let number = "NUMBER: ";
-
-        number += data.player.number;
-        number += "<br>";
-
-        basicInfo.innerHTML += number;
-    }
-
     if(data.player.height != undefined){
-        let height = "HEIGHT: ";
+        let height = "HEIGHT: <span class='answer'>";
 
         height += data.player.height;
-        height += "<br>";
+        height += "</span><br>";
 
         basicInfo.innerHTML += height;
     }
 
     if(data.player.weight != undefined){
-        let weight = "NUMBER: ";
+        let weight = "WEIGHT: <span class='answer'>";
 
         weight += data.player.weight;
-        weight += "<br>";
+        weight += "</span><br>";
 
         basicInfo.innerHTML += weight;
     }
 
     if(data.player.birth.date != undefined){
-        let birthday = "BIRTHDAY: ";
+        let birthday = "BIRTHDAY: <span class='answer'>";
 
         birthday += data.player.birth.date;
-        birthday += "<br>";
+        birthday += "</span><br>";
 
         basicInfo.innerHTML += birthday;
     }
@@ -106,6 +108,8 @@ function buildDisplay(){
         basicStats.innerHTML = "No Advanced Information Found";
         return;
     }
+
+    basicStats.innerHTML = "<span class='title'>BASIC STATS: </span><br><br>";
 
     let caps = 0;
     let minutes = 0;
@@ -134,41 +138,46 @@ function buildDisplay(){
             assists += data.statistics[i].goals.assists;
         }
     }
-    
+
     if(caps != 0){
         rating /= caps;
         rating = rating.toFixed(2);
     }
 
-    let appearanceText = "APPEARANCES: ";
+    let appearanceText = "APPEARANCES: <span class='answer'>";
     appearanceText += caps;
-    appearanceText += "<br>";
+    appearanceText += "</span><br>";
     basicStats.innerHTML += appearanceText;
 
-    let minuteText = "MINUTES: ";
+    let minuteText = "MINUTES: <span class='answer'>";
     minuteText += minutes;
-    minuteText += "<br>";
+    minuteText += "</span><br>";
     basicStats.innerHTML += minuteText;
 
-    let goalText = "GOALS: ";
+    let goalText = "GOALS: <span class='answer'>";
     goalText += goals;
-    goalText += "<br>";
+    goalText += "</span><br>";
     basicStats.innerHTML += goalText;
 
-    let assistText = "ASSISTS: ";
+    let assistText = "ASSISTS: <span class='answer'>";
     assistText += assists;
-    assistText += "<br>";
+    assistText += "</span><br>";
     basicStats.innerHTML += assistText;
 
-    let ratingText = "AVERAGE RATING: ";
+    let ratingText = "AVERAGE RATING: <span class='answer'>";
     ratingText += rating;
-    ratingText += "<br>";
+    ratingText += "</span><br>";
     basicStats.innerHTML += ratingText;
 
     if(basicStats.innerHTML.trim() === ""){
         basicStats.style.color = 'red';
         basicStats.innerHTML = "No Advanced Stats Found";
     }
+
+    //-------------- DISPLAY HEADSHOT --------------//
+
+    const headshot = document.getElementById('headshot');
+    headshot.src = data.player.photo;
 }
 
 function resizeScreen(){
@@ -193,6 +202,14 @@ function resizeScreen(){
     headerText.style.lineHeight = headerHeight + 'px';
     headerText.style.paddingLeft = headerHeight/4 + 'px';
 
+    //-------------- SET BODY PROPERTIES --------------//
+
+    if(window.innerHeight<1050){
+        document.body.style.paddingTop = headerHeight + 'px';
+    } else {
+        document.body.style.paddingTop = '57px';
+    }
+
     //-------------- SET LINKEDIN BUTTON PROPERTIES --------------//
 
     const linkedIn = document.getElementById('linkedInButton');
@@ -210,25 +227,43 @@ function resizeScreen(){
     }
 
     //-------------- SET SECTION ONE PROPERTIES --------------//
-    
+
     const sectionOne = document.getElementById('section1');
 
-    if(window.innerHeight<1050){
-        sectionOne.style.top = headerHeight + 'px';
-    } else {
-        sectionOne.style.top = '57px';
-    }
     sectionOne.style.paddingTop = window.innerWidth/65 + 'px';
     sectionOne.style.paddingBottom = window.innerWidth/65 + 'px';
 
     const basicInfo = document.getElementById('basicinfo');
     const basicStats = document.getElementById('basicstats');
 
+    basicInfo.style.fontSize = headerHeight/4 + 'px';
+    basicInfo.style.padding = window.innerWidth/75 + 'px';
+    basicInfo.style.borderRadius = window.innerWidth/50 + 'px';
+
     basicStats.style.fontSize = headerHeight/4 + 'px';
     basicStats.style.padding = window.innerWidth/75 + 'px';
     basicStats.style.borderRadius = window.innerWidth/50 + 'px';
 
-    basicInfo.style.fontSize = headerHeight/4 + 'px';
-    basicInfo.style.padding = window.innerWidth/75 + 'px';
-    basicInfo.style.borderRadius = window.innerWidth/50 + 'px';
+    const titleFontSize = headerHeight/2.7;
+
+    document.querySelectorAll('.title').forEach((title) => {
+        title.style.fontSize = titleFontSize + 'px';
+    });
+
+    //-------------- SET SECTION TWO PROPERTIES --------------//
+    
+    const sectionTwo = document.getElementById('section2');
+
+    sectionTwo.style.paddingTop = window.innerWidth/65 + 'px';
+    sectionTwo.style.paddingBottom = window.innerWidth/65 + 'px';
+
+    const headshot = document.getElementById('headshot');
+
+    headshot.style.borderRadius = window.innerWidth/50 + 'px';
+
+    const advancedStats = document.getElementById('advancedstats');
+
+    advancedStats.style.fontSize = headerHeight/4 + 'px';
+    advancedStats.style.padding = window.innerWidth/75 + 'px';
+    advancedStats.style.borderRadius = window.innerWidth/50 + 'px';
 }

@@ -1,5 +1,6 @@
 body{
     background-color: black;
+    overflow: auto;
 }
 
 #header{
@@ -32,12 +33,13 @@ body{
 }
 
 #section1{
-    position: absolute;
+    position: relative;
     width: 100%;
     display: flex;
     justify-content: space-evenly;
     margin: 0;
     padding: 0;
+    height: auto;
 }
 
 #basicinfo{
@@ -47,10 +49,47 @@ body{
     color: yellow;
     font-family: 'Raleway';
     margin: 0;
+    height: auto;
 }
 
 #basicstats{
     width: 60%;
+    border-color: rgb(100,100,100);
+    border-style: solid;
+    color: yellow;
+    font-family: 'Raleway';
+    margin: 0;
+    height: auto;
+}
+
+.title{
+    font-weight: bold;
+    font-family: "Raleway", serif;
+}
+
+.answer{
+    color: white;
+}
+
+#section2{
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0;
+    padding: 0;
+}
+
+#headshot{
+    width: 15%;
+    border-color: rgb(100,100,100);
+    border-style: solid;
+    margin: 0;
+    height: auto;
+}
+
+#advancedstats{
+    width: 75%;
     border-color: rgb(100,100,100);
     border-style: solid;
     color: yellow;
