@@ -40,10 +40,10 @@ function buildDisplay(){
         basicInfo.innerHTML += country;
     }
 
-    if(data.player.position != undefined){
+    if(data.statistics[0].games.position != undefined){
         let position = "POSITION: ";
 
-        position += data.player.position;
+        position += data.statistics[0].games.position;
         position += "<br>";
 
         basicInfo.innerHTML += position;
@@ -102,29 +102,67 @@ function buildDisplay(){
     //-------------- DISPLAY BASIC STATS --------------//
 
     if (!data || !data.statistics) {
-        basicInfo.style.color = 'red';
-        basicInfo.innerHTML = "No Advanced Information Found";
+        basicStats.style.color = 'red';
+        basicStats.innerHTML = "No Advanced Information Found";
         return;
     }
 
-
+    let caps = 0;
+    let minutes = 0;
     let goals = 0;
     let assists = 0;
-    let caps = 0;
+    let rating = 0.0;
 
     for(let i = 0; i < data.statistics.length; i++){
+        if(data.statistics[i].games.appearences != undefined){
+            caps += data.statistics[i].games.appearences;
+
+            if(data.statistics[i].games.rating != null){
+                rating += data.statistics[i].games.appearences * data.statistics[i].games.rating;;
+            }
+        }
+
+        if(data.statistics[i].games.minutes != undefined){
+            minutes += data.statistics[i].games.minutes;
+        }
+
         if(data.statistics[i].goals.total != undefined){
             goals += data.statistics[i].goals.total;
         }
 
         if(data.statistics[i].goals.assists != undefined){
-
-        }
-
-        if(data.statistics[i].games.appearances != undefined){
-            caps += data.statistics[i].games.appearances;
+            assists += data.statistics[i].goals.assists;
         }
     }
+    if(caps != 0){
+        rating /= caps;
+        rating = rating.toFixed(2);
+    }
+
+    let appearanceText = "APPEARANCES: ";
+    appearanceText += caps;
+    appearanceText += "<br>";
+    basicStats.innerHTML += appearanceText;
+
+    let minuteText = "MINUTES: ";
+    minuteText += minutes;
+    minuteText += "<br>";
+    basicStats.innerHTML += minuteText;
+
+    let goalText = "GOALS: ";
+    goalText += goals;
+    goalText += "<br>";
+    basicStats.innerHTML += goalText;
+
+    let assistText = "ASSISTS: ";
+    assistText += assists;
+    assistText += "<br>";
+    basicStats.innerHTML += assistText;
+
+    let ratingText = "AVERAGE RATING: ";
+    ratingText += rating;
+    ratingText += "<br>";
+    basicStats.innerHTML += ratingText;
 
     if(basicStats.innerHTML.trim() === ""){
         basicStats.style.color = 'red';
