@@ -92,12 +92,12 @@ def get_data_by_name(query):
 
 @app.route('/id/<id>', methods=['GET'])
 def get_data_by_id(id):
+
     seasons = get_seasons_for_player(id)
 
+    return seasons
+
     recent_season = seasons[-1]
-
-
-    return get_seasons_for_player(id)
 
     url = "https://api-football-v1.p.rapidapi.com/v3/players"
 
