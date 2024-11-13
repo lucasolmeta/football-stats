@@ -6,11 +6,15 @@ let data = window.localStorage.getItem('data');
 data = JSON.parse(data);
 data = data.response[0];
 
+console.log(data);
+
 buildDisplay();
 
 function buildDisplay(){
     const basicInfo = document.getElementById('basicinfo');
     const basicStats = document.getElementById('basicstats');
+
+    //-------------- DISPLAY BASIC INFO --------------//
 
     if (!data || !data.player) {
         basicInfo.style.color = 'red';
@@ -93,6 +97,38 @@ function buildDisplay(){
     if(basicInfo.innerHTML.trim() === ""){
         basicInfo.style.color = 'red';
         basicInfo.innerHTML = "No Advanced Information Found";
+    }
+
+    //-------------- DISPLAY BASIC STATS --------------//
+
+    if (!data || !data.statistics) {
+        basicInfo.style.color = 'red';
+        basicInfo.innerHTML = "No Advanced Information Found";
+        return;
+    }
+
+
+    let goals = 0;
+    let assists = 0;
+    let caps = 0;
+
+    for(let i = 0; i < data.statistics.length; i++){
+        if(data.statistics[i].goals.total != undefined){
+            goals += data.statistics[i].goals.total;
+        }
+
+        if(data.statistics[i].goals.assists != undefined){
+
+        }
+
+        if(data.statistics[i].games.appearances != undefined){
+            caps += data.statistics[i].games.appearances;
+        }
+    }
+
+    if(basicStats.innerHTML.trim() === ""){
+        basicStats.style.color = 'red';
+        basicStats.innerHTML = "No Advanced Stats Found";
     }
 }
 
