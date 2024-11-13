@@ -278,7 +278,11 @@ function resizeScreen(){
 
     const seasonSelect = document.getElementById('seasonSelect');
 
+    seasonSelect.style.fontSize = headerHeight/4 + 'px';
     seasonSelect.style.borderRadius = window.innerWidth/50 + 'px';
+    seasonSelect.style.paddingTop = headerHeight/8 + 'px';
+    seasonSelect.style.paddingBottom = headerHeight/8 + 'px';
+    seasonSelect.style.paddingLeft = headerHeight/4 + 'px';
 
     //-------------- SET SECTION TWO PROPERTIES --------------//
 
