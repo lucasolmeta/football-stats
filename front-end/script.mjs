@@ -38,11 +38,14 @@ async function submissionMade(e){
 
             let data = await fetchDataByName(url);
 
-            if(data[0] == undefined && data.response != undefined){
-                data = data.response;
-            }
+            console.log(data);
 
-            if(data.length == 0){
+            /*if(data[0] == undefined && data.response != undefined){
+                data = data.response;
+                console.log(data);
+            }*/
+
+            if(data.results == 0){
                 document.getElementById('errorField').innerHTML = "No players found for " + document.getElementById('searchBar').value;
                 return;
             } else if (data.length == 1){
@@ -51,21 +54,41 @@ async function submissionMade(e){
                 playerStats = JSON.stringify(playerStats);
 
                 window.localStorage.setItem('data', playerStats);
-                window.location.href = 'results.html';
-                return;
+
+                console.log(playerStats);
+                //window.location.href = 'results.html';
+                return;     
             } else {
                 let playerNames = [];
                 let playerIds = [];
 
                 for(let i = 0; i < data.length; i++){
+                    if((data[i].player.firstname == null && data[i].player.lastname==null) || data[i].player.id == null){
+                        data.splice(i, i+1);
+                        i--;
+                    }
+                }
+
+                for(let i = 0; i < data.length; i++){
+                    playerNames.push("");
+                    playerIds.push(data[i].player.id);
+
+                    if(data[i].player.firstname != null){
+                        playerNames[i]+=data[i].player.firstname;
+                    }
+
                     if(data[i].player.firstname != null && data[i].player.lastname!=null){
-                        playerNames.push(data[i].player.firstname + " " + data[i].player.lastname);
-                        playerIds.push(data[i].player.id);
+                        playerNames[i]+=" ";
+                    }
+
+                    if(data[i].player.lastname!=null){
+                        playerNames[i]+=data[i].player.lastname;
                     }
                 }
 
                 console.log(data);
                 console.log(playerNames);
+                console.log(playerIds);
 
                 buildNameOptions(playerNames, playerIds);
             }
@@ -121,6 +144,7 @@ async function fetchDataById(id) {
             throw new Error('Network response was not ok');
         }
         const data = await res.json();
+        console.log(data);
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);
