@@ -43,6 +43,10 @@ body{
     height: auto;
 }
 
+#season{
+    width: 90%;
+}
+
 #section2{
     position: relative;
     width: 100%;

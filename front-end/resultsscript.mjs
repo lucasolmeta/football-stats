@@ -1,33 +1,42 @@
 import { fetchDataByIdAndSeason } from './script.mjs';
 
-window.addEventListener('resize', resizeScreen);
-
 let data = window.localStorage.getItem('data');
-data = JSON.parse(data);
-data = data.response[0];
 
-console.log(data);
+document.addEventListener('DOMContentLoaded', () => {
+    data = JSON.parse(data);
+    data = data.response[0];
+    console.log(data);
 
+    window.addEventListener('resize', resizeScreen);
 
-document.addEventListener('DOMContentLoaded', function () {
+    const seasonSelect = document.getElementById('seasonSelect');
+    seasonSelect.addEventListener('change', seasonChanged);
+
     buildDisplay();
     resizeScreen();
-
-    const season = document.getElementById('season');
-    if (season) {
-        season.addEventListener('change', seasonChanged);
-    } else {
-        console.error('Season element not found');
-    }
 });
 
-function buildDisplay(){
+async function buildDisplay(){
 
     //-------------- GENERATE SEASONS --------------//
 
-    const season = document.getElementById('season');
-    for(let i = 1990; i < 2025; i++){
-        season.innerHTML += "<option value=" + i + "></option>";
+    seasonSelect.innerHTML = "";
+
+    let url = "https://football-stats-8ab918624cd1.herokuapp.com/playerseasons/";
+    url += data.player.id;
+
+    try {
+        const res = await fetch(url);
+        if (!res.ok) {
+            throw new Error('Network response was not ok');
+        }
+        let seasons = await res.json();
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+
+    for(let i = 0; i < seasons.response.length; i++){
+        seasonSelect.innerHTML += "<option value=" + seasons.response[i] + ">" + seasons.response[i] + "</option>";
     }
 
     //-------------- DISPLAY BASIC INFO --------------//
@@ -39,7 +48,6 @@ function buildDisplay(){
         basicInfo.style.color = 'red';
         basicInfo.innerHTML = "No Basic Information Found";
     } else {
-
         basicInfo.innerHTML = "<span class='title'>BASIC INFO: </span><br><br>";
 
         if(data.player.name != undefined){
@@ -203,11 +211,10 @@ function buildDisplay(){
     }
 }
 
-function seasonChanged(){
-    const season = document.getElementById('season');
-    const choice = season.value;
+async function seasonChanged(){
+    const choice = seasonSelect.value;
 
-    data = fetchDataByIdAndSeason(data.player.id, season);
+    data = await fetchDataByIdAndSeason(data.player.id, choice);
 
     buildDisplay();
 }

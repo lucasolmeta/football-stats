@@ -1,12 +1,14 @@
 export { fetchDataByIdAndSeason };
 
-const searchBar = document.getElementById('searchBar');
+document.addEventListener('DOMContentLoaded', () => {
+    const searchBar = document.getElementById('searchBar');
 
-searchBar.addEventListener('keydown', submissionMade);
-searchBar.addEventListener('input',changeMade);
-window.addEventListener('resize', resizeScreen);
+    searchBar.addEventListener('keydown', submissionMade);
+    searchBar.addEventListener('input',changeMade);
+    window.addEventListener('resize', resizeScreen);
 
-resizeScreen();
+    resizeScreen();
+});
 
 async function submissionMade(e){
     if(e.key=='Enter'){
