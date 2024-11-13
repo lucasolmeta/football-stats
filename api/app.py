@@ -97,12 +97,7 @@ def get_data_by_id(id):
 
     seasons = get_seasons_for_player(id)
 
-
     recent_season = seasons.get("response", [])[-1]
-
-    logger.info(seasons, type(seasons))
-
-    return recent_season
 
     url = "https://api-football-v1.p.rapidapi.com/v3/players"
 
