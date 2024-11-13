@@ -93,9 +93,7 @@ def get_data_by_name(query):
 @app.route('/id/<id>', methods=['GET'])
 def get_data_by_id(id):
 
-    seasons = get_seasons_for_player(id)
-
-    return type(seasons)
+    seasons = jsonify(get_seasons_for_player(id))
 
     recent_season = seasons[-1]
 
