@@ -58,7 +58,7 @@ async function submissionMade(e){
                 let playerIds = [];
 
                 for(let i = 0; i < data.length; i++){
-                    if(data[i].player.firstname != null || data[i].player.lastname!=null){
+                    if(data[i].player.firstname != null && data[i].player.lastname!=null){
                         playerNames.push(data[i].player.firstname + " " + data[i].player.lastname);
                         playerIds.push(data[i].player.id);
                     }
