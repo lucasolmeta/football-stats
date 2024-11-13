@@ -134,6 +134,7 @@ function buildDisplay(){
             assists += data.statistics[i].goals.assists;
         }
     }
+    
     if(caps != 0){
         rating /= caps;
         rating = rating.toFixed(2);

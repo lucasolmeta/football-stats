@@ -85,14 +85,12 @@ function buildNameOptions(playerNames, playerIds){
 }
 
 async function buttonClicked(playerId){
-    let data = await fetchDataById(playerId);
+    let playerStats = await fetchDataById(playerId);
+    playerStats = JSON.stringify(playerStats);
 
-    if(data[0] == undefined && data.response != undefined){
-        data = data.response;
-    }
-
-    window.localStorage.setItem('data', JSON.stringify(data));
+    window.localStorage.setItem('data', playerStats);
     window.location.href = 'results.html';
+    return;
 }
 
 async function fetchDataByName(url) {
