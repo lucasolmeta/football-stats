@@ -43,8 +43,12 @@ body{
     height: auto;
 }
 
-#season{
-    width: 90%;
+#seasonSelect{
+    background-color: black;
+    width: 30%;
+    color: white;
+    font-family: 'Raleway';
+    outline: hidden;
 }
 
 #section2{

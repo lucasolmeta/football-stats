@@ -1,11 +1,12 @@
 export { fetchDataByIdAndSeason };
 
 document.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('resize', resizeScreen);
+
     const searchBar = document.getElementById('searchBar');
 
     searchBar.addEventListener('keydown', submissionMade);
     searchBar.addEventListener('input',changeMade);
-    window.addEventListener('resize', resizeScreen);
 
     resizeScreen();
 });
@@ -127,10 +128,6 @@ async function fetchDataById(id) {
 }
 
 async function fetchDataByIdAndSeason(id, season) {
-    if(season > 2024 || season < 1900){
-        return;
-    }
-
     let url = "https://football-stats-8ab918624cd1.herokuapp.com/playerseason/";
     url += id + "/" + season;
 
@@ -139,7 +136,9 @@ async function fetchDataByIdAndSeason(id, season) {
         if (!res.ok) {
             throw new Error('Network response was not ok');
         }
-        const data = await res.json();
+        let data = await res.json();
+        data = JSON.stringify(data);
+
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);

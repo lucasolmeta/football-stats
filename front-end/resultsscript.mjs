@@ -1,15 +1,16 @@
 import { fetchDataByIdAndSeason } from './script.mjs';
 
 let data = window.localStorage.getItem('data');
+data = JSON.parse(data);
+data = data.response[0];
 
 document.addEventListener('DOMContentLoaded', () => {
-    data = JSON.parse(data);
-    data = data.response[0];
     console.log(data);
 
     window.addEventListener('resize', resizeScreen);
 
     const seasonSelect = document.getElementById('seasonSelect');
+
     seasonSelect.addEventListener('change', seasonChanged);
 
     buildDisplay();
@@ -31,12 +32,14 @@ async function buildDisplay(){
             throw new Error('Network response was not ok');
         }
         let seasons = await res.json();
+
+        for(let i = seasons.response.length; i >= 0; i--){
+            if(seasons.response[i] <= 2024){
+                seasonSelect.innerHTML += "<option value=" + seasons.response[i] + ">" + seasons.response[i] + "</option>";
+            }
+        }
     } catch (error) {
         console.error('Error fetching data:', error);
-    }
-
-    for(let i = 0; i < seasons.response.length; i++){
-        seasonSelect.innerHTML += "<option value=" + seasons.response[i] + ">" + seasons.response[i] + "</option>";
     }
 
     //-------------- DISPLAY BASIC INFO --------------//
@@ -215,6 +218,8 @@ async function seasonChanged(){
     const choice = seasonSelect.value;
 
     data = await fetchDataByIdAndSeason(data.player.id, choice);
+    data = JSON.parse(data);
+    data = data.response[0];
 
     buildDisplay();
 }
@@ -265,12 +270,17 @@ function resizeScreen(){
         linkedIn.style.marginRight = '13px';
     }
 
+    //-------------- SET SECTION THREE PROPERTIES --------------//
+    
+    const sectionOne = document.getElementById('section1');
+
+    sectionOne.style.paddingTop = window.innerWidth/65 + 'px';
+
     //-------------- SET SECTION TWO PROPERTIES --------------//
 
     const sectionTwo = document.getElementById('section2');
 
     sectionTwo.style.paddingTop = window.innerWidth/65 + 'px';
-    sectionTwo.style.paddingBottom = window.innerWidth/65 + 'px';
 
     const basicInfo = document.getElementById('basicinfo');
     const basicStats = document.getElementById('basicstats');
@@ -293,7 +303,7 @@ function resizeScreen(){
     
     const sectionThree = document.getElementById('section3');
 
-    sectionThree.style.paddingBottom = window.innerWidth/65 + 'px';
+    sectionThree.style.paddingTop = window.innerWidth/65 + 'px';
 
     const headshot = document.getElementById('headshot');
 
