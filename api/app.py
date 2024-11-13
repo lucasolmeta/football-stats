@@ -95,7 +95,7 @@ def get_data_by_id(id):
 
     seasons = get_seasons_for_player(id)
 
-    return seasons
+    return type(seasons)
 
     recent_season = seasons[-1]
 
