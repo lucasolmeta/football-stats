@@ -113,6 +113,31 @@ def get_data_by_id(id):
         return jsonify({"error": str(http_err)}), 500
     except Exception as err:
         return jsonify({"error": str(err)}), 500
+    
+#-------- SEARCH BY ID AND SEASON --------#
+
+@app.route('/playerseason/<id>/<season>', methods=['GET'])
+def get_data_by_id(id,season):
+
+    url = "https://api-football-v1.p.rapidapi.com/v3/players"
+
+    headers = {
+	    "x-rapidapi-key": RAPIDAPI_KEY,
+	    "x-rapidapi-host": "api-football-v1.p.rapidapi.com"    
+    }
+
+    querystring = {"id":id,"season":season}
+
+    try:
+        results = requests.get(url, headers=headers, params=querystring)
+        results.raise_for_status()  
+        results = results.json()
+
+        return jsonify(results)
+    except requests.exceptions.HTTPError as http_err:
+        return jsonify({"error": str(http_err)}), 500
+    except Exception as err:
+        return jsonify({"error": str(err)}), 500
 
 #-------- RUN APP (MUST COME LAST) --------#
 

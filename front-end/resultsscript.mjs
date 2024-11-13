@@ -1,3 +1,5 @@
+import 
+
 window.addEventListener('resize', resizeScreen);
 
 let data = window.localStorage.getItem('data');
@@ -230,12 +232,12 @@ function resizeScreen(){
         linkedIn.style.marginRight = '13px';
     }
 
-    //-------------- SET SECTION ONE PROPERTIES --------------//
+    //-------------- SET SECTION TWO PROPERTIES --------------//
 
-    const sectionOne = document.getElementById('section1');
+    const sectionTwo = document.getElementById('section2');
 
-    sectionOne.style.paddingTop = window.innerWidth/65 + 'px';
-    sectionOne.style.paddingBottom = window.innerWidth/65 + 'px';
+    sectionTwo.style.paddingTop = window.innerWidth/65 + 'px';
+    sectionTwo.style.paddingBottom = window.innerWidth/65 + 'px';
 
     const basicInfo = document.getElementById('basicinfo');
     const basicStats = document.getElementById('basicstats');
@@ -254,12 +256,11 @@ function resizeScreen(){
         title.style.fontSize = titleFontSize + 'px';
     });
 
-    //-------------- SET SECTION TWO PROPERTIES --------------//
+    //-------------- SET SECTION THREE PROPERTIES --------------//
     
-    const sectionTwo = document.getElementById('section2');
+    const sectionThree = document.getElementById('section3');
 
-    sectionTwo.style.paddingTop = window.innerWidth/65 + 'px';
-    sectionTwo.style.paddingBottom = window.innerWidth/65 + 'px';
+    sectionThree.style.paddingBottom = window.innerWidth/65 + 'px';
 
     const headshot = document.getElementById('headshot');
 
