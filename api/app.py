@@ -95,9 +95,7 @@ def get_data_by_id(id):
 
     seasons = get_seasons_for_player(id)
 
-    return jsonify({"seasons":seasons,"type":type(seasons)})
-
-    recent_season = seasons[-1]
+    recent_season = seasons.response[-1]
 
     url = "https://api-football-v1.p.rapidapi.com/v3/players"
 
@@ -163,11 +161,11 @@ def get_seasons_for_player(id):
         results.raise_for_status()  
         results = results.json()
 
-        return jsonify(results)
+        return results
     except requests.exceptions.HTTPError as http_err:
-        return jsonify({"error": str(http_err)}), 500
+        return {"error": str(http_err)}
     except Exception as err:
-        return jsonify({"error": str(err)}), 500
+        return {"error": str(err)}
 
 #-------- RUN APP (MUST COME LAST) --------#
 
