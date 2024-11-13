@@ -10,6 +10,8 @@ RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY")
 app = Flask(__name__)
 CORS(app)
 
+logger = logging.getLogger(__name__)
+
 #-------- ESTABLISH ROOT PAGE --------#
 
 @app.route('/')
@@ -95,11 +97,12 @@ def get_data_by_id(id):
 
     seasons = get_seasons_for_player(id)
 
-    return {"seasons":seasons,"type":type(seasons)}
 
-    recent_season = seasons.response[-1]
+    recent_season = seasons.get("response", [])[-1]
 
-    return seasons[-1]
+    logger.info(seasons, type(seasons))
+
+    return recent_season
 
     url = "https://api-football-v1.p.rapidapi.com/v3/players"
 
