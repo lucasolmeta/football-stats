@@ -55,8 +55,7 @@ async function submissionMade(e){
 
                 window.localStorage.setItem('data', playerStats);
 
-                console.log(playerStats);
-                //window.location.href = 'results.html';
+                window.location.href = 'results.html';
                 return;     
             } else {
                 let playerNames = [];
