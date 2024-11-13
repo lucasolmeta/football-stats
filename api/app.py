@@ -160,7 +160,7 @@ def get_seasons_for_player(id):
         results.raise_for_status()  
         results = results.json()
 
-        return jsonify(results)
+        return results
     except requests.exceptions.HTTPError as http_err:
         return jsonify({"error": str(http_err)}), 500
     except Exception as err:
