@@ -270,11 +270,15 @@ function resizeScreen(){
         linkedIn.style.marginRight = '13px';
     }
 
-    //-------------- SET SECTION THREE PROPERTIES --------------//
+    //-------------- SET SECTION ONE PROPERTIES --------------//
     
     const sectionOne = document.getElementById('section1');
 
     sectionOne.style.paddingTop = window.innerWidth/65 + 'px';
+
+    const seasonSelect = document.getElementById('seasonSelect');
+
+    seasonSelect.style.borderRadius = window.innerWidth/50 + 'px';
 
     //-------------- SET SECTION TWO PROPERTIES --------------//
 
