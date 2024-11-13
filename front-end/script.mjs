@@ -40,12 +40,12 @@ async function submissionMade(e){
 
             console.log(data);
 
-            /*if(data[0] == undefined && data.response != undefined){
+            if(data[0] == undefined && data.response != undefined){
                 data = data.response;
                 console.log(data);
-            }*/
+            }
 
-            if(data.results == 0){
+            if(data.length == 0 || data.results == 0){
                 document.getElementById('errorField').innerHTML = "No players found for " + document.getElementById('searchBar').value;
                 return;
             } else if (data.length == 1){
@@ -84,10 +84,6 @@ async function submissionMade(e){
                         playerNames[i]+=data[i].player.lastname;
                     }
                 }
-
-                console.log(data);
-                console.log(playerNames);
-                console.log(playerIds);
 
                 buildNameOptions(playerNames, playerIds);
             }

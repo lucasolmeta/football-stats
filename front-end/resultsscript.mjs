@@ -214,8 +214,6 @@ async function buildDisplay(){
     } else {
         headshot.src = data.player.photo;
     }
-
-    resizeScreen();
 }
 
 async function seasonChanged(){
