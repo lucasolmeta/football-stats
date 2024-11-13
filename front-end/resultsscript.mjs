@@ -49,8 +49,6 @@ async function buildDisplay(){
     const basicInfo = document.getElementById('basicinfo');
     const basicStats = document.getElementById('basicstats');
 
-    console.log(!data);
-
     if (!data || !data.player) {
         basicInfo.style.color = 'red';
         basicInfo.innerHTML = "No Basic Information Found";
