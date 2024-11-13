@@ -22,7 +22,6 @@ def index():
 def not_found(e):
     return "Page not found", 404
 
-
 def get_last_word(query):
     words = query.split("-")
     return words[-1]
@@ -117,7 +116,7 @@ def get_data_by_id(id):
 #-------- SEARCH BY ID AND SEASON --------#
 
 @app.route('/playerseason/<id>/<season>', methods=['GET'])
-def get_data_by_id(id,season):
+def get_data_by_id_and_season(id,season):
 
     url = "https://api-football-v1.p.rapidapi.com/v3/players"
 

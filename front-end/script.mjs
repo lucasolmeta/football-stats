@@ -1,4 +1,4 @@
-export { }
+export { fetchDataByIdAndSeason };
 
 const searchBar = document.getElementById('searchBar');
 

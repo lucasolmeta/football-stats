@@ -1,4 +1,4 @@
-import 
+import { fetchDataByIdAndSeason } from './script.mjs';
 
 window.addEventListener('resize', resizeScreen);
 
@@ -8,15 +8,32 @@ data = data.response[0];
 
 console.log(data);
 
-buildDisplay();
 
-resizeScreen();
+document.addEventListener('DOMContentLoaded', function () {
+    buildDisplay();
+    resizeScreen();
+
+    const season = document.getElementById('season');
+    if (season) {
+        season.addEventListener('change', seasonChanged);
+    } else {
+        console.error('Season element not found');
+    }
+});
 
 function buildDisplay(){
-    const basicInfo = document.getElementById('basicinfo');
-    const basicStats = document.getElementById('basicstats');
+
+    //-------------- GENERATE SEASONS --------------//
+
+    const season = document.getElementById('season');
+    for(let i = 1990; i < 2025; i++){
+        season.innerHTML += "<option value=" + i + "></option>";
+    }
 
     //-------------- DISPLAY BASIC INFO --------------//
+
+    const basicInfo = document.getElementById('basicinfo');
+    const basicStats = document.getElementById('basicstats');
 
     if (!data || !data.player) {
         basicInfo.style.color = 'red';
@@ -184,6 +201,15 @@ function buildDisplay(){
     } else {
         headshot.src = data.player.photo;
     }
+}
+
+function seasonChanged(){
+    const season = document.getElementById('season');
+    const choice = season.value;
+
+    data = fetchDataByIdAndSeason(data.player.id, season);
+
+    buildDisplay();
 }
 
 function resizeScreen(){
