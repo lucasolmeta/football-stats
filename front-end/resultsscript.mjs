@@ -23,29 +23,33 @@ async function buildDisplay(){
 
     seasonSelect.innerHTML = "";
 
-    let url = "https://football-stats-8ab918624cd1.herokuapp.com/playerseasons/";
-    url += data.player.id;
+    if(data && data.player){
+        let url = "https://football-stats-8ab918624cd1.herokuapp.com/playerseasons/";
+        url += data.player.id;
 
-    try {
-        const res = await fetch(url);
-        if (!res.ok) {
-            throw new Error('Network response was not ok');
-        }
-        let seasons = await res.json();
-
-        for(let i = seasons.response.length; i >= 0; i--){
-            if(seasons.response[i] <= 2024){
-                seasonSelect.innerHTML += "<option value=" + seasons.response[i] + ">" + seasons.response[i] + "</option>";
+        try {
+            const res = await fetch(url);
+            if (!res.ok) {
+                throw new Error('Network response was not ok');
             }
+            let seasons = await res.json();
+
+            for(let i = seasons.response.length; i >= 0; i--){
+                if(seasons.response[i] <= 2024){
+                    seasonSelect.innerHTML += "<option value=" + seasons.response[i] + ">" + seasons.response[i] + "</option>";
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
         }
-    } catch (error) {
-        console.error('Error fetching data:', error);
     }
 
     //-------------- DISPLAY BASIC INFO --------------//
 
     const basicInfo = document.getElementById('basicinfo');
     const basicStats = document.getElementById('basicstats');
+
+    console.log(!data);
 
     if (!data || !data.player) {
         basicInfo.style.color = 'red';
@@ -212,6 +216,8 @@ async function buildDisplay(){
     } else {
         headshot.src = data.player.photo;
     }
+
+    resizeScreen();
 }
 
 async function seasonChanged(){
