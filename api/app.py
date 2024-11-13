@@ -94,7 +94,7 @@ def get_data_by_name(query):
 def get_data_by_id(id):
     seasons = get_seasons_for_player(id).response
 
-    recent_season = int(seasons[-1].strip)
+    recent_season = seasons[-1]
 
     url = "https://api-football-v1.p.rapidapi.com/v3/players"
 
@@ -103,7 +103,7 @@ def get_data_by_id(id):
 	    "x-rapidapi-host": "api-football-v1.p.rapidapi.com"    
     }
 
-    querystring = {"id":id,"season":recent_season}
+    querystring = {"id":id,"season":"2020"}
 
     try:
         results = requests.get(url, headers=headers, params=querystring)
