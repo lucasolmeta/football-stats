@@ -43,8 +43,6 @@ async function submissionMade(e){
                 let playerId = data[0].player.id;
                 let playerStats = await fetchDataById(playerId);
 
-                console.log(playerStats);
-
                 window.localStorage.setItem('data', playerStats);
 
                 //window.location.href = 'results.html';

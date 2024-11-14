@@ -125,7 +125,7 @@ def get_data_by_id(id):
     else:
         url = "https://api-football-v1.p.rapidapi.com/v3/players/profiles"
 
-        querystring = {"id":id}
+        querystring = {"player":id}
 
         try:
             results = requests.get(url, headers=headers, params=querystring)

@@ -32,6 +32,13 @@ async function buildDisplay(){
             }
             let seasons = await res.json();
 
+            if(seasons.response.length == 0){
+                const sectionOne = document.getElementById('section1');
+
+                sectionOne.remove();
+                return;
+            }
+
             for(let i = seasons.response.length; i >= 0; i--){
                 if(seasons.response[i] <= 2024){
                     seasonSelect.innerHTML += "<option value=" + seasons.response[i] + ">" + seasons.response[i] + "</option>";
