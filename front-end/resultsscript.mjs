@@ -198,14 +198,16 @@ async function buildDisplay(){
         assistText += "</span><br>";
         basicStats.innerHTML += assistText;
 
-        let ratingText = "AVERAGE RATING: <span class='answer'>";
-        ratingText += rating;
-        ratingText += "</span><br>";
-        basicStats.innerHTML += ratingText;
+        if(rating && rating != 0){
+            let ratingText = "AVERAGE RATING: <span class='answer'>";
+            ratingText += rating;
+            ratingText += "</span><br>";
+            basicStats.innerHTML += ratingText;
 
-        if(basicStats.innerHTML.trim() === ""){
-            basicStats.style.color = 'red';
-            basicStats.innerHTML = "No Basic Stats Found";
+            if(basicStats.innerHTML.trim() === ""){
+                basicStats.style.color = 'red';
+                basicStats.innerHTML = "No Basic Stats Found";
+            }
         }
     }
 
