@@ -1,6 +1,7 @@
 import { fetchDataByIdAndSeason } from './script.mjs';
 
 let data = window.localStorage.getItem('data');
+data = data.json();
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log(data);

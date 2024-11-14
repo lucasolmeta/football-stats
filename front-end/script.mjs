@@ -42,6 +42,7 @@ async function submissionMade(e){
             } else if (data.length == 1){
                 let playerId = data[0].player.id;
                 let playerStats = await fetchDataById(playerId);
+                console.log(playerStats);
 
                 window.localStorage.setItem('data', playerStats);
 
@@ -100,9 +101,12 @@ function buildNameOptions(playerNames, playerIds){
 
 async function buttonClicked(playerId){
     let playerStats = await fetchDataById(playerId);
+    playerStats = playerStats.json();
+
+    console.log(playerStats);
 
     window.localStorage.setItem('data', playerStats);
-    window.location.href = 'results.html';
+    //window.location.href = 'results.html';
     return;
 }
 
