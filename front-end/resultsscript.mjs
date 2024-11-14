@@ -7,12 +7,9 @@ data = data[0];
 resizeScreen();
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log(data);
-
     window.addEventListener('resize', resizeScreen);
 
     const seasonSelect = document.getElementById('seasonSelect');
-
     seasonSelect.addEventListener('change', seasonChanged);
 
     buildDisplay();
