@@ -96,8 +96,6 @@ def get_data_by_name(query):
 @app.route('/id/<id>', methods=['GET'])
 def get_data_by_id(id):
 
-    url = "https://api-football-v1.p.rapidapi.com/v3/players"
-
     headers = {
 	    "x-rapidapi-key": RAPIDAPI_KEY,
 	    "x-rapidapi-host": "api-football-v1.p.rapidapi.com"    
@@ -106,6 +104,8 @@ def get_data_by_id(id):
     seasons = get_seasons_for_player(id)
 
     if(len(seasons.get("response", [])) > 0):
+
+        url = "https://api-football-v1.p.rapidapi.com/v3/players"
 
         recent_season = seasons.get("response", [])[-1]
 
@@ -123,7 +123,22 @@ def get_data_by_id(id):
             return {"error": str(err)}
     
     else:
-        return {"error": str(err)}
+        url = "https://api-football-v1.p.rapidapi.com/v3/players/profiles"
+
+        querystring = {"id":id}
+
+        try:
+            results = requests.get(url, headers=headers, params=querystring)
+            results.raise_for_status()  
+            results = results.json()
+
+            return results
+        except requests.exceptions.HTTPError as http_err:
+            return {"error": str(http_err)}
+        except Exception as err:
+            return {"error": str(err)}
+
+
     
 #-------- SEARCH BY ID AND SEASON --------#
 
