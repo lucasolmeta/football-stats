@@ -101,7 +101,7 @@ async function buttonClicked(playerId){
     let playerStats = await fetchDataById(playerId);
     playerStats = JSON.stringify(playerStats);
 
-    localStorage.setItem('data', data);
+    localStorage.setItem('data', playerStats);
     window.location.href = 'results.html';
 
     return;     
@@ -227,6 +227,7 @@ function resizeScreen(){
         button.style.borderRadius = searchBarHeight + 'px';
         button.style.fontSize = searchBarHeight*0.45 + 'px';
         button.style.paddingLeft = searchBarHeight/2 + 'px';
+        button.style.paddingRight = searchBarHeight/2 + 'px';
         button.style.top = searchBarTop + searchBarHeight + i*searchBarHeight + 'px';
         button.style.left = searchBarLeft + 'px';
     });

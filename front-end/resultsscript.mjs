@@ -4,6 +4,8 @@ let data = localStorage.getItem('data');
 data = JSON.parse(data);
 data = data[0];
 
+resizeScreen();
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log(data);
 
