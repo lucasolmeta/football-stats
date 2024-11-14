@@ -44,7 +44,7 @@ async function submissionMade(e){
                 playerStats = JSON.stringify(playerStats);
 
                 localStorage.setItem('data', playerStats);
-                window.location.href = 'results.html';
+                switchToResults();
 
                 return;     
             } else {
@@ -102,7 +102,7 @@ async function buttonClicked(playerId){
     playerStats = JSON.stringify(playerStats);
 
     localStorage.setItem('data', playerStats);
-    window.location.href = 'results.html';
+    switchToResults();
 
     return;     
 }
@@ -165,6 +165,15 @@ async function fetchDataByIdAndSeason(id, season) {
 
 function changeMade(){
     document.getElementById('errorField').innerHTML = "";
+}
+
+async function switchToResults(){
+    let html = await fetch('/front-end/results.html');
+    html = await html.text();
+
+    document.open();
+    document.write(html);
+    document.close();
 }
 
 function resizeScreen(){
