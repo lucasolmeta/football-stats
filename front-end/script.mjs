@@ -34,17 +34,18 @@ async function submissionMade(e){
         else{
             let data = await fetchDataByName(searchQuery);
 
-            console.log(data);
-
             if(data.length == 0){
                 document.getElementById('errorField').innerHTML = "No players found for " + document.getElementById('searchBar').value;
                 return;
             } else if (data.length == 1){
                 let playerId = data[0].player.id;
                 let playerStats = await fetchDataById(playerId);
+
                 console.log(playerStats);
 
                 window.localStorage.setItem('data', playerStats);
+
+                console.log(window.localStorage.getItem('data'));
 
                 //window.location.href = 'results.html';
 
@@ -101,12 +102,9 @@ function buildNameOptions(playerNames, playerIds){
 
 async function buttonClicked(playerId){
     let playerStats = await fetchDataById(playerId);
-    playerStats = playerStats.json();
-
-    console.log(playerStats);
 
     window.localStorage.setItem('data', playerStats);
-    //window.location.href = 'results.html';
+    window.location.href = 'results.html';
     return;
 }
 
@@ -115,8 +113,6 @@ async function fetchDataByName(searchQuery) {
     searchQuery = searchQuery.replace(" ","-");
     url += searchQuery;
 
-    console.log(url);
-
     try {
         let data = await fetch(url);
 
@@ -124,7 +120,7 @@ async function fetchDataByName(searchQuery) {
             throw new Error('Network response was not ok');
         }
 
-        data = data.json();
+        data = await data.json();
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -137,11 +133,16 @@ async function fetchDataById(id) {
 
     try {
         let data = await fetch(url);
+    
+        console.log(data);
+
         if (!data.ok) {
             throw new Error('Network response was not ok');
         }
 
         data = data.json();
+
+        console.log(data);
         
         return data;
     } catch (error) {
@@ -160,6 +161,7 @@ async function fetchDataByIdAndSeason(id, season) {
         }
 
         data = data.json();
+
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);
