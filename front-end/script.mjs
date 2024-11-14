@@ -168,7 +168,7 @@ function changeMade(){
 }
 
 async function switchToResults(){
-    let html = await fetch('/front-end/results.html');
+    let html = await fetch('/results.html');
     html = await html.text();
 
     document.open();
