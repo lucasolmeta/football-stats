@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function submissionMade(e){
     if(e.key=='Enter'){
+        console.log("yes");
         document.querySelectorAll('.buttons').forEach(element => element.remove());
 
         let searchQuery = document.getElementById('searchBar').value;
@@ -32,16 +33,14 @@ async function submissionMade(e){
             return;
         }
         else{
-            let url = "https://football-stats-8ab918624cd1.herokuapp.com/search/";
-            searchQuery = searchQuery.replace(" ","-");
-            url += searchQuery;
+            let data = await fetchDataByName(searchQuery);
 
-            let data = await fetchDataByName(url);
+            console.log(data);
 
-            if(data[0] == undefined && data.response != undefined){
+            /*if(data[0] == undefined && data.response != undefined){
                 data = data.response;
                 console.log(data);
-            }
+            }*/
 
             if(data.results == 0){
                 document.getElementById('errorField').innerHTML = "No players found for " + document.getElementById('searchBar').value;
@@ -49,10 +48,6 @@ async function submissionMade(e){
             } else if (data.length == 1){
                 let playerId = data[0].player.id;
                 let playerStats = await fetchDataById(playerId);
-                console.log(playerStats);
-
-                playerStats = JSON.stringify(playerStats);
-                console.log(playerStats);
 
                 window.localStorage.setItem('data', playerStats);
 
@@ -118,7 +113,11 @@ async function buttonClicked(playerId){
     return;
 }
 
-async function fetchDataByName(url) {
+async function fetchDataByName(searchQuery) {
+    let url = "https://football-stats-8ab918624cd1.herokuapp.com/search/";
+    searchQuery = searchQuery.replace(" ","-");
+    url += searchQuery;
+
     try {
         const res = await fetch(url);
         if (!res.ok) {
@@ -136,12 +135,12 @@ async function fetchDataById(id) {
     url += id;
 
     try {
-        const res = await fetch(url);
+        let data = await fetch(url);
         if (!res.ok) {
             throw new Error('Network response was not ok');
         }
-        const data = await res.json();
-        console.log(data);
+        data = data.json();
+
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);

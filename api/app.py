@@ -65,6 +65,7 @@ def get_data_by_name(query):
             results = requests.get(url, headers=headers, params=querystring)
             results.raise_for_status()  
             results = results.json()
+            results = results.get("response", [])
 
             return results
         except requests.exceptions.HTTPError as http_err:
