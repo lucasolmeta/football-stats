@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask
 import pandas as pd
 import requests
 import os
@@ -66,11 +66,11 @@ def get_data_by_name(query):
             results.raise_for_status()  
             results = results.json()
 
-            return jsonify(results)
+            return results
         except requests.exceptions.HTTPError as http_err:
-            return jsonify({"error": str(http_err)}), 500
+            return {"error": str(http_err)}
         except Exception as err:
-            return jsonify({"error": str(err)}), 500
+            return {"error": str(err)}
 
     # multi word query
 
@@ -84,11 +84,11 @@ def get_data_by_name(query):
 
         results = filter_data_to_match_query(results, query)
             
-        return jsonify(results)
+        return results
     except requests.exceptions.HTTPError as http_err:
-        return jsonify({"error": str(http_err)}), 500
+        return {"error": str(http_err)}
     except Exception as err:
-        return jsonify({"error": str(err)}), 500
+        return {"error": str(err)}
     
 #-------- SEARCH BY ID --------#
 
@@ -113,11 +113,11 @@ def get_data_by_id(id):
         results.raise_for_status()  
         results = results.json()
 
-        return jsonify(results)
+        return results
     except requests.exceptions.HTTPError as http_err:
-        return jsonify({"error": str(http_err)}), 500
+        return {"error": str(http_err)}
     except Exception as err:
-        return jsonify({"error": str(err)}), 500
+        return {"error": str(err)}
     
 #-------- SEARCH BY ID AND SEASON --------#
 
@@ -138,11 +138,11 @@ def get_data_by_id_and_season(id,season):
         results.raise_for_status()  
         results = results.json()
 
-        return jsonify(results)
+        return results
     except requests.exceptions.HTTPError as http_err:
-        return jsonify({"error": str(http_err)}), 500
+        return {"error": str(http_err)}
     except Exception as err:
-        return jsonify({"error": str(err)}), 500
+        return {"error": str(err)}
     
 #-------- SEARCH FOR AVAILABLE SEASONS --------#
 

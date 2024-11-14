@@ -38,24 +38,26 @@ async function submissionMade(e){
 
             let data = await fetchDataByName(url);
 
-            console.log(data);
-
             if(data[0] == undefined && data.response != undefined){
                 data = data.response;
                 console.log(data);
             }
 
-            if(data.length == 0 || data.results == 0){
+            if(data.results == 0){
                 document.getElementById('errorField').innerHTML = "No players found for " + document.getElementById('searchBar').value;
                 return;
             } else if (data.length == 1){
                 let playerId = data[0].player.id;
                 let playerStats = await fetchDataById(playerId);
+                console.log(playerStats);
+
                 playerStats = JSON.stringify(playerStats);
+                console.log(playerStats);
 
                 window.localStorage.setItem('data', playerStats);
 
-                window.location.href = 'results.html';
+
+                //window.location.href = 'results.html';
                 return;     
             } else {
                 let playerNames = [];
