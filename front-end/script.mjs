@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function submissionMade(e){
     if(e.key=='Enter'){
-        console.log("yes");
         document.querySelectorAll('.buttons').forEach(element => element.remove());
 
         let searchQuery = document.getElementById('searchBar').value;
@@ -37,22 +36,19 @@ async function submissionMade(e){
 
             console.log(data);
 
-            /*if(data[0] == undefined && data.response != undefined){
-                data = data.response;
-                console.log(data);
-            }*/
-
-            if(data.results == 0){
+            if(data.length == 0){
                 document.getElementById('errorField').innerHTML = "No players found for " + document.getElementById('searchBar').value;
                 return;
             } else if (data.length == 1){
                 let playerId = data[0].player.id;
                 let playerStats = await fetchDataById(playerId);
 
+                console.log(playerStats);
+
                 window.localStorage.setItem('data', playerStats);
 
-
                 //window.location.href = 'results.html';
+
                 return;     
             } else {
                 let playerNames = [];
@@ -106,7 +102,6 @@ function buildNameOptions(playerNames, playerIds){
 
 async function buttonClicked(playerId){
     let playerStats = await fetchDataById(playerId);
-    playerStats = JSON.stringify(playerStats);
 
     window.localStorage.setItem('data', playerStats);
     window.location.href = 'results.html';
@@ -118,12 +113,16 @@ async function fetchDataByName(searchQuery) {
     searchQuery = searchQuery.replace(" ","-");
     url += searchQuery;
 
+    console.log(url);
+
     try {
-        const res = await fetch(url);
-        if (!res.ok) {
+        let data = await fetch(url);
+
+        if (!data.ok) {
             throw new Error('Network response was not ok');
         }
-        const data = await res.json();
+
+        data = data.json();
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -136,11 +135,12 @@ async function fetchDataById(id) {
 
     try {
         let data = await fetch(url);
-        if (!res.ok) {
+        if (!data.ok) {
             throw new Error('Network response was not ok');
         }
-        data = data.json();
 
+        data = data.json();
+        
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -152,13 +152,12 @@ async function fetchDataByIdAndSeason(id, season) {
     url += id + "/" + season;
 
     try {
-        const res = await fetch(url);
-        if (!res.ok) {
+        let data = await fetch(url);
+        if (!data.ok) {
             throw new Error('Network response was not ok');
         }
-        let data = await res.json();
-        data = JSON.stringify(data);
 
+        data = data.json();
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);
