@@ -1,6 +1,8 @@
 import { fetchDataByIdAndSeason } from './script.mjs';
 
-let data = window.localStorage.getItem('data');
+let data = localStorage.getItem('data');
+data = JSON.parse(data);
+data = data[0];
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log(data);
@@ -12,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     seasonSelect.addEventListener('change', seasonChanged);
 
     buildDisplay();
-    resizeScreen();
 });
 
 async function buildDisplay(){
@@ -36,12 +37,11 @@ async function buildDisplay(){
                 const sectionOne = document.getElementById('section1');
 
                 sectionOne.remove();
-                return;
-            }
-
-            for(let i = seasons.response.length; i >= 0; i--){
-                if(seasons.response[i] <= 2024){
-                    seasonSelect.innerHTML += "<option value=" + seasons.response[i] + ">" + seasons.response[i] + "</option>";
+            } else {
+                for(let i = seasons.response.length; i >= 0; i--){
+                    if(seasons.response[i] <= 2024){
+                        seasonSelect.innerHTML += "<option value=" + seasons.response[i] + ">" + seasons.response[i] + "</option>";
+                    }
                 }
             }
         } catch (error) {
@@ -69,7 +69,7 @@ async function buildDisplay(){
             basicInfo.innerHTML += name;
         }
 
-        if(data.statistics[0].team.name != undefined){
+        if(data.statistics && data.statistics[0].team.name != undefined){
             let club = "CLUB: <span class='answer'>";
 
             club += data.statistics[0].team.name;
@@ -87,7 +87,7 @@ async function buildDisplay(){
             basicInfo.innerHTML += country;
         }
 
-        if(data.statistics[0].games.position != undefined){
+        if(data.statistics && data.statistics[0].games.position != undefined){
             let position = "POSITION: <span class='answer'>";
 
             position += data.statistics[0].games.position;
@@ -219,6 +219,8 @@ async function buildDisplay(){
     } else {
         headshot.src = data.player.photo;
     }
+
+    resizeScreen();
 }
 
 async function seasonChanged(){
@@ -279,17 +281,20 @@ function resizeScreen(){
 
     //-------------- SET SECTION ONE PROPERTIES --------------//
     
-    const sectionOne = document.getElementById('section1');
+    if(document.getElementById('section1')){
+        
+        const sectionOne = document.getElementById('section1');
 
-    sectionOne.style.paddingTop = window.innerWidth/65 + 'px';
+        sectionOne.style.paddingTop = window.innerWidth/65 + 'px';
 
-    const seasonSelect = document.getElementById('seasonSelect');
+        const seasonSelect = document.getElementById('seasonSelect');
 
-    seasonSelect.style.fontSize = headerHeight/4 + 'px';
-    seasonSelect.style.borderRadius = window.innerWidth/50 + 'px';
-    seasonSelect.style.paddingTop = headerHeight/8 + 'px';
-    seasonSelect.style.paddingBottom = headerHeight/8 + 'px';
-    seasonSelect.style.paddingLeft = headerHeight/4 + 'px';
+        seasonSelect.style.fontSize = headerHeight/4 + 'px';
+        seasonSelect.style.borderRadius = window.innerWidth/50 + 'px';
+        seasonSelect.style.paddingTop = headerHeight/8 + 'px';
+        seasonSelect.style.paddingBottom = headerHeight/8 + 'px';
+        seasonSelect.style.paddingLeft = headerHeight/4 + 'px';
+    }
 
     //-------------- SET SECTION TWO PROPERTIES --------------//
 

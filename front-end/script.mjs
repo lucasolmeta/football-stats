@@ -39,15 +39,12 @@ async function submissionMade(e){
                 return;
             } else if (data.length == 1){
                 let playerId = data[0].player.id;
+
                 let playerStats = await fetchDataById(playerId);
+                playerStats = JSON.stringify(playerStats);
 
-                console.log(playerStats);
-
-                window.localStorage.setItem('data', playerStats);
-
-                console.log(window.localStorage.getItem('data'));
-
-                //window.location.href = 'results.html';
+                localStorage.setItem('data', playerStats);
+                window.location.href = 'results.html';
 
                 return;     
             } else {
@@ -102,10 +99,12 @@ function buildNameOptions(playerNames, playerIds){
 
 async function buttonClicked(playerId){
     let playerStats = await fetchDataById(playerId);
+    playerStats = JSON.stringify(playerStats);
 
-    window.localStorage.setItem('data', playerStats);
+    localStorage.setItem('data', data);
     window.location.href = 'results.html';
-    return;
+
+    return;     
 }
 
 async function fetchDataByName(searchQuery) {
@@ -134,15 +133,11 @@ async function fetchDataById(id) {
     try {
         let data = await fetch(url);
     
-        console.log(data);
-
         if (!data.ok) {
             throw new Error('Network response was not ok');
         }
 
         data = data.json();
-
-        console.log(data);
         
         return data;
     } catch (error) {
