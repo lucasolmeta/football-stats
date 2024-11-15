@@ -4,6 +4,8 @@ let data = localStorage.getItem('data');
 data = JSON.parse(data);
 data = data[0];
 
+let yearSelected;
+
 resizeScreen();
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -37,11 +39,27 @@ async function buildDisplay(){
 
                 sectionOne.remove();
             } else {
-                for(let i = seasons.response.length; i >= 0; i--){
-                    if(seasons.response[i] <= 2024){
-                        seasonSelect.innerHTML += "<option value=" + seasons.response[i] + ">" + seasons.response[i] + "</option>";
+                for(let i = seasons.response.length-1; i >= 0; i--){
+                    if(seasons.response[i] <= 2024 && seasons.response[i] != yearSelected){
+                        const newOption = document.createElement("option");
+
+                        newOption.text = seasons.response[i];
+                        newOption.value = seasons.response[i];
+
+                        seasonSelect.add(newOption);
                     }
                 }
+
+                if(yearSelected){
+                    const newOption = document.createElement("option");
+
+                    newOption.text = yearSelected;
+                    newOption.value = yearSelected;
+
+                    seasonSelect.insertBefore(newOption, seasonSelect.options[0]);
+                }
+
+                seasonSelect.selectedIndex = 0;
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -226,6 +244,7 @@ async function buildDisplay(){
 
 async function seasonChanged(){
     const choice = seasonSelect.value;
+    yearSelected = seasonSelect.value;
 
     data = await fetchDataByIdAndSeason(data.player.id, choice);
 
