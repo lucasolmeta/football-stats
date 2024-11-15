@@ -65,6 +65,7 @@ def get_data_by_name(query):
             results = requests.get(url, headers=headers, params=querystring)
             results.raise_for_status()  
             results = results.json()
+
             results = results.get("response", [])
 
             return results
@@ -134,8 +135,6 @@ def get_data_by_id(id):
             results.raise_for_status()  
             results = results.json()
 
-            results = results.get("response", [])
-
             return results
         except requests.exceptions.HTTPError as http_err:
             return {"error": str(http_err)}
@@ -162,6 +161,9 @@ def get_data_by_id_and_season(id,season):
         results = requests.get(url, headers=headers, params=querystring)
         results.raise_for_status()  
         results = results.json()
+
+        results = results.get("response", [])
+        results = results[0]
 
         return results
     except requests.exceptions.HTTPError as http_err:
