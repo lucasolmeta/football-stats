@@ -41,9 +41,10 @@ async function buildDisplay(){
                 for(let i = seasons.length-1; i >= 0; i--){
                     if(seasons[i] != yearSelected){
                         const newOption = document.createElement("option");
+                        const nextYear = (yearSelected + 1).toString.substring(-2);
 
-                        newOption.text = seasons[i];
-                        newOption.value = seasons[i];
+                        newOption.text = seasons[i] + "/" + nextYear;
+                        newOption.value = seasons[i] + "/" + nextYear;
 
                         seasonSelect.add(newOption);
                     }
@@ -51,9 +52,10 @@ async function buildDisplay(){
 
                 if(yearSelected){
                     const newOption = document.createElement("option");
+                    const nextYear = (yearSelected + 1).toString.substring(-2);
 
-                    newOption.text = yearSelected;
-                    newOption.value = yearSelected;
+                    newOption.text = yearSelected + "/" + nextYear;
+                    newOption.value = yearSelected + "/" + nextYear;
 
                     seasonSelect.insertBefore(newOption, seasonSelect.options[0]);
                 }
@@ -269,8 +271,8 @@ async function buildDisplay(){
 }
 
 async function seasonChanged(){
-    const choice = seasonSelect.value;
-    yearSelected = seasonSelect.value;
+    const choice = parseInt(seasonSelect.value.substring(0,4));
+    yearSelected = parseInt(seasonSelect.value.substring(0,4));
 
     data = await fetchDataByIdAndSeason(data.player.id, choice);
 
