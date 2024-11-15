@@ -227,12 +227,7 @@ async function buildDisplay(){
 async function seasonChanged(){
     const choice = seasonSelect.value;
 
-    console.log(data);
-
     data = await fetchDataByIdAndSeason(data.player.id, choice);
-
-    console.log(data);
-    data = JSON.parse(data);
 
     buildDisplay();
 }
