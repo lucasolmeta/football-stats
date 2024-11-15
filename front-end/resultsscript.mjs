@@ -32,19 +32,20 @@ async function buildDisplay(){
             if (!res.ok) {
                 throw new Error('Network response was not ok');
             }
+            
             let seasons = await res.json();
 
-            if(seasons.response.length == 0){
+            if(seasons.length == 0){
                 const sectionOne = document.getElementById('section1');
 
                 sectionOne.remove();
             } else {
-                for(let i = seasons.response.length-1; i >= 0; i--){
-                    if(seasons.response[i] <= 2024 && seasons.response[i] != yearSelected){
+                for(let i = seasons.length-1; i >= 0; i--){
+                    if(seasons[i] <= 2024 && seasons[i] != yearSelected){
                         const newOption = document.createElement("option");
 
-                        newOption.text = seasons.response[i];
-                        newOption.value = seasons.response[i];
+                        newOption.text = seasons[i];
+                        newOption.value = seasons[i];
 
                         seasonSelect.add(newOption);
                     }
