@@ -1,6 +1,9 @@
 import { fetchDataByIdAndSeason } from './script.mjs';
 
 let data = localStorage.getItem('data');
+
+console.log(data);
+
 data = JSON.parse(data);
 data = data[0];
 
@@ -32,7 +35,7 @@ async function buildDisplay(){
             if (!res.ok) {
                 throw new Error('Network response was not ok');
             }
-            
+
             let seasons = await res.json();
 
             if(seasons.length == 0){
