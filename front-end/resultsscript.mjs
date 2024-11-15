@@ -4,8 +4,6 @@ let data = localStorage.getItem('data');
 
 data = JSON.parse(data);
 
-console.log(data);
-
 let yearSelected;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -275,8 +273,6 @@ async function seasonChanged(){
     yearSelected = seasonSelect.value;
 
     data = await fetchDataByIdAndSeason(data.player.id, choice);
-
-    console.log(data);
 
     buildDisplay();
 }
