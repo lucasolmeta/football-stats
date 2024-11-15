@@ -2,10 +2,9 @@ import { fetchDataByIdAndSeason } from './script.mjs';
 
 let data = localStorage.getItem('data');
 
-console.log(data);
-
 data = JSON.parse(data);
-data = data[0];
+
+console.log(data);
 
 let yearSelected;
 
@@ -90,13 +89,40 @@ async function buildDisplay(){
             basicInfo.innerHTML += name;
         }
 
-        if(data.statistics && data.statistics[0].team.name != undefined){
-            let club = "CLUB: <span class='answer'>";
+        if(data.statistics && data.statistics[0].team.name != undefined && data.statistics.length == 1){
+            let team = "TEAM: <span class='answer'>";
 
-            club += data.statistics[0].team.name;
-            club += "</span><br>";
+            team += data.statistics[0].team.name;
 
-            basicInfo.innerHTML += club;
+            team += "</span><br>";
+            basicInfo.innerHTML += team;
+        } else if (data.statistics && data.statistics[0].team.name != undefined && data.statistics.length > 1){
+            let teams = "<span class='answer'>";
+            teams += data.statistics[0].team.name;
+
+            for(let i = 1; i < data.statistics.length; i++){
+                let teamAdded = false;
+
+                for(let j = i - 1; j >= 0; j--){
+                    if(data.statistics[j].team.name == data.statistics[i].team.name){
+                        teamAdded = true;
+                    }
+                }
+
+                if(!teamAdded){
+                    teams += ", ";
+                    teams += data.statistics[i].team.name;
+                }
+            }
+
+            if(teams.includes(",")){
+                teams = "TEAMS: " + teams;
+            } else {
+                teams = "TEAM: " + teams;
+            }
+
+            teams += "</span><br>";
+            basicInfo.innerHTML += teams;
         }
 
         if(data.player.nationality != undefined){
