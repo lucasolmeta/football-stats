@@ -41,7 +41,7 @@ async function buildDisplay(){
                 for(let i = seasons.length-1; i >= 0; i--){
                     if(seasons[i] != yearSelected){
                         const newOption = document.createElement("option");
-                        const nextYear = (yearSelected + 1).toString.substring(-2);
+                        const nextYear = (seasons[i] + 1).toString().substring(-2);
 
                         newOption.text = seasons[i] + "/" + nextYear;
                         newOption.value = seasons[i] + "/" + nextYear;
@@ -52,7 +52,7 @@ async function buildDisplay(){
 
                 if(yearSelected){
                     const newOption = document.createElement("option");
-                    const nextYear = (yearSelected + 1).toString.substring(-2);
+                    const nextYear = (yearSelected + 1).toString().substring(-2);
 
                     newOption.text = yearSelected + "/" + nextYear;
                     newOption.value = yearSelected + "/" + nextYear;
@@ -268,6 +268,7 @@ async function buildDisplay(){
     }
 
     resizeScreen();
+
 }
 
 async function seasonChanged(){
