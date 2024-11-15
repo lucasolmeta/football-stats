@@ -4,8 +4,6 @@ let data = localStorage.getItem('data');
 
 data = JSON.parse(data);
 
-console.log(data);
-
 let yearSelected;
 
 resizeScreen();
@@ -89,14 +87,14 @@ async function buildDisplay(){
             basicInfo.innerHTML += name;
         }
 
-        if(data.statistics && data.statistics[0].team.name != undefined && data.statistics.length == 1){
+        if(data.statistics && data.statistics[0].team.name && data.statistics.length == 1){
             let team = "TEAM: <span class='answer'>";
 
             team += data.statistics[0].team.name;
 
             team += "</span><br>";
             basicInfo.innerHTML += team;
-        } else if (data.statistics && data.statistics[0].team.name != undefined && data.statistics.length > 1){
+        } else if (data.statistics && data.statistics[0].team.name && data.statistics.length > 1){
             let teams = "<span class='answer'>";
             teams += data.statistics[0].team.name;
 
