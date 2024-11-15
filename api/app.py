@@ -108,7 +108,7 @@ def get_data_by_id(id):
 
         url = "https://api-football-v1.p.rapidapi.com/v3/players"
 
-        recent_season = seasons.get("response", [])[-1]
+        recent_season = seasons[-1]
 
         querystring = {"id":id,"season":recent_season}
 
