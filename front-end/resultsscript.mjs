@@ -4,9 +4,9 @@ let data = localStorage.getItem('data');
 
 data = JSON.parse(data);
 
-let yearSelected;
+console.log(data);
 
-resizeScreen();
+let yearSelected;
 
 document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', resizeScreen);
@@ -41,7 +41,7 @@ async function buildDisplay(){
                 sectionOne.remove();
             } else {
                 for(let i = seasons.length-1; i >= 0; i--){
-                    if(seasons[i] <= 2024 && seasons[i] != yearSelected){
+                    if(seasons[i] != yearSelected){
                         const newOption = document.createElement("option");
 
                         newOption.text = seasons[i];
@@ -275,6 +275,8 @@ async function seasonChanged(){
     yearSelected = seasonSelect.value;
 
     data = await fetchDataByIdAndSeason(data.player.id, choice);
+
+    console.log(data);
 
     buildDisplay();
 }
