@@ -38,7 +38,7 @@ async function submissionMade(e){
                 document.getElementById('errorField').innerHTML = "No players found for " + document.getElementById('searchBar').value;
                 return;
             } else if (data.length == 1){
-                let playerId = data.player.id;
+                let playerId = data[0].player.id;
 
                 let playerStats = await fetchDataById(playerId);
                 playerStats = JSON.stringify(playerStats);
