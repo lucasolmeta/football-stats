@@ -190,6 +190,8 @@ def get_seasons_for_player(id):
         results.raise_for_status()  
         results = results.json()
 
+        results = results.get("response", [])
+
         return results
     except requests.exceptions.HTTPError as http_err:
         return {"error": str(http_err)}
