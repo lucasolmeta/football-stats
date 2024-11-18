@@ -196,13 +196,15 @@ async function buildDisplay(){
         let goals = 0;
         let assists = 0;
         let rating = 0.0;
+        let ratingCaps = 0;
 
         for(let i = 0; i < data.statistics.length; i++){
             if(data.statistics[i].games.appearences != undefined){
                 caps += data.statistics[i].games.appearences;
 
-                if(data.statistics[i].games.rating != null){
-                    rating += data.statistics[i].games.appearences * data.statistics[i].games.rating;;
+                if(data.statistics[i].games.rating != null && data.statistics[i].games.rating != 0){
+                    rating += data.statistics[i].games.appearences * data.statistics[i].games.rating;
+                    ratingCaps += data.statistics[i].games.appearences;
                 }
             }
 
@@ -219,8 +221,8 @@ async function buildDisplay(){
             }
         }
 
-        if(caps != 0){
-            rating /= caps;
+        if(ratingCaps != 0){
+            rating /= ratingCaps;
             rating = rating.toFixed(2);
         }
 
