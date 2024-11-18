@@ -68,6 +68,8 @@ def get_data_by_name(query):
 
             results = results.get("response", [])
 
+            # RETURN VALUE: array of player info packages
+
             return results
         except requests.exceptions.HTTPError as http_err:
             return {"error": str(http_err)}
@@ -85,6 +87,8 @@ def get_data_by_name(query):
         results = results.json()
 
         results = filter_data_to_match_query(results, query)
+
+        # RETURN VALUE: array of player info packages
             
         return results
     except requests.exceptions.HTTPError as http_err:
@@ -118,6 +122,9 @@ def get_data_by_id(id):
             results = results.json()
 
             results = results.get("response", [])
+            results = results[0]
+
+            # RETURN VALUE: player info package
 
             return results
         except requests.exceptions.HTTPError as http_err:
@@ -136,6 +143,9 @@ def get_data_by_id(id):
             results = results.json()
 
             results = results.get("response", [])
+            results = results[0]
+
+            # RETURN VALUE: player info package
 
             return results
         except requests.exceptions.HTTPError as http_err:
@@ -167,6 +177,8 @@ def get_data_by_id_and_season(id,season):
         results = results.get("response", [])
         results = results[0]
 
+        # RETURN VALUE: player info package
+
         return results
     except requests.exceptions.HTTPError as http_err:
         return {"error": str(http_err)}
@@ -193,6 +205,8 @@ def get_seasons_for_player(id):
         results = results.json()
 
         results = results.get("response", [])
+
+        # RETURN VALUE: array of valid seasons
 
         return results
     except requests.exceptions.HTTPError as http_err:

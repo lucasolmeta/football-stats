@@ -41,7 +41,6 @@ async function submissionMade(e){
                 let playerId = data[0].player.id;
 
                 let playerStats = await fetchDataById(playerId);
-                playerStats = playerStats[0];
                 playerStats = JSON.stringify(playerStats);
 
                 localStorage.setItem('data', playerStats);
@@ -100,7 +99,6 @@ function buildNameOptions(playerNames, playerIds){
 
 async function buttonClicked(playerId){
     let playerStats = await fetchDataById(playerId);
-    playerStats = playerStats[0];
     playerStats = JSON.stringify(playerStats);
 
     localStorage.setItem('data', playerStats);

@@ -56,6 +56,10 @@ a {
     outline: none;
 }
 
+select option {
+    background-color: black;
+}
+
 #section2{
     position: relative;
     width: 100%;
