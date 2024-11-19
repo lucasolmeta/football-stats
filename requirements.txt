@@ -3,5 +3,4 @@ pandas
 requests
 logging
 Flask-CORS
-base64
 matplotlib.pyplot
