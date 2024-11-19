@@ -2,6 +2,9 @@ from flask import Flask
 import pandas as pd
 import requests
 import os
+import base64
+import io
+import matplotlib.pyplot as plt
 from flask_cors import CORS
 
 RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY")
@@ -105,7 +108,7 @@ def get_data_by_id(id):
 
     seasons = get_seasons_for_player(id)
 
-    if(len(seasons) > 0):
+    if len(seasons) > 0:
 
         url = "https://api-football-v1.p.rapidapi.com/v3/players"
 
@@ -210,7 +213,7 @@ def get_seasons_for_player(id):
         return {"error": str(http_err)}
     except Exception as err:
         return {"error": str(err)}
-
+    
 #-------- RUN APP (MUST COME LAST) --------#
 
 if __name__ == '__main__':
