@@ -213,6 +213,92 @@ def get_seasons_for_player(id):
         return {"error": str(http_err)}
     except Exception as err:
         return {"error": str(err)}
+
+#-------- CREATE GRAPH --------#
+
+@app.route('/graph/<id>/<param>', methods=['GET'])
+def player_graph(id, param):
+    seasons = get_seasons_for_player(id)
+    formatted_seasons = []
+    stat_by_season = []
+    data_by_season = []
+
+    name = ""
+
+    if param not in ["Goals","Assists","Games"]:
+        return "error"
+
+    for season in seasons:
+        data = get_data_by_id_and_season(id, season)
+        if data is None:
+            continue
+
+        data_by_season.append(data)
+
+        total_of_stat = 0
+
+        if "statistics" in data:
+            for stat in data["statistics"]:
+                if param == "Goals":
+                    goals = stat["goals"]["total"]
+                    total_of_stat += goals if goals is not None else 0
+
+                elif param == "Assists":
+                    assists = stat["goals"]["assists"]
+                    total_of_stat += assists if assists is not None else 0
+
+                elif param == "Games":
+                    games = stat["games"]["appearences"]
+                    total_of_stat += games if games is not None else 0
+
+            stat_by_season.append(total_of_stat)
+
+        else:
+            stat_by_season.append(0)
+
+        formatted_seasons.append(str(season) + "/" + (str(season + 1))[-2:])
+
+    name = data_by_season[0]["player"]["name"]
+
+    print(name)
+
+    print(formatted_seasons)
+    print(stat_by_season)
+    print(data_by_season)
+
+    fig, ax = plt.subplots(figsize=(18, 8))
+
+    ax.bar(formatted_seasons, stat_by_season, color='yellow')
+    fig.patch.set_facecolor('black')
+    ax.set_facecolor('black')
+    ax.tick_params(colors='gray')
+    ax.spines['bottom'].set_color('gray')
+    ax.spines['left'].set_color('gray')
+    ax.xaxis.label.set_color('white')
+    ax.yaxis.label.set_color('white')
+
+    plt.xticks(rotation=45, ha='right')
+    plt.tight_layout()
+    plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.15)
+
+    ax.set_title(f"{param} by Season for " + name, color='white', pad=20)
+    ax.set_ylabel(param, labelpad=15)
+    ax.set_xlabel("Season", labelpad=15)
+
+    for i, txt in enumerate(stat_by_season):
+        ax.text(i, stat_by_season[i], str(txt), ha='center', va='bottom', fontsize=8, color='white')
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', facecolor=fig.get_facecolor())
+    buf.seek(0)
+    plt.close(fig)
+
+    img_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
+    buf.close()
+
+    # RETURN VALUE: image in base64
+
+    return {'image': img_base64}
     
 #-------- RUN APP (MUST COME LAST) --------#
 
