@@ -264,10 +264,10 @@ def player_graph(id, param):
 
     fig, ax = plt.subplots(figsize=(18, 8))
 
-    ax.bar(formatted_seasons, stat_by_season, color='yellow', fontsize=12)
+    ax.bar(formatted_seasons, stat_by_season, color='yellow')
     fig.patch.set_facecolor('black')
     ax.set_facecolor('black')
-    ax.tick_params(colors='gray')
+    ax.tick_params(colors='gray', labelsize=12)
     ax.spines['bottom'].set_color('gray')
     ax.spines['left'].set_color('gray')
     ax.xaxis.label.set_color('white')

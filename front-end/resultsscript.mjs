@@ -1,7 +1,8 @@
 import { fetchDataByIdAndSeason } from './script.mjs';
+import { fetchSeasonsById } from './script.mjs';
+import { fetchGraphByIdAndStat } from './script.mjs';
 
 let data = localStorage.getItem('data');
-
 data = JSON.parse(data);
 
 let yearSelected;
@@ -17,60 +18,69 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function buildDisplay(){
 
-    //-------------- GENERATE SEASONS --------------//
+    generateSeasons();
 
+    displayBasicInfo();
+
+    displayBasicStats();
+
+    displayHeadshot();
+
+    displayGraph();
+    
+    resizeScreen();
+
+}
+
+async function seasonChanged(){
+    const choice = parseInt(seasonSelect.value.substring(0,4));
+    yearSelected = parseInt(seasonSelect.value.substring(0,4));
+
+    data = await fetchDataByIdAndSeason(data.player.id, choice);
+
+    buildDisplay();
+}
+
+async function generateSeasons(){
     seasonSelect.innerHTML = "";
 
     if(data && data.player){
-        let url = "https://football-stats-8ab918624cd1.herokuapp.com/playerseasons/";
-        url += data.player.id;
+        let seasons = await fetchSeasonsById(data.player.id);
 
-        try {
-            const res = await fetch(url);
-            if (!res.ok) {
-                throw new Error('Network response was not ok');
-            }
+        if(seasons.length == 0){
+            const sectionOne = document.getElementById('section1');
 
-            let seasons = await res.json();
-
-            if(seasons.length == 0){
-                const sectionOne = document.getElementById('section1');
-
-                sectionOne.remove();
-            } else {
-                for(let i = seasons.length-1; i >= 0; i--){
-                    if(seasons[i] != yearSelected){
-                        const newOption = document.createElement("option");
-                        const nextYear = (seasons[i] + 1).toString().substring(-2);
-
-                        newOption.text = seasons[i] + "/" + nextYear;
-                        newOption.value = seasons[i] + "/" + nextYear;
-
-                        seasonSelect.add(newOption);
-                    }
-                }
-
-                if(yearSelected){
+            sectionOne.remove();
+        } else {
+            for(let i = seasons.length-1; i >= 0; i--){
+                if(seasons[i] != yearSelected){
                     const newOption = document.createElement("option");
-                    const nextYear = (yearSelected + 1).toString().substring(-2);
+                    const nextYear = (seasons[i] + 1).toString().substring(-2);
 
-                    newOption.text = yearSelected + "/" + nextYear;
-                    newOption.value = yearSelected + "/" + nextYear;
+                    newOption.text = seasons[i] + "/" + nextYear;
+                    newOption.value = seasons[i] + "/" + nextYear;
 
-                    seasonSelect.insertBefore(newOption, seasonSelect.options[0]);
+                    seasonSelect.add(newOption);
                 }
-
-                seasonSelect.selectedIndex = 0;
             }
-        } catch (error) {
-            console.error('Error fetching data:', error);
+
+            if(yearSelected){
+                const newOption = document.createElement("option");
+                const nextYear = (yearSelected + 1).toString().substring(-2);
+
+                newOption.text = yearSelected + "/" + nextYear;
+                newOption.value = yearSelected + "/" + nextYear;
+
+                seasonSelect.insertBefore(newOption, seasonSelect.options[0]);
+            }
+
+            seasonSelect.selectedIndex = 0;
         }
     }
+}
 
-    //-------------- DISPLAY BASIC INFO --------------//
-
+function displayBasicInfo(){
     const basicInfo = document.getElementById('basicinfo');
-    const basicStats = document.getElementById('basicstats');
 
     if (!data || !data.player) {
         basicInfo.style.color = 'red';
@@ -182,8 +192,10 @@ async function buildDisplay(){
             basicInfo.innerHTML = "No Basic Information Found";
         }
     }
+}
 
-    //-------------- DISPLAY BASIC STATS --------------//
+function displayBasicStats(){
+    const basicStats = document.getElementById('basicstats');
 
     if (!data || !data.statistics) {
         basicStats.style.color = 'red';
@@ -258,9 +270,9 @@ async function buildDisplay(){
             }
         }
     }
+}
 
-    //-------------- DISPLAY HEADSHOT --------------//
-
+function displayHeadshot(){
     const headshot = document.getElementById('headshot');
 
     if(!data || !data.player || !data.player.photo){
@@ -268,18 +280,17 @@ async function buildDisplay(){
     } else {
         headshot.src = data.player.photo;
     }
-
-    resizeScreen();
-
 }
 
-async function seasonChanged(){
-    const choice = parseInt(seasonSelect.value.substring(0,4));
-    yearSelected = parseInt(seasonSelect.value.substring(0,4));
+async function displayGraph(){
+    let imgData = await fetchGraphByIdAndStat(247, "goals");
 
-    data = await fetchDataByIdAndSeason(data.player.id, choice);
+    console.log(imgData);
+    console.log(imgData.image);
+    console.log(imgData[0]);
 
-    buildDisplay();
+    const graph = document.getElementById('graph');
+    graph.src = 'data:image/png;base64,' + imgData.image;
 }
 
 function resizeScreen(){
@@ -378,9 +389,9 @@ function resizeScreen(){
 
     headshot.style.borderRadius = window.innerWidth/50 + 'px';
 
-    const advancedStats = document.getElementById('advancedstats');
+    const graphDiv = document.getElementById('graphdiv');
 
-    advancedStats.style.fontSize = headerHeight/4 + 'px';
-    advancedStats.style.padding = window.innerWidth/75 + 'px';
-    advancedStats.style.borderRadius = window.innerWidth/50 + 'px';
+    graphDiv.style.fontSize = headerHeight/4 + 'px';
+    graphDiv.style.padding = window.innerWidth/75 + 'px';
+    graphDiv.style.borderRadius = window.innerWidth/50 + 'px';
 }

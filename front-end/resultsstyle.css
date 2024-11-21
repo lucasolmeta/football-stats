@@ -109,17 +109,43 @@ select option {
 }
 
 #headshot{
-    width: 15%;
+    width: 25%;
+    height: auto;
     border-style: solid;
     margin: 0;
-    height: auto;
 }
 
-#advancedstats{
-    width: 75%;
+#graphdiv{
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    width: 65%;
     border-color: rgb(100,100,100);
     border-style: solid;
     color: yellow;
     font-family: 'Raleway';
     margin: 0;
+}
+
+#graphSelectDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 20%;
+}
+
+.graphSelectGroup{
+    display: flex;
+    align-items: center;
+}
+
+.graphSelect{
+    color: yellow;
+}
+
+#graph{
+    object-fit: contain;
+    width: 80%;
+    height: auto;
 }
