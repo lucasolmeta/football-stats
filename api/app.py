@@ -264,7 +264,7 @@ def player_graph(id, param):
 
     fig, ax = plt.subplots(figsize=(18, 8))
 
-    ax.bar(formatted_seasons, stat_by_season, color='yellow')
+    ax.bar(formatted_seasons, stat_by_season, color='yellow', fontsize=12)
     fig.patch.set_facecolor('black')
     ax.set_facecolor('black')
     ax.tick_params(colors='gray')
@@ -277,9 +277,9 @@ def player_graph(id, param):
     plt.tight_layout()
     plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.15)
 
-    ax.set_title(param.capitalize() + " by Season for " + name, color='white', pad=20)
-    ax.set_ylabel(param, labelpad=15)
-    ax.set_xlabel("Season", labelpad=15)
+    ax.set_title(param.capitalize() + " by Season for " + name, color='white', pad=20, fontsize=25)
+    ax.set_ylabel(param.capitalize(), labelpad=15, fontsize=20)
+    ax.set_xlabel("Season", labelpad=15, fontsize=20)
 
     for i, txt in enumerate(stat_by_season):
         ax.text(i, stat_by_season[i], str(txt), ha='center', va='bottom', fontsize=20, color='white')
