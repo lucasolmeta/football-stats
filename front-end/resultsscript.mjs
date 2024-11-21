@@ -5,6 +5,8 @@ import { fetchGraphByIdAndStat } from './script.mjs';
 let data = localStorage.getItem('data');
 data = JSON.parse(data);
 
+console.log(data);
+
 let yearSelected;
 let param = "goals";
 
