@@ -10,8 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     searchBar.addEventListener('keydown', submissionMade);
     searchBar.addEventListener('input',changeMade);
 
-    fetchGraphByIdAndStat(247,"goals");
-
     resizeScreen();
 });
 
@@ -190,20 +188,14 @@ async function fetchGraphByIdAndStat(id, param){
     let url = "https://football-stats-8ab918624cd1.herokuapp.com/graph/";
     url += id + "/" + param;
 
-    console.log(url);
-
     try {
         let data = await fetch(url);
-
-        console.log(data);
 
         if (!data.ok) {
             throw new Error('Network response was not ok');
         }
 
         data = await data.json();
-
-        console.log(data);
 
         return data;
     } catch (error) {

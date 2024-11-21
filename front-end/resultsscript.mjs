@@ -26,7 +26,7 @@ async function buildDisplay(){
 
     displayHeadshot();
 
-    displayGraph();
+    displayGraph(data.player.id, "goals");
     
     resizeScreen();
 
@@ -46,6 +46,8 @@ async function generateSeasons(){
 
     if(data && data.player){
         let seasons = await fetchSeasonsById(data.player.id);
+
+        seasons = await seasons.json();
 
         if(seasons.length == 0){
             const sectionOne = document.getElementById('section1');
@@ -285,12 +287,10 @@ function displayHeadshot(){
 async function displayGraph(){
     let imgData = await fetchGraphByIdAndStat(247, "goals");
 
-    console.log(imgData);
-    console.log(imgData.image);
-    console.log(imgData[0]);
-
-    const graph = document.getElementById('graph');
-    graph.src = 'data:image/png;base64,' + imgData.image;
+    if(imgData && imgData.image){
+        const graph = document.getElementById('graph');
+        graph.src = 'data:image/png;base64,' + imgData.image;
+    }
 }
 
 function resizeScreen(){

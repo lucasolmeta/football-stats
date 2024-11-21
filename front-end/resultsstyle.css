@@ -131,13 +131,13 @@ select option {
 #graphSelectDiv{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    height: 100%;
     width: 20%;
 }
 
 .graphSelectGroup{
     display: flex;
-    align-items: center;
 }
 
 .graphSelect{
