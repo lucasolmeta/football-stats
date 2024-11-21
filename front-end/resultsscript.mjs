@@ -8,6 +8,8 @@ data = JSON.parse(data);
 let yearSelected;
 let param = "goals";
 
+let goalsGraph, assistsGraph, gamesGraph;
+
 document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', resizeScreen);
 
@@ -289,7 +291,25 @@ function displayHeadshot(){
 }
 
 async function displayGraph(id, param){
-    let imgData = await fetchGraphByIdAndStat(id, param);
+    let imgData = "";
+
+    if(param == "goals" && goalsGraph){
+        imgData = goalsGraph;
+    } else if (param == "assists"  && assistsGraph){
+        imgData = assistsGraph;
+    } else if (param == "games" && gamesGraph){
+        imgData = gamesGraph;
+    } else {
+        imgData = await fetchGraphByIdAndStat(id, param);
+
+        if(param == "goals"){
+            goalsGraph = imgData;
+        } else if(param == "assists"){
+            assistsGraph = imgData;
+        } else if(param == "games"){
+            gamesGraph = imgData;
+        }
+    }
 
     if(imgData && imgData.image){
         const graph = document.getElementById('graph');
