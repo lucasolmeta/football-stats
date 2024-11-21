@@ -131,13 +131,13 @@ select option {
 #graphSelectDiv{
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
     height: 100%;
     width: 20%;
 }
 
 .graphSelectGroup{
     display: flex;
+    padding: 5%;
 }
 
 .graphSelect{
@@ -148,4 +148,16 @@ select option {
     object-fit: contain;
     width: 80%;
     height: auto;
+}
+
+#regraph{
+    color: white;
+    background-color: black;
+    font-family: 'Raleway';
+    border-color: rgb(100,100,100);
+    border-style: solid;
+}
+
+#regraph:hover{
+    background-color: rgb(40,40,40);
 }

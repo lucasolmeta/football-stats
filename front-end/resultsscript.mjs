@@ -6,12 +6,16 @@ let data = localStorage.getItem('data');
 data = JSON.parse(data);
 
 let yearSelected;
+let param = "goals";
 
 document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', resizeScreen);
 
     const seasonSelect = document.getElementById('seasonSelect');
     seasonSelect.addEventListener('change', seasonChanged);
+
+    const regraphButton = document.getElementById('regraph');
+    regraphButton.addEventListener('click', regraph);
 
     buildDisplay();
 });
@@ -26,7 +30,7 @@ async function buildDisplay(){
 
     displayHeadshot();
 
-    displayGraph(data.player.id, "goals");
+    displayGraph(data.player.id, param);
     
     resizeScreen();
 
@@ -284,13 +288,25 @@ function displayHeadshot(){
     }
 }
 
-async function displayGraph(){
+async function displayGraph(id, param){
     let imgData = await fetchGraphByIdAndStat(247, "goals");
 
     if(imgData && imgData.image){
         const graph = document.getElementById('graph');
         graph.src = 'data:image/png;base64,' + imgData.image;
     }
+}
+
+function regraph(){
+    if(document.getElementById('goals').checked == true && param != "goals"){
+        param = "goals";
+    } else if(document.getElementById('assists').checked == true && param != "assists"){
+        param = "assists";
+    } else if(document.getElementById('games').checked == true && param != "games"){
+        param = "games";
+    }
+
+    displayGraph(data.player.id,param);
 }
 
 function resizeScreen(){
