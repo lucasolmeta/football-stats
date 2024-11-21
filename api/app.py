@@ -282,7 +282,7 @@ def player_graph(id, param):
     ax.set_xlabel("Season", labelpad=15)
 
     for i, txt in enumerate(stat_by_season):
-        ax.text(i, stat_by_season[i], str(txt), ha='center', va='bottom', fontsize=8, color='white')
+        ax.text(i, stat_by_season[i], str(txt), ha='center', va='bottom', fontsize=20, color='white')
 
     buf = io.BytesIO()
     plt.savefig(buf, format='png', facecolor=fig.get_facecolor())
@@ -291,6 +291,9 @@ def player_graph(id, param):
 
     img_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
     buf.close()
+
+    if all(value == 0 for value in stat_by_season):
+        return "error"
 
     # RETURN VALUE: image in base64
 
