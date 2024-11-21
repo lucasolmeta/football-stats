@@ -5,8 +5,6 @@ import { fetchGraphByIdAndStat } from './script.mjs';
 let data = localStorage.getItem('data');
 data = JSON.parse(data);
 
-console.log(data);
-
 let yearSelected;
 let param = "goals";
 
@@ -291,7 +289,7 @@ function displayHeadshot(){
 }
 
 async function displayGraph(id, param){
-    let imgData = await fetchGraphByIdAndStat(247, "goals");
+    let imgData = await fetchGraphByIdAndStat(id, param);
 
     if(imgData && imgData.image){
         const graph = document.getElementById('graph');

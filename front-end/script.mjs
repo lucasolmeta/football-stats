@@ -46,7 +46,7 @@ async function submissionMade(e){
                 playerStats = JSON.stringify(playerStats);
 
                 localStorage.setItem('data', playerStats);
-                switchToResults();
+                window.location.replace('./results.html');
 
                 return;     
             } else {
@@ -104,7 +104,7 @@ async function buttonClicked(playerId){
     playerStats = JSON.stringify(playerStats);
 
     localStorage.setItem('data', playerStats);
-    switchToResults();
+    window.location.replace('./results.html');
 
     return;     
 }
@@ -205,15 +205,6 @@ async function fetchGraphByIdAndStat(id, param){
 
 function changeMade(){
     document.getElementById('errorField').innerHTML = "";
-}
-
-async function switchToResults(){
-    let html = await fetch('./results.html');
-    html = await html.text();
-
-    document.open();
-    document.write(html);
-    document.close();
 }
 
 function resizeScreen(){
