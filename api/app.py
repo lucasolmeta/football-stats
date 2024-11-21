@@ -218,6 +218,8 @@ def get_seasons_for_player(id):
 
 @app.route('/graph/<id>/<param>', methods=['GET'])
 def player_graph(id, param):
+    param = param.lower()
+
     seasons = get_seasons_for_player(id)
     formatted_seasons = []
     stat_by_season = []
@@ -239,15 +241,15 @@ def player_graph(id, param):
 
         if "statistics" in data:
             for stat in data["statistics"]:
-                if param == "Goals":
+                if param == "goals":
                     goals = stat["goals"]["total"]
                     total_of_stat += goals if goals is not None else 0
 
-                elif param == "Assists":
+                elif param == "assists":
                     assists = stat["goals"]["assists"]
                     total_of_stat += assists if assists is not None else 0
 
-                elif param == "Games":
+                elif param == "games":
                     games = stat["games"]["appearences"]
                     total_of_stat += games if games is not None else 0
 
@@ -259,12 +261,6 @@ def player_graph(id, param):
         formatted_seasons.append(str(season) + "/" + (str(season + 1))[-2:])
 
     name = data_by_season[0]["player"]["name"]
-
-    print(name)
-
-    print(formatted_seasons)
-    print(stat_by_season)
-    print(data_by_season)
 
     fig, ax = plt.subplots(figsize=(18, 8))
 
@@ -281,7 +277,7 @@ def player_graph(id, param):
     plt.tight_layout()
     plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.15)
 
-    ax.set_title(f"{param} by Season for " + name, color='white', pad=20)
+    ax.set_title(param.capitalize() + " by Season for " + name, color='white', pad=20)
     ax.set_ylabel(param, labelpad=15)
     ax.set_xlabel("Season", labelpad=15)
 
