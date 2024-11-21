@@ -225,7 +225,7 @@ def player_graph(id, param):
 
     name = ""
 
-    if param not in ["Goals","Assists","Games"]:
+    if param not in ["goals","assists","games"]:
         return "error"
 
     for season in seasons:
