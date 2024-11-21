@@ -44,7 +44,7 @@ async function seasonChanged(){
 
     data = await fetchDataByIdAndSeason(data.player.id, choice);
 
-    buildDisplay();
+    generateSeasons();
 }
 
 async function generateSeasons(){
@@ -54,6 +54,8 @@ async function generateSeasons(){
         let seasons = await fetchSeasonsById(data.player.id);
 
         seasons = await seasons.json();
+
+        console.log(seasons);
 
         if(seasons.length == 0){
             const sectionOne = document.getElementById('section1');
