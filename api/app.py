@@ -99,85 +99,47 @@ def get_data_by_name(query):
 #-------- SEARCH BY ID --------#
 
 @app.route('/id/<id>', methods=['GET'])
-def get_data_by_id(id):
+def get_data_for_player(id):
+    url = "https://api-football-v1.p.rapidapi.com/v2/players/player/"
+
+    url += str(id)
 
     headers = {
-	    "x-rapidapi-key": RAPIDAPI_KEY,
-	    "x-rapidapi-host": "api-football-v1.p.rapidapi.com"    
+        "x-rapidapi-key": "9c6433de11mshda6f47bba2f5efdp1a466bjsn8a69659f5d78",
+        "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
     }
 
-    seasons = get_seasons_for_player(id)
+    try:
+        results = requests.get(url, headers=headers)
+        results.raise_for_status()
+        results = results.json()
 
-    if len(seasons) > 0:
+        results = results["api"]["players"]
 
-        url = "https://api-football-v1.p.rapidapi.com/v3/players"
+        return results
+    except requests.exceptions.HTTPError as http_err:
+        return {"error": str(http_err)}
+    except Exception as err:
+        return {"error": str(err)}
 
-        recent_season = seasons[-1]
-
-        querystring = {"id":id,"season":recent_season}
-
-        try:
-            results = requests.get(url, headers=headers, params=querystring)
-            results.raise_for_status()  
-            results = results.json()
-
-            results = results.get("response", [])
-            results = results[0]
-
-            # RETURN VALUE: player info package
-
-            return results
-        except requests.exceptions.HTTPError as http_err:
-            return {"error": str(http_err)}
-        except Exception as err:
-            return {"error": str(err)}
-    
-    else:
-        url = "https://api-football-v1.p.rapidapi.com/v3/players/profiles"
-
-        querystring = {"player":id}
-
-        try:
-            results = requests.get(url, headers=headers, params=querystring)
-            results.raise_for_status()  
-            results = results.json()
-
-            results = results.get("response", [])
-            results = results[0]
-
-            # RETURN VALUE: player info package
-
-            return results
-        except requests.exceptions.HTTPError as http_err:
-            return {"error": str(http_err)}
-        except Exception as err:
-            return {"error": str(err)}
-
-
-    
-#-------- SEARCH BY ID AND SEASON --------#
-
-@app.route('/playerseason/<id>/<season>', methods=['GET'])
-def get_data_by_id_and_season(id,season):
-
-    url = "https://api-football-v1.p.rapidapi.com/v3/players"
+def get_seasons_for_player(id):
+    url = "https://api-football-v1.p.rapidapi.com/v3/players/seasons"
 
     headers = {
-	    "x-rapidapi-key": RAPIDAPI_KEY,
-	    "x-rapidapi-host": "api-football-v1.p.rapidapi.com"    
+        "x-rapidapi-key": "9c6433de11mshda6f47bba2f5efdp1a466bjsn8a69659f5d78",
+        "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
     }
 
-    querystring = {"id":id,"season":season}
+    querystring = {"player": id}
 
     try:
         results = requests.get(url, headers=headers, params=querystring)
-        results.raise_for_status()  
+        results.raise_for_status()
         results = results.json()
 
         results = results.get("response", [])
-        results = results[0]
 
-        # RETURN VALUE: player info package
+        # RETURN VALUE: array of valid seasons
 
         return results
     except requests.exceptions.HTTPError as http_err:
@@ -218,49 +180,35 @@ def get_seasons_for_player(id):
 
 @app.route('/graph/<id>/<param>', methods=['GET'])
 def player_graph(id, param):
-    param = param.lower()
-
-    seasons = get_seasons_for_player(id)
-    formatted_seasons = []
-    stat_by_season = []
-    data_by_season = []
-
-    name = ""
-
     if param not in ["goals","assists","games"]:
         return "error"
 
-    for season in seasons:
-        data = get_data_by_id_and_season(id, season)
-        if data is None:
-            continue
+    data = get_data_for_player(id)
+    seasons = get_seasons_for_player(id)
 
-        data_by_season.append(data)
+    stat_by_season = [0] * len(seasons)
+    formatted_seasons = [""] * len(seasons)
 
-        total_of_stat = 0
+    for i, season in enumerate(seasons):
+        formatted_seasons[i] = str(season) + "/" + str(season + 1)
 
-        if "statistics" in data:
-            for stat in data["statistics"]:
+    for instance in data:
+        for i, season in enumerate(seasons):
+            if int(instance["season"][:4]) == season:
                 if param == "goals":
-                    goals = stat["goals"]["total"]
-                    total_of_stat += goals if goals is not None else 0
-
+                    instance_goals = instance.get("goals", {}).get("total", 0) or 0
+                    stat_by_season[i] += instance_goals
+                    break
                 elif param == "assists":
-                    assists = stat["goals"]["assists"]
-                    total_of_stat += assists if assists is not None else 0
-
+                    instance_assists = instance.get("goals", {}).get("assists", 0) or 0
+                    stat_by_season[i] += instance_assists
+                    break
                 elif param == "games":
-                    games = stat["games"]["appearences"]
-                    total_of_stat += games if games is not None else 0
+                    instance_games = instance.get("games", {}).get("appearances", 0) or 0
+                    stat_by_season[i] += instance_games
+                    break
 
-            stat_by_season.append(total_of_stat)
-
-        else:
-            stat_by_season.append(0)
-
-        formatted_seasons.append(str(season) + "/" + (str(season + 1))[-2:])
-
-    name = data_by_season[0]["player"]["name"]
+    name = data[0]["player_name"]
 
     fig, ax = plt.subplots(figsize=(18, 8))
 
