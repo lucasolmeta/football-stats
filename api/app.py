@@ -251,7 +251,7 @@ def player_photo(id):
 
         # RETURN VALUE: link to player image
 
-        return image_link
+        return image_link.json()
     except requests.exceptions.HTTPError as http_err:
         return {"error": str(http_err)}
     except Exception as err:
