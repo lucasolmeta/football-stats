@@ -2,4 +2,3 @@ Flask
 requests
 Flask-CORS
 matplotlib
-json
