@@ -127,31 +127,6 @@ def get_data_for_player(id):
         return {"error": str(http_err)}
     except Exception as err:
         return {"error": str(err)}
-
-def get_seasons_for_player(id):
-    url = "https://api-football-v1.p.rapidapi.com/v3/players/seasons"
-
-    headers = {
-        "x-rapidapi-key": RAPIDAPI_KEY,
-        "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
-    }
-
-    querystring = {"player": id}
-
-    try:
-        results = requests.get(url, headers=headers, params=querystring)
-        results.raise_for_status()
-        results = results.json()
-
-        results = results.get("response", [])
-
-        # RETURN VALUE: array of valid seasons
-
-        return results
-    except requests.exceptions.HTTPError as http_err:
-        return {"error": str(http_err)}
-    except Exception as err:
-        return {"error": str(err)}
     
 #-------- SEARCH FOR AVAILABLE SEASONS --------#
 
