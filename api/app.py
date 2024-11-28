@@ -24,9 +24,13 @@ def index():
 def not_found(e):
     return "Page not found", 404
 
+#-------- INTERNAL FUNCTION: finds last word of a multi-word query --------#
+
 def get_last_word(query):
     words = query.split("-")
     return words[-1]
+
+#-------- INTERNAL FUNCTION: filters initial search by full query --------#
 
 def filter_data_to_match_query(data,query):
     players = data.get("response", [])
@@ -105,7 +109,7 @@ def get_data_for_player(id):
     url += str(id)
 
     headers = {
-        "x-rapidapi-key": "9c6433de11mshda6f47bba2f5efdp1a466bjsn8a69659f5d78",
+        "x-rapidapi-key": RAPIDAPI_KEY,
         "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
     }
 
@@ -128,7 +132,7 @@ def get_seasons_for_player(id):
     url = "https://api-football-v1.p.rapidapi.com/v3/players/seasons"
 
     headers = {
-        "x-rapidapi-key": "9c6433de11mshda6f47bba2f5efdp1a466bjsn8a69659f5d78",
+        "x-rapidapi-key": RAPIDAPI_KEY,
         "x-rapidapi-host": "api-football-v1.p.rapidapi.com"
     }
 
