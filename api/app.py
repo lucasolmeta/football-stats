@@ -68,7 +68,7 @@ def get_data_by_name(query):
 
             results = results.get("response", [])
 
-            # RETURN VALUE: array of player info packages
+            # RETURN VALUE: array of jsons with basic player information
 
             return results
         except requests.exceptions.HTTPError as http_err:
@@ -88,7 +88,7 @@ def get_data_by_name(query):
 
         results = filter_data_to_match_query(results, query)
 
-        # RETURN VALUE: array of player info packages
+        # RETURN VALUE: array of jsons with basic player information
             
         return results
     except requests.exceptions.HTTPError as http_err:
@@ -115,6 +115,8 @@ def get_data_for_player(id):
         results = results.json()
 
         results = results["api"]["players"]
+
+        #RETURN VALUE: json of player information
 
         return results
     except requests.exceptions.HTTPError as http_err:
