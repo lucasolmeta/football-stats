@@ -3,6 +3,7 @@ import requests
 import os
 import base64
 import io
+import json
 import matplotlib.pyplot as plt
 from flask_cors import CORS
 
@@ -251,7 +252,7 @@ def player_photo(id):
 
         # RETURN VALUE: link to player image
 
-        return image_link.json()
+        return json.loads(image_link)
     except requests.exceptions.HTTPError as http_err:
         return {"error": str(http_err)}
     except Exception as err:

@@ -1,6 +1,5 @@
 Flask
-pandas
 requests
-logging
 Flask-CORS
 matplotlib
+json
