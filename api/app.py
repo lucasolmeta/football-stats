@@ -247,7 +247,7 @@ def player_photo(id):
 
         results = results.get("response", [])
 
-        image_link = results[0].player.photo or "https://media.api-sports.io/football/players/434267.png"
+        image_link = results[0]["player"]["photo"] or "https://media.api-sports.io/football/players/434267.png"
 
         # RETURN VALUE: link to player image
 
