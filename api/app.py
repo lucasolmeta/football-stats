@@ -1,5 +1,4 @@
 from flask import Flask
-import pandas as pd
 import requests
 import os
 import base64
@@ -227,6 +226,35 @@ def player_graph(id, param):
     # RETURN VALUE: image in base64
 
     return {'image': img_base64}
+
+#-------- RETURN IMAGE LINK --------#
+
+@app.route('/photo/<id>', methods=['GET'])
+def player_photo(id):
+    url = "https://api-football-v1.p.rapidapi.com/v3/players/profiles"
+
+    headers = {
+	    "x-rapidapi-key": RAPIDAPI_KEY,
+	    "x-rapidapi-host": "api-football-v1.p.rapidapi.com"    
+    }
+
+    querystring = {"search":id}
+
+    try:
+        results = requests.get(url, headers=headers, params=querystring)
+        results.raise_for_status()  
+        results = results.json()
+
+        results = results.get("response", [])
+        image_link = results[0].player.photo or "https://media.api-sports.io/football/players/434267.png"
+
+        # RETURN VALUE: link to player image
+
+        return image_link
+    except requests.exceptions.HTTPError as http_err:
+        return {"error": str(http_err)}
+    except Exception as err:
+        return {"error": str(err)}
     
 #-------- RUN APP (MUST COME LAST) --------#
 
