@@ -51,7 +51,7 @@ async function submissionMade(e){
                 localStorage.setItem('data', playerStats);
                 localStorage.setItem('seasons', seasons);
 
-                window.location.replace('./results.html');
+                window.location.replace('/results');
 
                 return;     
             } else {
@@ -116,7 +116,7 @@ async function buttonClicked(playerId){
     localStorage.setItem('data', playerStats);
     localStorage.setItem('seasons', seasons);
 
-    window.location.replace('./results.html');
+    window.location.replace('/results');
 
     return;     
 }
