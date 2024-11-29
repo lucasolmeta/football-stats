@@ -1,11 +1,13 @@
-import { fetchDataByIdAndSeason } from './script.mjs';
-import { fetchSeasonsById } from './script.mjs';
-import { fetchGraphByIdAndStat } from './script.mjs';
+import { fetchGraphByIdAndStat, fetchHeadshotById, fetchSeasonsById } from './script.mjs';
 
 let data = localStorage.getItem('data');
-data = JSON.parse(data);
+let seasons = localStorage.getItem('seasons');
 
-let yearSelected;
+data = JSON.parse(data);
+seasons = JSON.parse(seasons);
+
+let yearSelected = seasons[seasons.length - 1];
+
 let param = "goals";
 
 let goalsGraph, assistsGraph, gamesGraph;
@@ -32,40 +34,38 @@ async function buildDisplay(){
 
     displayHeadshot();
 
-    displayGraph(data.player.id, param);
+    displayGraph(data[0].player_id, param);
     
     resizeScreen();
 
 }
 
 async function seasonChanged(){
-    const choice = parseInt(seasonSelect.value.substring(0,4));
-    yearSelected = parseInt(seasonSelect.value.substring(0,4));
+    const seasonSelect = document.getElementById('seasonSelect');
 
-    data = await fetchDataByIdAndSeason(data.player.id, choice);
+    yearSelected = parseInt(seasonSelect.value.toString().slice(0,4));
 
     generateSeasons();
+    displayBasicInfo();
+    displayBasicStats();
 }
 
 async function generateSeasons(){
     seasonSelect.innerHTML = "";
 
-    if(data && data.player){
-        let seasons = await fetchSeasonsById(data.player.id);
-
-        seasons = await seasons.json();
-
-        console.log(seasons);
-
+    if(data && data[0]){
         if(seasons.length == 0){
             const sectionOne = document.getElementById('section1');
 
             sectionOne.remove();
         } else {
-            for(let i = seasons.length-1; i >= 0; i--){
-                if(seasons[i] != yearSelected){
+            for(let i = seasons.length - 1; i > 0; i--){
+                if(seasons[i].toString().slice(0,4) != yearSelected.toString().slice(0,4)){
                     const newOption = document.createElement("option");
-                    const nextYear = (seasons[i] + 1).toString().substring(-2);
+                    const nextYear = (parseInt(seasons[i]) + 1).toString().substring(-2);
+
+                    newOption.text = "";
+                    newOption.value = "";
 
                     newOption.text = seasons[i] + "/" + nextYear;
                     newOption.value = seasons[i] + "/" + nextYear;
@@ -92,110 +92,90 @@ async function generateSeasons(){
 function displayBasicInfo(){
     const basicInfo = document.getElementById('basicinfo');
 
-    if (!data || !data.player) {
+    if (!data || !data[0]) {
         basicInfo.style.color = 'red';
         basicInfo.innerHTML = "No Basic Information Found";
     } else {
         basicInfo.innerHTML = "<span class='title'>BASIC INFO: </span><br><br>";
 
-        if(data.player.name != undefined){
-         let name = "NAME: <span class='answer'>";
+        let name = "NAME: <span class='answer'>";
 
-            name += data.player.name;
+        if(data[0].firstname && data[0].lastname){
+            name += data[0].firstname + " " + data[0].lastname;
             name += "</span><br>";
 
             basicInfo.innerHTML += name;
+        } else {
+            name += data[0].player_name;
         }
 
-        if(data.statistics && data.statistics[0].team.name && data.statistics.length == 1){
-            let team = "TEAM: <span class='answer'>";
+        let teams = "";
 
-            team += data.statistics[0].team.name;
-
-            team += "</span><br>";
-            basicInfo.innerHTML += team;
-        } else if (data.statistics && data.statistics[0].team.name && data.statistics.length > 1){
-            let teams = "<span class='answer'>";
-            teams += data.statistics[0].team.name;
-
-            for(let i = 1; i < data.statistics.length; i++){
+        for(let i = 0; i < data.length; i++){
+            if(parseInt(data[i].season.slice(0,4)) == yearSelected){
                 let teamAdded = false;
 
                 for(let j = i - 1; j >= 0; j--){
-                    if(data.statistics[j].team.name == data.statistics[i].team.name){
+                    if((data[j].team_name == data[i].team_name && parseInt(data[j].season.slice(0,4)) == yearSelected) || data[i].team_name == "null"){
                         teamAdded = true;
+                        break;
                     }
                 }
 
                 if(!teamAdded){
-                    teams += ", ";
-                    teams += data.statistics[i].team.name;
+                    if(teams != ""){
+                        teams += ", ";
+                    }
+
+                    teams += data[i].team_name;
                 }
             }
-
-            if(teams.includes(",")){
-                teams = "TEAMS: " + teams;
-            } else {
-                teams = "TEAM: " + teams;
-            }
-
-            teams += "</span><br>";
-            basicInfo.innerHTML += teams;
         }
 
-        if(data.player.nationality != undefined){
-            let country = "COUNTRY: <span class='answer'>";
-
-            country += data.player.nationality;
-            country += "</span><br>";
-
-            basicInfo.innerHTML += country;
+        if(teams.includes(",")){
+            teams = "TEAMS: <span class='answer'>" + teams + "</span>";
+        } else {
+            teams = "TEAM: <span class='answer'>" + teams + "</span>";
         }
 
-        if(data.statistics && data.statistics[0].games.position != undefined){
-            let position = "POSITION: <span class='answer'>";
+        teams += "</span><br>";
+        basicInfo.innerHTML += teams;
 
-            position += data.statistics[0].games.position;
-            position += "</span><br>";
+        let country = "COUNTRY: <span class='answer'>";
 
-            basicInfo.innerHTML += position;
-        }
+        country += data[0].nationality;
+        country += "</span><br>";
+        basicInfo.innerHTML += country;
 
-        if(data.player.age != undefined){
-            let age = "AGE: <span class='answer'>";
+        let position = "POSITION: <span class='answer'>";
 
-            age += data.player.age;
-            age += "</span><br>";
+        position += data[0].position;
+        position += "</span><br>";
+        basicInfo.innerHTML += position;
 
-            basicInfo.innerHTML += age;
-        }
+        let age = "AGE: <span class='answer'>";
 
-        if(data.player.height != undefined){
-            let height = "HEIGHT: <span class='answer'>";
+        age += data[0].age;
+        age += "</span><br>";
+        basicInfo.innerHTML += age;
 
-            height += data.player.height;
-            height += "</span><br>";
+        let height = "HEIGHT: <span class='answer'>";
 
-            basicInfo.innerHTML += height;
-        }
+        height += data[0].height;
+        height += "</span><br>";
+        basicInfo.innerHTML += height;
 
-        if(data.player.weight != undefined){
-            let weight = "WEIGHT: <span class='answer'>";
+        let weight = "WEIGHT: <span class='answer'>";
 
-            weight += data.player.weight;
-            weight += "</span><br>";
+        weight += data[0].weight;
+        weight += "</span><br>";
+        basicInfo.innerHTML += weight;
 
-            basicInfo.innerHTML += weight;
-        }
+        let birthday = "BIRTHDAY: <span class='answer'>";
 
-        if(data.player.birth.date != undefined){
-            let birthday = "BIRTHDAY: <span class='answer'>";
-
-            birthday += data.player.birth.date;
-            birthday += "</span><br>";
-
-            basicInfo.innerHTML += birthday;
-        }
+        birthday += data[0].birth_date;
+        birthday += "</span><br>";
+        basicInfo.innerHTML += birthday;
 
         if(basicInfo.innerHTML.trim() === ""){
             basicInfo.style.color = 'red';
@@ -207,49 +187,46 @@ function displayBasicInfo(){
 function displayBasicStats(){
     const basicStats = document.getElementById('basicstats');
 
-    if (!data || !data.statistics) {
+    if (!data || !data[0]) {
         basicStats.style.color = 'red';
         basicStats.innerHTML = "No Basic Stats Found";
     } else {
         basicStats.innerHTML = "<span class='title'>BASIC STATS: </span><br><br>";
 
-        let caps = 0;
+        let apps = 0;
         let minutes = 0;
         let goals = 0;
         let assists = 0;
-        let rating = 0.0;
-        let ratingCaps = 0;
+        let totalRating = 0.0;
+        let ratingApps = 0;
 
-        for(let i = 0; i < data.statistics.length; i++){
-            if(data.statistics[i].games.appearences != undefined){
-                caps += data.statistics[i].games.appearences;
+        data.forEach((dataSet) => {
+            if(dataSet.season.slice(0,4) == yearSelected){
+                if(dataSet.games.appearences){
+                    apps += dataSet.games.appearences;
 
-                if(data.statistics[i].games.rating != null && data.statistics[i].games.rating != 0){
-                    rating += data.statistics[i].games.appearences * data.statistics[i].games.rating;
-                    ratingCaps += data.statistics[i].games.appearences;
+                    if(dataSet.rating){
+                        totalRating += dataSet.rating * dataSet.games.appearences;
+                        ratingApps += dataSet.games.appearences;
+                    }
+                }
+
+                if(dataSet.games.minutes_played){
+                    minutes += dataSet.games.minutes_played;
+                }
+
+                if(dataSet.goals.total){
+                    goals += dataSet.goals.total;
+                }
+
+                if(dataSet.goals.assists){
+                    assists += dataSet.goals.assists;
                 }
             }
-
-            if(data.statistics[i].games.minutes != undefined){
-                minutes += data.statistics[i].games.minutes;
-            }
-
-            if(data.statistics[i].goals.total != undefined){
-                goals += data.statistics[i].goals.total;
-            }
-
-            if(data.statistics[i].goals.assists != undefined){
-                assists += data.statistics[i].goals.assists;
-            }
-        }
-
-        if(ratingCaps != 0){
-            rating /= ratingCaps;
-            rating = rating.toFixed(2);
-        }
+        });
 
         let appearanceText = "APPEARANCES: <span class='answer'>";
-        appearanceText += caps;
+        appearanceText += apps;
         appearanceText += "</span><br>";
         basicStats.innerHTML += appearanceText;
 
@@ -268,28 +245,24 @@ function displayBasicStats(){
         assistText += "</span><br>";
         basicStats.innerHTML += assistText;
 
+        let rating = totalRating / ratingApps;
+        rating = rating.toFixed(2);
+
         if(rating && rating != 0){
             let ratingText = "AVERAGE RATING: <span class='answer'>";
             ratingText += rating;
             ratingText += "</span><br>";
             basicStats.innerHTML += ratingText;
-
-            if(basicStats.innerHTML.trim() === ""){
-                basicStats.style.color = 'red';
-                basicStats.innerHTML = "No Basic Stats Found";
-            }
         }
     }
 }
 
-function displayHeadshot(){
+async function displayHeadshot(){
     const headshot = document.getElementById('headshot');
 
-    if(!data || !data.player || !data.player.photo){
-        headshot.src = 'https://media.api-sports.io/football/players/434267.png';
-    } else {
-        headshot.src = data.player.photo;
-    }
+    let photoLink = await fetchHeadshotById(data[0].player_id);
+
+    headshot.src = photoLink;
 }
 
 async function displayGraph(id, param){
@@ -328,7 +301,7 @@ function regraph(){
         param = "games";
     }
 
-    displayGraph(data.player.id,param);
+    displayGraph(data[0].player_id,param);
 }
 
 function resizeScreen(){

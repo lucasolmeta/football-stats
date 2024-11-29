@@ -1,6 +1,6 @@
-export { fetchDataByIdAndSeason };
 export { fetchSeasonsById };
 export { fetchGraphByIdAndStat };
+export { fetchHeadshotById };
 
 document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', resizeScreen);
@@ -45,7 +45,12 @@ async function submissionMade(e){
                 let playerStats = await fetchDataById(playerId);
                 playerStats = JSON.stringify(playerStats);
 
+                let seasons = await fetchSeasonsById(playerId);
+                seasons = JSON.stringify(seasons);
+
                 localStorage.setItem('data', playerStats);
+                localStorage.setItem('seasons', seasons);
+
                 window.location.replace('./results.html');
 
                 return;     
@@ -101,9 +106,16 @@ function buildNameOptions(playerNames, playerIds){
 
 async function buttonClicked(playerId){
     let playerStats = await fetchDataById(playerId);
+    let seasons = await fetchSeasonsById(playerId);
+
+    console.log(seasons);
+
     playerStats = JSON.stringify(playerStats);
+    seasons = JSON.stringify(seasons);
 
     localStorage.setItem('data', playerStats);
+    localStorage.setItem('seasons', seasons);
+
     window.location.replace('./results.html');
 
     return;     
@@ -148,25 +160,6 @@ async function fetchDataById(id) {
     }
 }
 
-async function fetchDataByIdAndSeason(id, season) {
-    let url = "https://football-stats-8ab918624cd1.herokuapp.com/playerseason/";
-    url += id + "/" + season;
-
-    try {
-        let data = await fetch(url);
-
-        if (!data.ok) {
-            throw new Error('Network response was not ok');
-        }
-
-        data = await data.json();
-
-        return data;
-    } catch (error) {
-        console.error('Error fetching data:', error);
-    }
-}
-
 async function fetchSeasonsById(id){
     let url = "https://football-stats-8ab918624cd1.herokuapp.com/playerseasons/";
     url += id;
@@ -177,6 +170,8 @@ async function fetchSeasonsById(id){
         if (!data.ok) {
             throw new Error('Network response was not ok');
         }
+
+        data = await data.json();
 
         return data;
     } catch (error) {
@@ -196,6 +191,25 @@ async function fetchGraphByIdAndStat(id, param){
         }
 
         data = await data.json();
+
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+async function fetchHeadshotById(id){
+    let url = "https://football-stats-8ab918624cd1.herokuapp.com/photo/";
+    url += id;
+
+    try {
+        let data = await fetch(url);
+
+        if (!data.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        data = await data.text();
 
         return data;
     } catch (error) {
