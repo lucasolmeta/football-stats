@@ -184,7 +184,7 @@ def player_graph(id, param):
                     stat_by_season[i] += instance_assists
                     break
                 elif param == "games":
-                    instance_games = instance.get("games", {}).get("appearances", 0) or 0
+                    instance_games = instance.get("games", {}).get("appearences", 0) or 0
                     stat_by_season[i] += instance_games
                     break
 
