@@ -37,7 +37,6 @@ async function buildDisplay(){
     displayGraph(data[0].player_id, param);
     
     resizeScreen();
-
 }
 
 async function seasonChanged(){
@@ -248,13 +247,15 @@ function displayBasicStats(){
         let rating = totalRating / ratingApps;
         rating = rating.toFixed(2);
 
-        if(rating && rating != 0){
+        if(rating && rating != 0 && rating != "NaN"){
             let ratingText = "AVERAGE RATING: <span class='answer'>";
             ratingText += rating;
             ratingText += "</span><br>";
             basicStats.innerHTML += ratingText;
         }
     }
+
+    resizeScreen();
 }
 
 async function displayHeadshot(){
