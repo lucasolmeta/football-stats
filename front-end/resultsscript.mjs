@@ -106,12 +106,15 @@ function displayBasicInfo(){
             basicInfo.innerHTML += name;
         } else {
             name += data[0].player_name;
+            name += "</span><br>";
+
+            basicInfo.innerHTML += name;
         }
 
         let teams = "";
 
         for(let i = 0; i < data.length; i++){
-            if(parseInt(data[i].season.slice(0,4)) == yearSelected){
+            if(data[i].season && parseInt(data[i].season.slice(0,4)) == yearSelected){
                 let teamAdded = false;
 
                 for(let j = i - 1; j >= 0; j--){
@@ -133,48 +136,63 @@ function displayBasicInfo(){
 
         if(teams.includes(",")){
             teams = "TEAMS: <span class='answer'>" + teams + "</span>";
-        } else {
+            teams += "</span><br>";
+        } else if (teams.length >6){
             teams = "TEAM: <span class='answer'>" + teams + "</span>";
+            teams += "</span><br>";
+        } else {
+            teams = "";
         }
 
-        teams += "</span><br>";
         basicInfo.innerHTML += teams;
 
-        let country = "COUNTRY: <span class='answer'>";
+        if(data[0].nationality){
+            let country = "COUNTRY: <span class='answer'>";
 
-        country += data[0].nationality;
-        country += "</span><br>";
-        basicInfo.innerHTML += country;
+            country += data[0].nationality;
+            country += "</span><br>";
+            basicInfo.innerHTML += country;
+        }
 
-        let position = "POSITION: <span class='answer'>";
+        if(data[0].position){
+            let position = "POSITION: <span class='answer'>";
 
-        position += data[0].position;
-        position += "</span><br>";
-        basicInfo.innerHTML += position;
+            position += data[0].position;
+            position += "</span><br>";
+            basicInfo.innerHTML += position;
+        }
 
-        let age = "AGE: <span class='answer'>";
+        if(data[0].age){
+            let age = "AGE: <span class='answer'>";
 
-        age += data[0].age;
-        age += "</span><br>";
-        basicInfo.innerHTML += age;
+            age += data[0].age;
+            age += "</span><br>";
+            basicInfo.innerHTML += age;
+        }
 
-        let height = "HEIGHT: <span class='answer'>";
+        if(data[0].height){
+            let height = "HEIGHT: <span class='answer'>";
 
-        height += data[0].height;
-        height += "</span><br>";
-        basicInfo.innerHTML += height;
+            height += data[0].height;
+            height += "</span><br>";
+            basicInfo.innerHTML += height;
+        }
 
-        let weight = "WEIGHT: <span class='answer'>";
+        if(data[0].weight){
+            let weight = "WEIGHT: <span class='answer'>";
 
-        weight += data[0].weight;
-        weight += "</span><br>";
-        basicInfo.innerHTML += weight;
+            weight += data[0].weight;
+            weight += "</span><br>";
+            basicInfo.innerHTML += weight;
+        }
 
-        let birthday = "BIRTHDAY: <span class='answer'>";
+        if(data[0].birth_date){
+            let birthday = "BIRTHDAY: <span class='answer'>";
 
-        birthday += data[0].birth_date;
-        birthday += "</span><br>";
-        basicInfo.innerHTML += birthday;
+            birthday += data[0].birth_date;
+            birthday += "</span><br>";
+            basicInfo.innerHTML += birthday;
+        }
 
         if(basicInfo.innerHTML.trim() === ""){
             basicInfo.style.color = 'red';
@@ -200,7 +218,7 @@ function displayBasicStats(){
         let ratingApps = 0;
 
         data.forEach((dataSet) => {
-            if(dataSet.season.slice(0,4) == yearSelected){
+            if(dataSet.season && dataSet.season.slice(0,4) == yearSelected){
                 if(dataSet.games.appearences){
                     apps += dataSet.games.appearences;
 
