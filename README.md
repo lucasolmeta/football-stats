@@ -3,7 +3,7 @@ By: Lucas Olmeta
 
 Purpose: 
 
-This is a full-stack personal project being made by Lucas Olmeta. It's purpose is to search for, filter, and display both basic personal information and statistics for professional football / soccer players. Although it is still in development, this project is functional and can now be viewed live at footballthroughstats.netlify.app. 
+This is a full-stack personal project being made by Lucas Olmeta. It's purpose is to search for, filter, and display professional football / soccer players' basic information and statistics. Although it is still in development, this project is functional and can now be viewed live at footballthroughstats.netlify.app. 
 
 Structure: 
 
