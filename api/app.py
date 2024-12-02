@@ -158,15 +158,16 @@ def get_seasons_for_player(id):
 
 #-------- CREATE GRAPH --------#
 
-@app.route('/graph/<id>/<param>', methods=['GET'])
-def player_graph(id, param):
-    if param not in ["goals","assists","games"]:
-        return "error"
+@app.route('/graphs/<id>', methods=['GET'])
+def player_graph(id):
 
     data = get_data_for_player(id)
     seasons = get_seasons_for_player(id)
 
-    stat_by_season = [0] * len(seasons)
+    goals_by_season = [0] * len(seasons)
+    assists_by_season = [0] * len(seasons)
+    games_by_season = [0] * len(seasons)
+
     formatted_seasons = [""] * len(seasons)
 
     for i, season in enumerate(seasons):
@@ -175,21 +176,30 @@ def player_graph(id, param):
     for instance in data:
         for i, season in enumerate(seasons):
             if int(instance["season"][:4]) == season:
-                if param == "goals":
-                    instance_goals = instance.get("goals", {}).get("total", 0) or 0
-                    stat_by_season[i] += instance_goals
-                    break
-                elif param == "assists":
-                    instance_assists = instance.get("goals", {}).get("assists", 0) or 0
-                    stat_by_season[i] += instance_assists
-                    break
-                elif param == "games":
-                    instance_games = instance.get("games", {}).get("appearences", 0) or 0
-                    stat_by_season[i] += instance_games
-                    break
+                instance_goals = instance.get("goals", {}).get("total", 0) or 0
+                goals_by_season[i] += instance_goals
+
+                instance_assists = instance.get("goals", {}).get("assists", 0) or 0
+                assists_by_season[i] += instance_assists
+
+                instance_games = instance.get("games", {}).get("appearences", 0) or 0
+                games_by_season[i] += instance_games
+
+                break
 
     name = data[0]["player_name"]
 
+    goals_graph = get_graph(name, formatted_seasons, goals_by_season, "goals")
+    assists_graph = get_graph(name, formatted_seasons, assists_by_season, "assists")
+    games_graph = get_graph(name, formatted_seasons, games_by_season, "games")
+
+    return {
+        "goals" : goals_graph,
+        "assists" : assists_graph,
+        "games" : games_graph
+    }
+
+def get_graph(name, formatted_seasons, stat_by_season, param):
     fig, ax = plt.subplots(figsize=(18, 8))
 
     ax.bar(formatted_seasons, stat_by_season, color='yellow')
@@ -225,7 +235,7 @@ def player_graph(id, param):
 
     # RETURN VALUE: image in base64
 
-    return {'image': img_base64}
+    return img_base64
 
 #-------- RETURN IMAGE LINK --------#
 
