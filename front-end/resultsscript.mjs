@@ -20,8 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const seasonSelect = document.getElementById('seasonSelect');
     seasonSelect.addEventListener('change', seasonChanged);
 
-    const regraphButton = document.getElementById('regraph');
-    regraphButton.addEventListener('click', displayGraph);
+    const radioButtons = document.querySelectorAll('input[type="radio"]');
+    radioButtons.forEach(radioButton => {
+        radioButton.addEventListener('change', displayGraph);
+    });
 
     buildDisplay();
 });
