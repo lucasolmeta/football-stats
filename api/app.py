@@ -48,6 +48,46 @@ def filter_data_to_match_query(data,query):
 
     return filtered_players
 
+#-------- INTERNAL FUNCTION: creates graph --------#
+
+def get_graph(name, formatted_seasons, stat_by_season, param):
+    fig, ax = plt.subplots(figsize=(18, 8))
+
+    ax.bar(formatted_seasons, stat_by_season, color='yellow')
+    fig.patch.set_facecolor('black')
+    ax.set_facecolor('black')
+    ax.tick_params(colors='gray', labelsize=12)
+    ax.spines['bottom'].set_color('gray')
+    ax.spines['left'].set_color('gray')
+    ax.xaxis.label.set_color('white')
+    ax.yaxis.label.set_color('white')
+
+    plt.xticks(rotation=45, ha='right')
+    plt.tight_layout()
+    plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.15)
+
+    ax.set_title(param.capitalize() + " by Season for " + name, color='white', pad=20, fontsize=25)
+    ax.set_ylabel(param.capitalize(), labelpad=15, fontsize=20)
+    ax.set_xlabel("Season", labelpad=15, fontsize=20)
+
+    for i, txt in enumerate(stat_by_season):
+        ax.text(i, stat_by_season[i], str(txt), ha='center', va='bottom', fontsize=20, color='white')
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', facecolor=fig.get_facecolor())
+    buf.seek(0)
+    plt.close(fig)
+
+    img_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
+    buf.close()
+
+    if all(value == 0 for value in stat_by_season):
+        return "error"
+
+    # RETURN VALUE: image in base64
+
+    return img_base64
+
 #-------- SEARCH BY NAME --------#
 
 @app.route('/search/<query>', methods=['GET'])
@@ -198,44 +238,6 @@ def player_graph(id):
         "assists" : assists_graph,
         "games" : games_graph
     }
-
-def get_graph(name, formatted_seasons, stat_by_season, param):
-    fig, ax = plt.subplots(figsize=(18, 8))
-
-    ax.bar(formatted_seasons, stat_by_season, color='yellow')
-    fig.patch.set_facecolor('black')
-    ax.set_facecolor('black')
-    ax.tick_params(colors='gray', labelsize=12)
-    ax.spines['bottom'].set_color('gray')
-    ax.spines['left'].set_color('gray')
-    ax.xaxis.label.set_color('white')
-    ax.yaxis.label.set_color('white')
-
-    plt.xticks(rotation=45, ha='right')
-    plt.tight_layout()
-    plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.15)
-
-    ax.set_title(param.capitalize() + " by Season for " + name, color='white', pad=20, fontsize=25)
-    ax.set_ylabel(param.capitalize(), labelpad=15, fontsize=20)
-    ax.set_xlabel("Season", labelpad=15, fontsize=20)
-
-    for i, txt in enumerate(stat_by_season):
-        ax.text(i, stat_by_season[i], str(txt), ha='center', va='bottom', fontsize=20, color='white')
-
-    buf = io.BytesIO()
-    plt.savefig(buf, format='png', facecolor=fig.get_facecolor())
-    buf.seek(0)
-    plt.close(fig)
-
-    img_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
-    buf.close()
-
-    if all(value == 0 for value in stat_by_season):
-        return "error"
-
-    # RETURN VALUE: image in base64
-
-    return img_base64
 
 #-------- RETURN IMAGE LINK --------#
 
