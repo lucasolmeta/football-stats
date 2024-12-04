@@ -56,7 +56,7 @@ async function submissionMade(e){
 
                 console.log("redirecting");
 
-                window.location.href = './results.html';
+                window.location.href = '/results';
 
                 return;     
             } else {
@@ -122,7 +122,7 @@ async function buttonClicked(playerId){
     localStorage.setItem('seasons', seasons);
     localStorage.setItem('graphs', graphs);
 
-    window.location.href = './results.html';
+    window.location.href = '/results';
 
     return;     
 }
