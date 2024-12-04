@@ -1,5 +1,5 @@
 export { fetchSeasonsById };
-export { fetchGraphByIdAndStat };
+export { fetchGraphsById };
 export { fetchHeadshotById };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -43,15 +43,20 @@ async function submissionMade(e){
                 let playerId = data[0].player.id;
 
                 let playerStats = await fetchDataById(playerId);
-                playerStats = JSON.stringify(playerStats);
-
                 let seasons = await fetchSeasonsById(playerId);
-                seasons = JSON.stringify(seasons);
+                let graphs = await fetchGraphsById(playerId);
+
+                playerStats = await JSON.stringify(playerStats);
+                seasons = await JSON.stringify(seasons);
+                graphs = await JSON.stringify(graphs);
 
                 localStorage.setItem('data', playerStats);
                 localStorage.setItem('seasons', seasons);
+                localStorage.setItem('graphs', graphs);
 
-                window.location.replace('/results');
+                console.log("redirecting");
+
+                window.location.href = './results.html';
 
                 return;     
             } else {
@@ -107,16 +112,17 @@ function buildNameOptions(playerNames, playerIds){
 async function buttonClicked(playerId){
     let playerStats = await fetchDataById(playerId);
     let seasons = await fetchSeasonsById(playerId);
+    let graphs = await fetchGraphsById(playerId);
 
-    console.log(seasons);
-
-    playerStats = JSON.stringify(playerStats);
-    seasons = JSON.stringify(seasons);
+    playerStats = await JSON.stringify(playerStats);
+    seasons = await JSON.stringify(seasons);
+    graphs = await JSON.stringify(graphs);
 
     localStorage.setItem('data', playerStats);
     localStorage.setItem('seasons', seasons);
+    localStorage.setItem('graphs', graphs);
 
-    window.location.replace('/results');
+    window.location.href = './results.html';
 
     return;     
 }
@@ -179,9 +185,9 @@ async function fetchSeasonsById(id){
     }
 }
 
-async function fetchGraphByIdAndStat(id, param){
-    let url = "https://football-stats-8ab918624cd1.herokuapp.com/graph/";
-    url += id + "/" + param;
+async function fetchGraphsById(id){
+    let url = "https://football-stats-8ab918624cd1.herokuapp.com/graphs/";
+    url += id;
 
     try {
         let data = await fetch(url);

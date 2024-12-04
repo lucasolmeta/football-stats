@@ -1,16 +1,18 @@
-import { fetchGraphByIdAndStat, fetchHeadshotById, fetchSeasonsById } from './script.mjs';
+import { fetchHeadshotById } from './script.mjs';
 
 let data = localStorage.getItem('data');
 let seasons = localStorage.getItem('seasons');
+let graphs = localStorage.getItem('graphs');
 
 data = JSON.parse(data);
 seasons = JSON.parse(seasons);
+graphs = JSON.parse(graphs);
 
 let yearSelected = seasons[seasons.length - 1];
 
 let param = "goals";
 
-let goalsGraph, assistsGraph, gamesGraph;
+console.log(graphs);
 
 document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', resizeScreen);
@@ -19,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     seasonSelect.addEventListener('change', seasonChanged);
 
     const regraphButton = document.getElementById('regraph');
-    regraphButton.addEventListener('click', regraph);
+    regraphButton.addEventListener('click', displayGraph);
 
     buildDisplay();
 });
@@ -34,7 +36,7 @@ async function buildDisplay(){
 
     displayHeadshot();
 
-    displayGraph(data[0].player_id, param);
+    displayGraph(data[0].player_id);
     
     resizeScreen();
 }
@@ -284,34 +286,7 @@ async function displayHeadshot(){
     headshot.src = photoLink;
 }
 
-async function displayGraph(id, param){
-    let imgData = "";
-
-    if(param == "goals" && goalsGraph){
-        imgData = goalsGraph;
-    } else if (param == "assists"  && assistsGraph){
-        imgData = assistsGraph;
-    } else if (param == "games" && gamesGraph){
-        imgData = gamesGraph;
-    } else {
-        imgData = await fetchGraphByIdAndStat(id, param);
-
-        if(param == "goals"){
-            goalsGraph = imgData;
-        } else if(param == "assists"){
-            assistsGraph = imgData;
-        } else if(param == "games"){
-            gamesGraph = imgData;
-        }
-    }
-
-    if(imgData && imgData.image){
-        const graph = document.getElementById('graph');
-        graph.src = 'data:image/png;base64,' + imgData.image;
-    }
-}
-
-function regraph(){
+function displayGraph(){
     if(document.getElementById('goals').checked == true && param != "goals"){
         param = "goals";
     } else if(document.getElementById('assists').checked == true && param != "assists"){
@@ -320,7 +295,20 @@ function regraph(){
         param = "games";
     }
 
-    displayGraph(data[0].player_id,param);
+    let imgData = "";
+
+    if(param == "goals"){
+        imgData = graphs.goals;
+    } else if(param == "assists"){
+        imgData = graphs.assists;
+    } else if(param == "games"){
+        imgData = graphs.games;
+    }
+
+    if(imgData){
+        const graph = document.getElementById('graph');
+        graph.src = 'data:image/png;base64,' + imgData;
+    }
 }
 
 function resizeScreen(){
