@@ -54,8 +54,6 @@ async function submissionMade(e){
                 localStorage.setItem('seasons', seasons);
                 localStorage.setItem('graphs', graphs);
 
-                console.log("redirecting");
-
                 window.location.href = '/results';
 
                 return;     

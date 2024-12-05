@@ -60,13 +60,10 @@ async function generateSeasons(){
 
             sectionOne.remove();
         } else {
-            for(let i = seasons.length - 1; i > 0; i--){
+            for(let i = seasons.length - 1; i >= 0; i--){
                 if(seasons[i].toString().slice(0,4) != yearSelected.toString().slice(0,4)){
                     const newOption = document.createElement("option");
                     const nextYear = (parseInt(seasons[i]) + 1).toString().substring(-2);
-
-                    newOption.text = "";
-                    newOption.value = "";
 
                     newOption.text = seasons[i] + "/" + nextYear;
                     newOption.value = seasons[i] + "/" + nextYear;
