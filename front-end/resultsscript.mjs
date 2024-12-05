@@ -207,7 +207,7 @@ function displayBasicStats(){
         basicStats.style.color = 'red';
         basicStats.innerHTML = "No Basic Stats Found";
     } else {
-        basicStats.innerHTML = "<span class='title'>BASIC STATS: </span><br><br>";
+        basicStats.innerHTML = "<span class='title'>STATS BY SEASON: </span><br><br>";
 
         let apps = 0;
         let minutes = 0;
