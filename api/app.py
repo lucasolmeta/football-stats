@@ -224,7 +224,7 @@ def player_graph(id):
         formatted_seasons_full[i] = str(season) + "/" + str(season + 1)
 
     for i, season in enumerate(seasons_truncated):
-        seasons_truncated[i] = str(season) + "/" + str(season + 1)
+        formatted_seasons_truncated[i] = str(season) + "/" + str(season + 1)
 
     for instance in data:
         for i, season in enumerate(seasons):
@@ -243,7 +243,7 @@ def player_graph(id):
                 instance_assists = instance.get("goals", {}).get("assists", 0) or 0
                 assists_by_season[i] += instance_assists
 
-                if instance.get("rating", {}) is not None and float(instance.get("rating", {})) is not 0:
+                if instance.get("rating", {}) != None and float(instance.get("rating", {})) != 0:
                     instance_ratings = float(instance.get("rating", {})) * instance.get("games", {}).get("appearences", 0)
 
                     total_ratings_per_season[i] += instance_ratings
@@ -252,7 +252,7 @@ def player_graph(id):
                 break
 
     for i, rating in enumerate(total_ratings_per_season):
-        if total_games_per_season[i] is not 0:
+        if total_games_per_season[i] != 0:
             ratings_by_season[i] = rating / total_games_per_season[i]
             ratings_by_season[i] = round(ratings_by_season[i], 2)
         else:
