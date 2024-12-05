@@ -64,7 +64,7 @@ def get_graph(name, formatted_seasons, stat_by_season, param):
 
     plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
-    plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.15)
+    plt.subplots_adjust(left=0.1, right=0.9, top=0.5, bottom=0.15)
 
     ax.set_title(param.capitalize() + " by Season for " + name, color='white', pad=20, fontsize=25)
     ax.set_ylabel(param.capitalize(), labelpad=15, fontsize=20)
