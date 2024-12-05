@@ -117,7 +117,7 @@ function displayBasicInfo(){
                 let teamAdded = false;
 
                 for(let j = i - 1; j >= 0; j--){
-                    if((data[j].team_name == data[i].team_name && parseInt(data[j].season.slice(0,4)) == yearSelected) || data[i].team_name == "null"){
+                    if((data[j].team_name == data[i].team_name && parseInt(data[j].season.slice(0,4)) == yearSelected) || data[i].team_name == "null" || data[i].team_name == null){
                         teamAdded = true;
                         break;
                     }
