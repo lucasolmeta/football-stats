@@ -7,7 +7,7 @@
         <title>Football Stats</title>
         <link rel="icon" type="image/x-icon" href="favicon.png">
         <link href="resultsstyle.css" rel="stylesheet">
-        <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+        <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400..900&display=swap" rel="stylesheet">
         <script type="module" src="resultsscript.mjs" defer></script>
     </head>
 
@@ -19,36 +19,42 @@
             </a>
         </div>
 
-        <section id="section1">
-            <select id="seasonSelect"></select>
+        <section id="section1" class="section">
+            <select id="seasonSelect" class="box"></select>
         </section>
 
-        <section id="section2">
-            <div id="basicinfo"></div>
-            <div id="basicstats"></div>
+        <section id="section2" class="section">
+            <div id="basicinfo" class="box"></div>
+            <div id="basicstats" class="box"></div>
         </section>
 
-        <section id="section3"> 
-            <img id="headshot">
-            <div id="graphdiv">
+        <section id="section3" class="section"> 
+            <div id="headshotDiv">
+                <img id="headshot" class="box">
+            </div>
+            <div id="graphdiv" class="box">
+                <img id="graph">
                 <div id="graphSelectDiv">
-                    <div class="graphSelectGroup">
-                        <input type="radio" id="goals" name="graphSelect" class="graphSelect" checked="checked">
-                        <label for="option1" class="radio-label">Goals</label>
-                    </div>
-
-                    <div class="graphSelectGroup">
-                        <input type="radio" id="assists" name="graphSelect" class="graphSelect">
-                        <label for="option2" class="radio-label">Assists</label>
-                    </div>
-
-
-                    <div class="graphSelectGroup">
-                        <input type="radio" id="games" name="graphSelect" class="graphSelect">
-                        <label for="option3" class="radio-label">Games</label>
+                    <div class="pane">
+                        <label class="graphSelect">
+                            <span>Goals</span>
+                            <input id="goals" class="input" name="radio" type="radio">
+                        </label>
+                        <label class="graphSelect">
+                            <span>Assists</span>
+                            <input id="assists" class="input" checked="checked" name="radio" type="radio">
+                        </label>
+                        <label class="graphSelect">
+                            <span>Games</span>
+                            <input id="games" class="input" name="radio" type="radio">
+                        </label>
+                        <label class="graphSelect">
+                            <span>Rating</span>
+                            <input id="rating" class="input" name="radio" type="radio">
+                        </label>
+                        <span class="selection"></span>
                     </div>
                 </div>
-                <img id="graph">
             </div>
         </section>
     </body>

@@ -3,9 +3,23 @@ body{
     overflow: auto;
 }
 
-a {
+*{
     color: inherit;
-    text-decoration: none;
+    text-decoration: none;    
+    font-family: "Maven Pro", sans-serif;
+}
+
+.box{
+    box-shadow: 0 0 20px rgb(50,50,50);
+}
+
+.section{
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0;
+    padding: 0;
 }
 
 #header{
@@ -27,10 +41,6 @@ a {
     z-index: 1;
 }
 
-#headerText{
-    font-family: 'Raleway';
-}
-
 #linkedInButton{
     width: auto;
     top: 0;
@@ -38,36 +48,16 @@ a {
     margin-left: auto;
 }
 
-#section1{
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    margin: 0;
-    padding: 0;
-    height: auto;
-}
-
 #seasonSelect{
     background-color: black;
     width: 30%;
     color: white;
-    font-family: 'Raleway';
     outline: none;
+    transition: 0.15s ease;
 }
 
-select option {
-    background-color: black;
-}
-
-#section2{
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    margin: 0;
-    padding: 0;
-    height: auto;
+#seasonSelect:hover{
+    width: 35%;
 }
 
 #basicinfo{
@@ -75,7 +65,6 @@ select option {
     border-color: rgb(100,100,100);
     border-style: solid;
     color: yellow;
-    font-family: 'Raleway';
     margin: 0;
     height: auto;
 }
@@ -85,79 +74,127 @@ select option {
     border-color: rgb(100,100,100);
     border-style: solid;
     color: yellow;
-    font-family: 'Raleway';
     margin: 0;
     height: auto;
 }
 
 .title{
     font-weight: bold;
-    font-family: "Raleway", serif;
 }
 
 .answer{
     color: white;
 }
 
-#section3{
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    margin: 0;
-    padding: 0;
-}
-
-#headshot{
+#headshotDiv{
     width: 25%;
     height: auto;
     border-style: solid;
-    margin: 0;
+}
+
+#headshot{
+    width: 100%;
+    height: auto;
 }
 
 #graphdiv{
     display: flex;
-    overflow: hidden;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    justify-content: space-between;
     width: 65%;
     border-color: rgb(100,100,100);
     border-style: solid;
     color: yellow;
-    font-family: 'Raleway';
     margin: 0;
 }
 
-#graphSelectDiv{
+#graphSelectDiv {
+    transform-style: preserve-3d;
+    perspective: 1000px;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
     height: 100%;
-    width: 20%;
 }
-
-.graphSelectGroup{
-    display: flex;
-    padding: 5%;
+  
+.pane {
+    outline: 2px solid yellow;
+    box-shadow: 0 0 10px #00ff6a77, inset 0 0 10px #00ff6a77;
+    width: 50%;
+    height: 100%;
+    border-radius: 5px;
+    position: relative;
+    transition: 0.7s ease;
 }
-
-.graphSelect{
+  
+.input {
+    display: none;
+}
+  
+.graphSelect {
+    width: 25%;
+    height: 100%;
+    float: left;
+    font-weight: 600;
+    font-size: 14px;
+    position: relative;
+    z-index: 1;
     color: yellow;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    text-align: center;
+    transition: 0.5s;
+}
+  
+.selection {
+    display: none;
+    position: absolute;
+    height: 100%;
+    width: 25%;
+    z-index: 0;
+    left: 0;
+    top: 0;
+    box-shadow: 0 0 10px #00ff6a77;
+    transition: .15s ease;
+}
+  
+.graphSelect:has(input:checked) {
+    color: black;
+    transition: 0.5s;
+}
+  
+.graphSelect:has(input:checked) ~ .selection {
+    background-color: yellow;
+    display: inline-block;
+}
+  
+.graphSelect:nth-child(1):has(input:checked) ~ .selection {
+    transform: translateX(0);
+    transition: 0.5s ease;
+}
+  
+.graphSelect:nth-child(2):has(input:checked) ~ .selection {
+    transform: translateX(100%);
+    transition: 0.5s ease;
+}
+  
+.graphSelect:nth-child(3):has(input:checked) ~ .selection {
+    transform: translateX(200%);
+    transition: 0.5s ease;
+}
+
+.graphSelect:nth-child(4):has(input:checked) ~ .selection {
+    transform: translateX(300%);
+    transition: 0.5s ease;
 }
 
 #graph{
     object-fit: contain;
     width: 80%;
+    margin-bottom: 2%;
     height: auto;
-}
-
-#regraph{
-    color: white;
-    background-color: black;
-    font-family: 'Raleway';
-    border-color: rgb(100,100,100);
-    border-style: solid;
-}
-
-#regraph:hover{
-    background-color: rgb(40,40,40);
+    transition: 0.15s ease;
 }
