@@ -12,8 +12,6 @@ let yearSelected = seasons[seasons.length - 1];
 
 let param = "goals";
 
-console.log(graphs);
-
 document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', resizeScreen);
 
@@ -300,6 +298,14 @@ function displayGraph(){
     }
 
     let imgData = "";
+
+    if(graphs.goals == "error"){
+        console.log("ok");
+        const sectionThree = document.getElementById('section3');
+        sectionThree.remove();
+
+        return;
+    }
 
     if(param == "goals"){
         imgData = graphs.goals;
