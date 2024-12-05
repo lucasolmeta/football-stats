@@ -50,7 +50,7 @@ def filter_data_to_match_query(data,query):
 
 #-------- INTERNAL FUNCTION: creates graph --------#
 
-def get_graph(name, formatted_seasons, stat_by_season, param):
+def create_graph(name, formatted_seasons, stat_by_season, param):
     fig, ax = plt.subplots(figsize=(18, 8))
 
     ax.bar(formatted_seasons, stat_by_season, color='yellow')
@@ -71,7 +71,10 @@ def get_graph(name, formatted_seasons, stat_by_season, param):
     ax.set_xlabel("Season", labelpad=15, fontsize=20)
 
     for i, txt in enumerate(stat_by_season):
-        ax.text(i, stat_by_season[i], str(txt), ha='center', va='bottom', fontsize=20, color='white')
+        if param is "ratings":
+            ax.text(i, stat_by_season[i], str(txt), ha='center', va='bottom', fontsize=14, color='white')
+        else:
+            ax.text(i, stat_by_season[i], str(txt), ha='center', va='bottom', fontsize=20, color='white')
 
     buf = io.BytesIO()
     plt.savefig(buf, format='png', facecolor=fig.get_facecolor())
@@ -205,17 +208,18 @@ def player_graph(id):
     seasons = get_seasons_for_player(id)
 
     goals_by_season = [0] * len(seasons)
-    assists_by_season = [0] * len(seasons)
     games_by_season = [0] * len(seasons)
-    ratings_by_season = [0] * len(seasons)
 
-    total_ratings_per_season = [0] * len(seasons)
-    total_games_per_season = [0] * len(seasons)
+    assists_by_season = [0] * len(x for x in seasons if season >= 2015)
+    ratings_by_season = [0] * len(x for x in seasons if season >= 2015)
 
-    formatted_seasons = [""] * len(seasons)
+    total_ratings_per_season = [0] * len(x for x in seasons if season >= 2015)
+    total_games_per_season = [0] * len(x for x in seasons if season >= 2015)
+
+    formatted_seasons_full = [""] * len(seasons)
 
     for i, season in enumerate(seasons):
-        formatted_seasons[i] = str(season) + "/" + str(season + 1)
+        formatted_seasons_full[i] = str(season) + "/" + str(season + 1)
 
     for instance in data:
         for i, season in enumerate(seasons):
@@ -223,17 +227,18 @@ def player_graph(id):
                 instance_goals = instance.get("goals", {}).get("total", 0) or 0
                 goals_by_season[i] += instance_goals
 
-                instance_assists = instance.get("goals", {}).get("assists", 0) or 0
-                assists_by_season[i] += instance_assists
-
                 instance_games = instance.get("games", {}).get("appearences", 0) or 0
                 games_by_season[i] += instance_games
 
-                if instance.get("rating", {}) is not None and float(instance.get("rating", {})) is not 0:
-                    instance_ratings = float(instance.get("rating", {})) * instance_games
+                if season >= 2015:
+                    instance_assists = instance.get("goals", {}).get("assists", 0) or 0
+                    assists_by_season[i] += instance_assists
 
-                    total_ratings_per_season[i] += instance_ratings
-                    total_games_per_season[i] += instance_games
+                    if instance.get("rating", {}) is not None and float(instance.get("rating", {})) is not 0:
+                        instance_ratings = float(instance.get("rating", {})) * instance_games
+
+                        total_ratings_per_season[i] += instance_ratings
+                        total_games_per_season[i] += instance_games
 
                 break
 
@@ -246,10 +251,10 @@ def player_graph(id):
 
     name = data[0]["player_name"]
 
-    goals_graph = get_graph(name, formatted_seasons, goals_by_season, "goals")
-    assists_graph = get_graph(name, formatted_seasons, assists_by_season, "assists")
-    games_graph = get_graph(name, formatted_seasons, games_by_season, "games")
-    ratings_graph = get_graph(name, formatted_seasons, ratings_by_season, "ratings")
+    goals_graph = create_graph(name, formatted_seasons_full, goals_by_season, "goals")
+    assists_graph = create_graph(name, formatted_seasons_truncated, assists_by_season, "assists")
+    games_graph = create_graph(name, formatted_seasons_full, games_by_season, "games")
+    ratings_graph = create_graph(name, formatted_seasons_truncated, ratings_by_season, "ratings")
 
     return {
         "goals" : goals_graph,
