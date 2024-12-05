@@ -68,7 +68,13 @@ def create_graph(name, formatted_seasons, stat_by_season, param):
 
     ax.set_title(param.capitalize() + " by Season for " + name, color='white', pad=20, fontsize=25)
     ax.set_ylabel(param.capitalize(), labelpad=15, fontsize=20)
-    ax.set_xlabel("Season", labelpad=15, fontsize=20)
+
+    if param == "goals" or param == "games":
+        ax.set_xlabel("Season", labelpad=15, fontsize=20)
+    elif param == "assists":
+        ax.set_xlabel("Season (Assist Data Only Available Through 2015/2016)", labelpad=15, fontsize=20)
+    elif param == "ratings":
+        ax.set_xlabel("Season (Rating Data Only Available Through 2015/2016)", labelpad=15, fontsize=20)
 
     for i, txt in enumerate(stat_by_season):
         if param == "ratings":
