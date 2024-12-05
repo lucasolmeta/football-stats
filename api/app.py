@@ -230,7 +230,7 @@ def player_graph(id):
                 games_by_season[i] += instance_games
 
                 if instance.get("rating", {}) is not None and float(instance.get("rating", {})) is not 0:
-                    instance_ratings = float(instance.get("rating", {}))
+                    instance_ratings = float(instance.get("rating", {})) * instance_games
 
                     total_ratings_per_season[i] += instance_ratings
                     total_games_per_season[i] += instance_games
@@ -249,7 +249,7 @@ def player_graph(id):
     goals_graph = get_graph(name, formatted_seasons, goals_by_season, "goals")
     assists_graph = get_graph(name, formatted_seasons, assists_by_season, "assists")
     games_graph = get_graph(name, formatted_seasons, games_by_season, "games")
-    ratings_graph = get_graph(name, formatted_seasons, ratings_by_season, "games")
+    ratings_graph = get_graph(name, formatted_seasons, ratings_by_season, "ratings")
 
     return {
         "goals" : goals_graph,
