@@ -238,7 +238,7 @@ def player_graph(id):
                 break
 
     for i, rating in enumerate(total_ratings_per_season):
-        ratings_by_season[i] = rating / total_games_per_season[i] or 0
+        ratings_by_season[i] = (rating / total_games_per_season[i]) or 0
 
     name = data[0]["player_name"]
 
