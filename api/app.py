@@ -206,7 +206,7 @@ def player_graph(id):
 
     data = get_data_for_player(id)
     seasons = get_seasons_for_player(id)
-    seasons_truncated = [0] * len([season for season in seasons if season >= 2015])
+    seasons_truncated = [season for season in seasons if season >= 2015]
 
     goals_by_season = [0] * len(seasons)
     games_by_season = [0] * len(seasons)
@@ -243,7 +243,7 @@ def player_graph(id):
                 instance_assists = instance.get("goals", {}).get("assists", 0) or 0
                 assists_by_season[i] += instance_assists
 
-                if instance.get("rating", {}) != None and float(instance.get("rating", {})) != 0:
+                if instance.get("rating", {}) is not None and float(instance.get("rating", {})) != 0:
                     instance_ratings = float(instance.get("rating", {})) * instance.get("games", {}).get("appearences", 0)
 
                     total_ratings_per_season[i] += instance_ratings
