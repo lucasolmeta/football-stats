@@ -297,7 +297,6 @@ function displayGraph(){
     let imgData = "";
 
     if(graphs.goals == "error" || graphs.assists == "error" || graphs.games == "error" || graphs.ratings == "error"){
-        console.log("ok");
         const sectionThree = document.getElementById('section3');
         sectionThree.remove();
 
