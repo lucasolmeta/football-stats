@@ -71,7 +71,7 @@ def create_graph(name, formatted_seasons, stat_by_season, param):
     ax.set_xlabel("Season", labelpad=15, fontsize=20)
 
     for i, txt in enumerate(stat_by_season):
-        if param is "ratings":
+        if param == "ratings":
             ax.text(i, stat_by_season[i], str(txt), ha='center', va='bottom', fontsize=14, color='white')
         else:
             ax.text(i, stat_by_season[i], str(txt), ha='center', va='bottom', fontsize=20, color='white')
