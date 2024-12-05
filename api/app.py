@@ -206,20 +206,25 @@ def player_graph(id):
 
     data = get_data_for_player(id)
     seasons = get_seasons_for_player(id)
+    seasons_truncated = [0] * len(x for x in seasons if season >= 2015)
 
     goals_by_season = [0] * len(seasons)
     games_by_season = [0] * len(seasons)
 
-    assists_by_season = [0] * len(x for x in seasons if season >= 2015)
-    ratings_by_season = [0] * len(x for x in seasons if season >= 2015)
+    assists_by_season = [0] * len([season for season in seasons if season >= 2015])
+    ratings_by_season = [0] * len([season for season in seasons if season >= 2015])
 
     total_ratings_per_season = [0] * len(x for x in seasons if season >= 2015)
     total_games_per_season = [0] * len(x for x in seasons if season >= 2015)
 
     formatted_seasons_full = [""] * len(seasons)
+    formatted_seasons_truncated = [""] * len(seasons_truncated)
 
     for i, season in enumerate(seasons):
         formatted_seasons_full[i] = str(season) + "/" + str(season + 1)
+
+    for i, season in enumerate(seasons_truncated):
+        seasons_truncated[i] = str(season) + "/" + str(season + 1)
 
     for instance in data:
         for i, season in enumerate(seasons):
@@ -230,15 +235,19 @@ def player_graph(id):
                 instance_games = instance.get("games", {}).get("appearences", 0) or 0
                 games_by_season[i] += instance_games
 
-                if season >= 2015:
-                    instance_assists = instance.get("goals", {}).get("assists", 0) or 0
-                    assists_by_season[i] += instance_assists
+                break
 
-                    if instance.get("rating", {}) is not None and float(instance.get("rating", {})) is not 0:
-                        instance_ratings = float(instance.get("rating", {})) * instance_games
+    for instance in data:
+        for i, season in enumerate(seasons_truncated):
+            if int(instance["season"][:4]) == season:
+                instance_assists = instance.get("goals", {}).get("assists", 0) or 0
+                assists_by_season[i] += instance_assists
 
-                        total_ratings_per_season[i] += instance_ratings
-                        total_games_per_season[i] += instance_games
+                if instance.get("rating", {}) is not None and float(instance.get("rating", {})) is not 0:
+                    instance_ratings = float(instance.get("rating", {})) * instance_games
+
+                    total_ratings_per_season[i] += instance_ratings
+                    total_games_per_season[i] += instance_games
 
                 break
 
