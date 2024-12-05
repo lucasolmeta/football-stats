@@ -244,7 +244,7 @@ def player_graph(id):
                 assists_by_season[i] += instance_assists
 
                 if instance.get("rating", {}) is not None and float(instance.get("rating", {})) is not 0:
-                    instance_ratings = float(instance.get("rating", {})) * instance_games
+                    instance_ratings = float(instance.get("rating", {})) * instance.get("games", {}).get("appearences", 0)
 
                     total_ratings_per_season[i] += instance_ratings
                     total_games_per_season[i] += instance_games
