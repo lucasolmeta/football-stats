@@ -229,8 +229,8 @@ def player_graph(id):
                 instance_games = instance.get("games", {}).get("appearences", 0) or 0
                 games_by_season[i] += instance_games
 
-                if instance.get("rating", {}) is not None and int(instance.get("rating", {})) is not 0:
-                    instance_ratings = int(instance.get("rating", {}))
+                if instance.get("rating", {}) is not None and float(instance.get("rating", {})) is not 0:
+                    instance_ratings = float(instance.get("rating", {}))
 
                     total_ratings_per_season[i] += instance_ratings
                     total_games_per_season[i] += instance_games
@@ -240,6 +240,7 @@ def player_graph(id):
     for i, rating in enumerate(total_ratings_per_season):
         if total_games_per_season[i] is not 0:
             ratings_by_season[i] = rating / total_games_per_season[i]
+            ratings_by_season[i] = round(ratings_by_season[i], 2)
         else:
             ratings_by_season[i] = 0
 
