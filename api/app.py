@@ -247,7 +247,7 @@ def player_graph(id):
                     instance_ratings = float(instance.get("rating", {})) * instance.get("games", {}).get("appearences", 0)
 
                     total_ratings_per_season[i] += instance_ratings
-                    total_games_per_season[i] += instance_games
+                    total_games_per_season[i] += instance.get("games", {}).get("appearences", 0)
 
                 break
 
