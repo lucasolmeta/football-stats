@@ -207,6 +207,10 @@ def player_graph(id):
     goals_by_season = [0] * len(seasons)
     assists_by_season = [0] * len(seasons)
     games_by_season = [0] * len(seasons)
+    ratings_by_season = [0] * len(seasons)
+
+    total_ratings_per_season = [0] * len(seasons)
+    total_games_per_season = [0] * len(seasons)
 
     formatted_seasons = [""] * len(seasons)
 
@@ -225,18 +229,29 @@ def player_graph(id):
                 instance_games = instance.get("games", {}).get("appearences", 0) or 0
                 games_by_season[i] += instance_games
 
+                if instance.get("rating", {}) is not None:
+                    instance_ratings = instance.get("rating", {})
+
+                    total_ratings_per_season[i] += instance_ratings
+                    total_games_per_season[i] += instance_games
+
                 break
+
+    for i, rating in enumerate(total_ratings_per_season):
+        ratings_by_season[i] = rating / total_games_per_season[i] or 0
 
     name = data[0]["player_name"]
 
     goals_graph = get_graph(name, formatted_seasons, goals_by_season, "goals")
     assists_graph = get_graph(name, formatted_seasons, assists_by_season, "assists")
     games_graph = get_graph(name, formatted_seasons, games_by_season, "games")
+    ratings_graph = get_graph(name, formatted_seasons, ratings_by_season, "games")
 
     return {
         "goals" : goals_graph,
         "assists" : assists_graph,
-        "games" : games_graph
+        "games" : games_graph,
+        "ratings" : ratings_graph
     }
 
 #-------- RETURN IMAGE LINK --------#
