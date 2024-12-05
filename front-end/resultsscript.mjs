@@ -289,12 +289,14 @@ async function displayHeadshot(){
 }
 
 function displayGraph(){
-    if(document.getElementById('goals').checked == true && param != "goals"){
+    if(document.getElementById('goals').checked == true){
         param = "goals";
-    } else if(document.getElementById('assists').checked == true && param != "assists"){
+    } else if(document.getElementById('assists').checked == true){
         param = "assists";
-    } else if(document.getElementById('games').checked == true && param != "games"){
+    } else if(document.getElementById('games').checked == true){
         param = "games";
+    } else if(document.getElementById('ratings').checked == true){
+        param = "ratings";
     }
 
     let imgData = "";
@@ -305,6 +307,8 @@ function displayGraph(){
         imgData = graphs.assists;
     } else if(param == "games"){
         imgData = graphs.games;
+    } else if(param == "ratings"){
+        imgData = graphs.ratings;
     }
 
     if(imgData){
