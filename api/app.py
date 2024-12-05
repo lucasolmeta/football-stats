@@ -229,8 +229,8 @@ def player_graph(id):
                 instance_games = instance.get("games", {}).get("appearences", 0) or 0
                 games_by_season[i] += instance_games
 
-                if instance.get("rating", {}) is not None and type(instance.get("rating", {})) is int:
-                    instance_ratings = instance.get("rating", {})
+                if instance.get("rating", {}) is not None and int(instance.get("rating", {})) is not 0:
+                    instance_ratings = int(instance.get("rating", {}))
 
                     total_ratings_per_season[i] += instance_ratings
                     total_games_per_season[i] += instance_games
