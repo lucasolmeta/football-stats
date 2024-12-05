@@ -53,7 +53,7 @@ body{
     width: 30%;
     color: white;
     outline: none;
-    transition: 0.15s ease;
+    transition: 0.5s ease;
 }
 
 #seasonSelect:hover{
@@ -118,6 +118,7 @@ body{
     justify-content: center;
     width: 100%;
     height: 100%;
+    margin-bottom: 1%;
 }
   
 .pane {
