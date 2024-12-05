@@ -206,7 +206,7 @@ def player_graph(id):
 
     data = get_data_for_player(id)
     seasons = get_seasons_for_player(id)
-    seasons_truncated = [0] * len(x for x in seasons if season >= 2015)
+    seasons_truncated = [0] * len([season for season in seasons if season >= 2015])
 
     goals_by_season = [0] * len(seasons)
     games_by_season = [0] * len(seasons)
@@ -214,8 +214,8 @@ def player_graph(id):
     assists_by_season = [0] * len([season for season in seasons if season >= 2015])
     ratings_by_season = [0] * len([season for season in seasons if season >= 2015])
 
-    total_ratings_per_season = [0] * len(x for x in seasons if season >= 2015)
-    total_games_per_season = [0] * len(x for x in seasons if season >= 2015)
+    total_ratings_per_season = [0] * len([season for season in seasons if season >= 2015])
+    total_games_per_season = [0] * len([season for season in seasons if season >= 2015])
 
     formatted_seasons_full = [""] * len(seasons)
     formatted_seasons_truncated = [""] * len(seasons_truncated)
