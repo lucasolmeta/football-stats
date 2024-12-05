@@ -28,15 +28,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function buildDisplay(){
 
-    generateSeasons();
-
     displayBasicInfo();
 
-    displayBasicStats();
+    displayCareerStats();
+
+    displaySeasonStats();
 
     displayHeadshot();
 
-    displayGraph(data[0].player_id);
+    displayGraph();
+
+    generateSeasons();
+
+    displaySeasonStats();
+
+    displayTrophies();
     
     resizeScreen();
 }
@@ -48,7 +54,7 @@ async function seasonChanged(){
 
     generateSeasons();
     displayBasicInfo();
-    displayBasicStats();
+    displaySeasonStats();
 }
 
 async function generateSeasons(){
@@ -56,7 +62,7 @@ async function generateSeasons(){
 
     if(data && data[0]){
         if(seasons.length == 0){
-            const sectionOne = document.getElementById('section1');
+            const sectionThree = document.getElementById('section3');
 
             sectionOne.remove();
         } else {
@@ -200,14 +206,117 @@ function displayBasicInfo(){
     }
 }
 
-function displayBasicStats(){
-    const basicStats = document.getElementById('basicstats');
+function displayCareerStats(){
+    const careerStats = document.getElementById('careerstats');
 
     if (!data || !data[0]) {
-        basicStats.style.color = 'red';
-        basicStats.innerHTML = "No Basic Stats Found";
+        careerStats.style.color = 'red';
+        careerStats.innerHTML = "No Basic Stats Found";
     } else {
-        basicStats.innerHTML = "<span class='title'>STATS BY SEASON: </span><br><br>";
+        careerStats.innerHTML = "<span class='title'>CAREER STATS: </span><br><br>";
+
+        let apps = 0;
+        let mins = 0;
+        let goals = 0;
+        let assists = 0;
+    
+        for(let i = 0; i < data.length; i++){
+            apps += data[i].games.appearences;
+            mins += data[i].games.minutes_played;
+            goals += data[i].goals.total;
+            assists += data[i].goals.assists;
+        }
+
+        let minutes;
+
+        if(mins > 999){
+            minutes = (parseInt(Math.trunc(mins/1000))) + "," + parseInt(mins%1000);
+        } else {
+            minutes = mins;
+        }
+
+        let appearances;
+
+        if(apps > 999){
+            appearances = (parseInt(Math.trunc(apps/1000))) + "," + parseInt(apps%1000);
+        } else {
+            appearances = apps;
+        }
+
+        let appearanceText = "APPEARANCES: <span class='answer'>";
+        appearanceText += appearances;
+        appearanceText += "</span><br>";
+        careerStats.innerHTML += appearanceText;
+
+        let minuteText = "MINUTES: <span class='answer'>";
+        minuteText += minutes;
+        minuteText += "</span><br>";
+        careerStats.innerHTML += minuteText;
+
+        let goalText = "GOALS: <span class='answer'>";
+        goalText += goals;
+        goalText += "</span><br>";
+        careerStats.innerHTML += goalText;
+
+        let assistText = "ASSISTS: <span class='answer'>";
+        assistText += assists;
+        assistText += "</span><br>";
+        careerStats.innerHTML += assistText;
+    }
+}
+
+async function displayHeadshot(){
+    const headshot = document.getElementById('headshot');
+
+    let photoLink = await fetchHeadshotById(data[0].player_id);
+
+    headshot.src = photoLink;
+}
+
+function displayGraph(){
+    if(document.getElementById('goals').checked == true){
+        param = "goals";
+    } else if(document.getElementById('assists').checked == true){
+        param = "assists";
+    } else if(document.getElementById('games').checked == true){
+        param = "games";
+    } else if(document.getElementById('ratings').checked == true){
+        param = "ratings";
+    }
+
+    let imgData = "";
+
+    if(graphs.goals == "error" || graphs.assists == "error" || graphs.games == "error" || graphs.ratings == "error"){
+        const sectionTwo = document.getElementById('section2');
+        sectionTwo.remove();
+
+        return;
+    }
+
+    if(param == "goals"){
+        imgData = graphs.goals;
+    } else if(param == "assists"){
+        imgData = graphs.assists;
+    } else if(param == "games"){
+        imgData = graphs.games;
+    } else if(param == "ratings"){
+        imgData = graphs.ratings;
+    }
+
+    if(imgData){
+        const graph = document.getElementById('graph');
+        graph.src = 'data:image/png;base64,' + imgData;
+    }
+}
+
+function displaySeasonStats(){
+    const seasonStats = document.getElementById('seasonstats');
+
+    if (!data || !data[0]) {
+        seasonStats.style.color = 'red';
+        seasonStats.innerHTML = "No Basic Stats Found";
+    } else {
+        seasonStats.innerHTML = "<span class='title'>STATS BY SEASON: </span><br><br>";
 
         let apps = 0;
         let minutes = 0;
@@ -244,22 +353,22 @@ function displayBasicStats(){
         let appearanceText = "APPEARANCES: <span class='answer'>";
         appearanceText += apps;
         appearanceText += "</span><br>";
-        basicStats.innerHTML += appearanceText;
+        seasonStats.innerHTML += appearanceText;
 
         let minuteText = "MINUTES: <span class='answer'>";
         minuteText += minutes;
         minuteText += "</span><br>";
-        basicStats.innerHTML += minuteText;
+        seasonStats.innerHTML += minuteText;
 
         let goalText = "GOALS: <span class='answer'>";
         goalText += goals;
         goalText += "</span><br>";
-        basicStats.innerHTML += goalText;
+        seasonStats.innerHTML += goalText;
 
         let assistText = "ASSISTS: <span class='answer'>";
         assistText += assists;
         assistText += "</span><br>";
-        basicStats.innerHTML += assistText;
+        seasonStats.innerHTML += assistText;
 
         let rating = totalRating / ratingApps;
         rating = rating.toFixed(2);
@@ -268,55 +377,17 @@ function displayBasicStats(){
             let ratingText = "AVERAGE RATING: <span class='answer'>";
             ratingText += rating;
             ratingText += "</span><br>";
-            basicStats.innerHTML += ratingText;
+            seasonStats.innerHTML += ratingText;
         }
     }
 
     resizeScreen();
 }
 
-async function displayHeadshot(){
-    const headshot = document.getElementById('headshot');
+async function displayTrophies(){
+    const trophies = document.getElementById('trophies');
 
-    let photoLink = await fetchHeadshotById(data[0].player_id);
-
-    headshot.src = photoLink;
-}
-
-function displayGraph(){
-    if(document.getElementById('goals').checked == true){
-        param = "goals";
-    } else if(document.getElementById('assists').checked == true){
-        param = "assists";
-    } else if(document.getElementById('games').checked == true){
-        param = "games";
-    } else if(document.getElementById('ratings').checked == true){
-        param = "ratings";
-    }
-
-    let imgData = "";
-
-    if(graphs.goals == "error" || graphs.assists == "error" || graphs.games == "error" || graphs.ratings == "error"){
-        const sectionThree = document.getElementById('section3');
-        sectionThree.remove();
-
-        return;
-    }
-
-    if(param == "goals"){
-        imgData = graphs.goals;
-    } else if(param == "assists"){
-        imgData = graphs.assists;
-    } else if(param == "games"){
-        imgData = graphs.games;
-    } else if(param == "ratings"){
-        imgData = graphs.ratings;
-    }
-
-    if(imgData){
-        const graph = document.getElementById('graph');
-        graph.src = 'data:image/png;base64,' + imgData;
-    }
+    trophies.innerHTML = "<span class='title'>TROPHIES: </span><br><br>";
 }
 
 function resizeScreen(){
@@ -366,38 +437,21 @@ function resizeScreen(){
     }
 
     //-------------- SET SECTION ONE PROPERTIES --------------//
-    
-    if(document.getElementById('section1')){
-        
-        const sectionOne = document.getElementById('section1');
 
-        sectionOne.style.paddingTop = window.innerWidth/65 + 'px';
+    const sectionOne = document.getElementById('section1');
 
-        const seasonSelect = document.getElementById('seasonSelect');
-
-        seasonSelect.style.fontSize = headerHeight/4 + 'px';
-        seasonSelect.style.borderRadius = window.innerWidth/50 + 'px';
-        seasonSelect.style.paddingTop = headerHeight/8 + 'px';
-        seasonSelect.style.paddingBottom = headerHeight/8 + 'px';
-        seasonSelect.style.paddingLeft = headerHeight/4 + 'px';
-    }
-
-    //-------------- SET SECTION TWO PROPERTIES --------------//
-
-    const sectionTwo = document.getElementById('section2');
-
-    sectionTwo.style.paddingTop = window.innerWidth/65 + 'px';
+    sectionOne.style.paddingTop = window.innerWidth/65 + 'px';
 
     const basicInfo = document.getElementById('basicinfo');
-    const basicStats = document.getElementById('basicstats');
+    const careerStats = document.getElementById('careerstats');
 
     basicInfo.style.fontSize = headerHeight/4 + 'px';
     basicInfo.style.padding = window.innerWidth/75 + 'px';
     basicInfo.style.borderRadius = window.innerWidth/50 + 'px';
 
-    basicStats.style.fontSize = headerHeight/4 + 'px';
-    basicStats.style.padding = window.innerWidth/75 + 'px';
-    basicStats.style.borderRadius = window.innerWidth/50 + 'px';
+    careerStats.style.fontSize = headerHeight/4 + 'px';
+    careerStats.style.padding = window.innerWidth/75 + 'px';
+    careerStats.style.borderRadius = window.innerWidth/50 + 'px';
 
     const titleFontSize = headerHeight/2.7;
 
@@ -405,11 +459,11 @@ function resizeScreen(){
         title.style.fontSize = titleFontSize + 'px';
     });
 
-    //-------------- SET SECTION THREE PROPERTIES --------------//
+    //-------------- SET SECTION TWO PROPERTIES --------------//
     
-    const sectionThree = document.getElementById('section3');
+    const sectionTwo = document.getElementById('section2');
 
-    sectionThree.style.paddingTop = window.innerWidth/65 + 'px';
+    sectionTwo.style.paddingTop = window.innerWidth/65 + 'px';
 
     const headshot = document.getElementById('headshot');
 
@@ -420,4 +474,42 @@ function resizeScreen(){
     graphDiv.style.fontSize = headerHeight/4 + 'px';
     graphDiv.style.padding = window.innerWidth/75 + 'px';
     graphDiv.style.borderRadius = window.innerWidth/50 + 'px';
+
+    //-------------- SET SECTION THREE PROPERTIES --------------//
+    
+    if(document.getElementById('section3')){
+        
+        const sectionThree = document.getElementById('section3');
+
+        sectionThree.style.paddingTop = window.innerWidth/65 + 'px';
+
+        const seasonSelect = document.getElementById('seasonSelect');
+
+        seasonSelect.style.fontSize = headerHeight/4 + 'px';
+        seasonSelect.style.borderRadius = window.innerWidth/50 + 'px';
+        seasonSelect.style.paddingTop = headerHeight/8 + 'px';
+        seasonSelect.style.paddingBottom = headerHeight/8 + 'px';
+        seasonSelect.style.paddingLeft = headerHeight/4 + 'px';
+    }
+
+    //-------------- SET SECTION FOUR PROPERTIES --------------//
+
+    const sectionFour = document.getElementById('section4');
+
+    sectionFour.style.paddingTop = window.innerWidth/65 + 'px';
+
+    const seasonStats = document.getElementById('seasonstats');
+    const trophies = document.getElementById('trophies');
+
+    seasonStats.style.fontSize = headerHeight/4 + 'px';
+    seasonStats.style.padding = window.innerWidth/75 + 'px';
+    seasonStats.style.borderRadius = window.innerWidth/50 + 'px';
+
+    trophies.style.fontSize = headerHeight/4 + 'px';
+    trophies.style.padding = window.innerWidth/75 + 'px';
+    trophies.style.borderRadius = window.innerWidth/50 + 'px';
+
+    document.querySelectorAll('.title').forEach((title) => {
+        title.style.fontSize = titleFontSize + 'px';
+    });
 }

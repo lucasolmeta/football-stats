@@ -11,6 +11,11 @@ body{
 
 .box{
     box-shadow: 0 0 15px rgb(75,75,75);
+    border-color: rgb(100,100,100);
+    border-style: solid;
+    margin: 0;
+    height: auto;
+    color: yellow;
 }
 
 .section{
@@ -48,34 +53,12 @@ body{
     margin-left: auto;
 }
 
-#seasonSelect{
-    background-color: black;
-    width: 30%;
-    color: white;
-    outline: none;
-    transition: 0.5s ease;
-}
-
-#seasonSelect:hover{
-    width: 35%;
-}
-
 #basicinfo{
     width: 30%;
-    border-color: rgb(100,100,100);
-    border-style: solid;
-    color: yellow;
-    margin: 0;
-    height: auto;
 }
 
-#basicstats{
+#careerstats{
     width: 60%;
-    border-color: rgb(100,100,100);
-    border-style: solid;
-    color: yellow;
-    margin: 0;
-    height: auto;
 }
 
 .title{
@@ -104,10 +87,7 @@ body{
     align-items: center;
     justify-content: space-between;
     width: 65%;
-    border-color: rgb(100,100,100);
     border-style: solid;
-    color: yellow;
-    margin: 0;
 }
 
 #graphSelectDiv {
@@ -198,4 +178,24 @@ body{
     margin-bottom: 2%;
     height: auto;
     transition: 0.15s ease;
+}
+
+#seasonSelect{
+    background-color: black;
+    width: 30%;
+    color: white;
+    outline: none;
+    transition: 0.5s ease;
+}
+
+#seasonSelect:hover{
+    width: 35%;
+}
+
+#seasonstats{
+    width: 35%;
+}
+
+#trophies{
+    width: 55%;
 }
