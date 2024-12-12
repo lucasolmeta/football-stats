@@ -5,9 +5,6 @@ let seasons = localStorage.getItem('seasons');
 let graphs = localStorage.getItem('graphs');
 
 data = JSON.parse(data);
-
-console.log(data);
-
 seasons = JSON.parse(seasons);
 
 if(graphs != undefined && JSON.parse(graphs) != undefined){
@@ -479,19 +476,21 @@ function resizeScreen(){
 
     //-------------- SET SECTION TWO PROPERTIES --------------//
     
-    const sectionTwo = document.getElementById('section2');
+    if(document.getElementById('section2')){
+        const sectionTwo = document.getElementById('section2');
 
-    sectionTwo.style.paddingTop = window.innerWidth/65 + 'px';
+        sectionTwo.style.paddingTop = window.innerWidth/65 + 'px';
 
-    const headshot = document.getElementById('headshot');
+        const headshot = document.getElementById('headshot');
 
-    headshot.style.borderRadius = window.innerWidth/50 + 'px';
+        headshot.style.borderRadius = window.innerWidth/50 + 'px';
 
-    const graphDiv = document.getElementById('graphdiv');
+        const graphDiv = document.getElementById('graphdiv');
 
-    graphDiv.style.fontSize = headerHeight/4 + 'px';
-    graphDiv.style.padding = window.innerWidth/75 + 'px';
-    graphDiv.style.borderRadius = window.innerWidth/50 + 'px';
+        graphDiv.style.fontSize = headerHeight/4 + 'px';
+        graphDiv.style.padding = window.innerWidth/75 + 'px';
+        graphDiv.style.borderRadius = window.innerWidth/50 + 'px';
+    }
 
     //-------------- SET SECTION THREE PROPERTIES --------------//
     
