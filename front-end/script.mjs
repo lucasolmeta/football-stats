@@ -54,7 +54,7 @@ async function submissionMade(e){
                 localStorage.setItem('seasons', seasons);
                 localStorage.setItem('graphs', graphs);
 
-                window.location.href = '/results';
+                window.location.href = './results.html';
 
                 return;     
             } else {
@@ -120,7 +120,7 @@ async function buttonClicked(playerId){
     localStorage.setItem('seasons', seasons);
     localStorage.setItem('graphs', graphs);
 
-    window.location.href = '/results';
+    window.location.href = './results.html';
 
     return;     
 }

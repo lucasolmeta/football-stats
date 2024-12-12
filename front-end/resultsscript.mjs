@@ -381,10 +381,12 @@ function displaySeasonStats(){
         goalText += "</span><br>";
         seasonStats.innerHTML += goalText;
 
-        let assistText = "ASSISTS: <span class='answer'>";
-        assistText += assists;
-        assistText += "</span><br>";
-        seasonStats.innerHTML += assistText;
+        if(yearSelected >= 2015){
+            let assistText = "ASSISTS: <span class='answer'>";
+            assistText += assists;
+            assistText += "</span><br>";
+            seasonStats.innerHTML += assistText;
+        }
 
         let rating = totalRating / ratingApps;
         rating = rating.toFixed(2);
