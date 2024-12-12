@@ -5,8 +5,14 @@ let seasons = localStorage.getItem('seasons');
 let graphs = localStorage.getItem('graphs');
 
 data = JSON.parse(data);
+
+console.log(data);
+
 seasons = JSON.parse(seasons);
-graphs = JSON.parse(graphs);
+
+if(graphs != undefined && JSON.parse(graphs) != undefined){
+    graphs = JSON.parse(graphs);
+}
 
 let yearSelected = seasons[seasons.length - 1];
 
@@ -63,8 +69,10 @@ async function generateSeasons(){
     if(data && data[0]){
         if(seasons.length == 0){
             const sectionThree = document.getElementById('section3');
+            const sectionFour = document.getElementById('section4');
 
-            sectionOne.remove();
+            sectionThree.remove();
+            sectionFour.remove();
         } else {
             for(let i = seasons.length - 1; i >= 0; i--){
                 if(seasons[i].toString().slice(0,4) != yearSelected.toString().slice(0,4)){
@@ -175,7 +183,15 @@ function displayBasicInfo(){
             basicInfo.innerHTML += age;
         }
 
-        if(data[0].height){
+        if(data[0].number){
+            let number = "NUMBER: <span class='answer'>";
+
+            number += data[0].number;
+            number += "</span><br>";
+            basicInfo.innerHTML += number;
+        }
+
+        if(data[0].height && data[0].height.trim() != ""){
             let height = "HEIGHT: <span class='answer'>";
 
             height += data[0].height;
@@ -183,7 +199,7 @@ function displayBasicInfo(){
             basicInfo.innerHTML += height;
         }
 
-        if(data[0].weight){
+        if(data[0].weight && data[0].weight.trim() != ""){
             let weight = "WEIGHT: <span class='answer'>";
 
             weight += data[0].weight;
