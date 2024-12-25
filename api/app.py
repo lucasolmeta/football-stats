@@ -311,7 +311,7 @@ def player_photo(id):
 #-------- RETURN TROPHIES --------#
 
 @app.route('/trophies/<id>', methods=['GET'])
-def player_photo(id):
+def trophies(id):
     url = "https://api-football-v1.p.rapidapi.com/v2/trophies/player/"
     url += id
 
