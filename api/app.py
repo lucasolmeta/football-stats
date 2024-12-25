@@ -325,9 +325,7 @@ def trophies(id):
         results.raise_for_status()  
         results = results.json()
 
-        results = results.get("response", [])
-
-        # RETURN VALUE: link to player image
+        # RETURN VALUE: array of trophies won
 
         return results
     except requests.exceptions.HTTPError as http_err:
