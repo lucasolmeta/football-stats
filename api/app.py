@@ -325,6 +325,10 @@ def trophies(id):
         results.raise_for_status()  
         results = results.json()
 
+        results = results.get("api", [])
+        results = results.get("trophies", [])
+
+
         # RETURN VALUE: array of trophies won
 
         return results
