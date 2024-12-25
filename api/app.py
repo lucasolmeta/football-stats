@@ -308,6 +308,33 @@ def player_photo(id):
     except Exception as err:
         return {"error": str(err)}
     
+#-------- RETURN TROPHIES --------#
+
+@app.route('/trophies/<id>', methods=['GET'])
+def player_photo(id):
+    url = "https://api-football-v1.p.rapidapi.com/v2/trophies/player/"
+    url += id
+
+    headers = {
+	    "x-rapidapi-key": RAPIDAPI_KEY,
+	    "x-rapidapi-host": "api-football-v1.p.rapidapi.com"    
+    }
+
+    try:
+        results = requests.get(url, headers=headers)
+        results.raise_for_status()  
+        results = results.json()
+
+        results = results.get("response", [])
+
+        # RETURN VALUE: link to player image
+
+        return results
+    except requests.exceptions.HTTPError as http_err:
+        return {"error": str(http_err)}
+    except Exception as err:
+        return {"error": str(err)}
+    
 #-------- RUN APP (MUST COME LAST) --------#
 
 if __name__ == '__main__':
