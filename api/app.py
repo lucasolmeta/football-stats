@@ -120,7 +120,7 @@ def get_data_by_name(query):
 
             results = results.get("response", [])
 
-            # RETURN VALUE: array of jsons with basic player information
+            # RETURN VALUE: list of jsons with basic player information
 
             return results
         except requests.exceptions.HTTPError as http_err:
@@ -140,7 +140,7 @@ def get_data_by_name(query):
 
         results = filter_data_to_match_query(results, query)
 
-        # RETURN VALUE: array of jsons with basic player information
+        # RETURN VALUE: list of jsons with basic player information
             
         return results
     except requests.exceptions.HTTPError as http_err:
@@ -197,7 +197,7 @@ def get_seasons_for_player(id):
 
         results = results.get("response", [])
 
-        # RETURN VALUE: array of valid seasons
+        # RETURN VALUE: list of valid seasons
 
         return results
     except requests.exceptions.HTTPError as http_err:
@@ -329,7 +329,7 @@ def trophies(id):
         results = results.get("trophies", [])
 
 
-        # RETURN VALUE: array of trophies won
+        # RETURN VALUE: list of trophies won
 
         return results
     except requests.exceptions.HTTPError as http_err:
