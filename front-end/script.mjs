@@ -1,5 +1,3 @@
-export { fetchHeadshotById };
-
 document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', resizeScreen);
 
@@ -56,7 +54,7 @@ async function submissionMade(e){
                 localStorage.setItem('headshot', headshot);
                 localStorage.setItem('trophies', trophies);
 
-                window.location.href = '/results';
+                window.location.href = './results.html';
 
                 return;     
             } else {
@@ -128,7 +126,7 @@ async function buttonClicked(playerId){
     localStorage.setItem('headshot', headshot);
     localStorage.setItem('trophies', trophies);
 
-    window.location.href = '/results';
+    window.location.href = './results.html';
 }
 
 async function fetchDataByName(searchQuery) {
@@ -219,7 +217,7 @@ async function fetchHeadshotById(id){
             throw new Error('Network response was not ok');
         }
 
-        data = await data.text();
+        data = await data.json();
 
         return data;
     } catch (error) {
@@ -238,7 +236,7 @@ async function fetchTrophiesById(id){
             throw new Error('Network response was not ok');
         }
 
-        data = await data.text();
+        data = await data.json();
 
         return data;
     } catch (error) {

@@ -1,5 +1,3 @@
-import { fetchHeadshotById } from './script.mjs';
-
 let data = localStorage.getItem('data');
 let seasons = localStorage.getItem('seasons');
 let graphs = localStorage.getItem('graphs');
@@ -8,10 +6,10 @@ let trophies = localStorage.getItem('trophies');
 
 data = JSON.parse(data);
 seasons = JSON.parse(seasons);
+graphs = JSON.parse(graphs);
+trophies = JSON.parse(trophies);
 
-if(graphs != undefined && JSON.parse(graphs) != undefined){
-    graphs = JSON.parse(graphs);
-}
+console.log(trophies);
 
 let yearSelected = seasons[seasons.length - 1];
 
@@ -281,9 +279,8 @@ function displayCareerStats(){
 }
 
 async function displayHeadshot(){
-    const headshotElement = document.getElementById('headshot');
-
-    headshotElement.src = headshot;
+    console.log(headshot);
+    document.getElementById('headshot').src = headshot;
 }
 
 function displayGraph(){
@@ -408,6 +405,7 @@ async function displayTrophies(){
 
     for(let i = 0; i < trophies.length; i++){
         if(trophies[i].place == "Winner"){
+            console.log("winner: " + trophies[i]);
             for(let j = 0; j < trophyCounts.length; j++){
                 if(trophyCounts[j][1] == trophies[i].league){
                     trophyCounts[j][0]++;
@@ -427,7 +425,9 @@ async function displayTrophies(){
         thisTrophy += trophyCounts[i][0];
         thisTrophy += "x <span class='answer'>";
         thisTrophy += trophyCounts[i][1];
-        thisTrophy += "</span>";
+        thisTrophy += "</span><br>";
+
+        console.log(thisTrophy);
 
         trophiesElement.innerHTML += thisTrophy;
     }
