@@ -3,6 +3,7 @@ import requests
 import os
 import base64
 import io
+import unicodedata
 import matplotlib.pyplot as plt
 from flask_cors import CORS
 
@@ -39,9 +40,12 @@ def filter_data_to_match_query(data,query):
 
         # filter by words in search query
 
+        full_name = (player.get("player", {}).get("firstname") or "") + " " + (player.get("player", {}).get("lastname") or "")
+        full_name = unicodedata.normalize('NFC', full_name)
+
         if all(
             word.lower() in (
-                (player.get("player", {}).get("firstname") or "") + " " + (player.get("player", {}).get("lastname") or "")
+                full_name
             ).lower() for word in query.split("-")
         )
     ]
