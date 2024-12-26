@@ -249,7 +249,7 @@ function displayCareerStats(){
         let appearances;
 
         if(apps > 999){
-            appearances = (parseInt(Math.trunc(apps/1000))) + "," + parseInt(apps%1000);
+            appearances = (parseInt(Math.trunc(apps/1000))) + "," + String(apps%1000 < 100 ? "0" + parseInt(apps%1000) : parseInt(apps%1000));
         } else {
             appearances = apps;
         }
