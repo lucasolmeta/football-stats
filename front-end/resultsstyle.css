@@ -47,7 +47,7 @@ body{
 }
 
 #linkedInButton{
-    filter: grayscale( 1 );
+    filter: grayscale( 1 ) brightness( 0.7 );
 }
 
 #basicinfo{
