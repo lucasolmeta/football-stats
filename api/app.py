@@ -53,8 +53,9 @@ def filter_data_to_match_query(data,query):
 
         full_name = (player.get("player", {}).get("firstname") or "") + " " + (player.get("player", {}).get("lastname") or "")
         full_name = remove_diacritics(full_name.lower())
+        full_name_words = full_name.split()
 
-        if all(word in full_name for word in query_words):
+        if all(word in full_name_words for word in query_words):
             filtered_players.append(player)
     
     return filtered_players
