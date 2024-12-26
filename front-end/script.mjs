@@ -45,8 +45,6 @@ async function submissionMade(e){
 
                 seasons = await JSON.stringify(seasons);
                 graphs = await JSON.stringify(graphs);
-                headshot = await JSON.stringify(headshot);
-                trophies = await JSON.stringify(trophies);
 
                 localStorage.setItem('data', data);
                 localStorage.setItem('seasons', seasons);
@@ -117,8 +115,6 @@ async function buttonClicked(playerId){
     data = await JSON.stringify(data);
     seasons = await JSON.stringify(seasons);
     graphs = await JSON.stringify(graphs);
-    headshot = await JSON.stringify(headshot);
-    trophies = await JSON.stringify(trophies);
 
     localStorage.setItem('data', data);
     localStorage.setItem('seasons', seasons);

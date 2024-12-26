@@ -4,7 +4,9 @@ let graphs = localStorage.getItem('graphs');
 let headshot = localStorage.getItem('headshot');
 let trophies = localStorage.getItem('trophies');
 
+console.log(data);
 data = JSON.parse(data);
+console.log(trophies);
 seasons = JSON.parse(seasons);
 graphs = JSON.parse(graphs);
 trophies = JSON.parse(trophies);
