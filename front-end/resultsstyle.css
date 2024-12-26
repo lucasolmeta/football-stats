@@ -47,10 +47,7 @@ body{
 }
 
 #linkedInButton{
-    width: auto;
-    top: 0;
-    right:0;
-    margin-left: auto;
+    filter: grayscale( 1 );
 }
 
 #basicinfo{
