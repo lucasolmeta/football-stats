@@ -42,14 +42,13 @@ def filter_data_to_match_query(data,query):
         # filter by words in search query
 
         full_name = (player.get("player", {}).get("firstname") or "") + " " + (player.get("player", {}).get("lastname") or "")
-        full_name = unicodedata.normalize('NFC', full_name)
+        full_name = unicodedata.normalize('NFD', full_name).lower()
 
         if all(
-            word.lower() in full_name.lower() for word in query.split("-")
+            word.lower() in full_name for word in query.split("-")
         ):
             filtered_players.append(player)
     
-
     return filtered_players
 
 #-------- INTERNAL FUNCTION: creates graph --------#
