@@ -241,7 +241,7 @@ function displayCareerStats(){
         let minutes;
 
         if(mins > 999){
-            minutes = (parseInt(Math.trunc(mins/1000))) + "," + parseInt(mins%1000);
+            minutes = (parseInt(Math.trunc(mins/1000))) + "," + mins%1000 < 100 ? "0" + parseInt(mins%1000) : parseInt(mins%1000);
         } else {
             minutes = mins;
         }
