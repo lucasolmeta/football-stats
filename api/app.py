@@ -30,14 +30,16 @@ def get_last_word(query):
     words = query.split("-")
     return words[-1]
 
+#-------- INTERNAL FUNCTION: removes diacritics --------#
+
+def remove_diacritics(text):
+        normalized_text = unicodedata.normalize('NFD', text)
+        return ''.join(char for char in normalized_text if not unicodedata.combining(char))
+
 #-------- INTERNAL FUNCTION: filters initial search by full query --------#
 
 def filter_data_to_match_query(data,query):
     players = data.get("response", [])
-
-    def remove_diacritics(text):
-        normalized_text = unicodedata.normalize('NFD', text)
-        return ''.join(char for char in normalized_text if not unicodedata.combining(char))
     
     query_words = [
         remove_diacritics(word.strip().lower()) for word in query.split("-")
