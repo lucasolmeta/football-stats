@@ -199,3 +199,9 @@ body{
 #trophies{
     width: 55%;
 }
+
+#section5{
+    padding-top: 2%;
+    padding-bottom: 2%;
+    color: rgb(100,100,100);
+}
