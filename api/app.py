@@ -328,7 +328,6 @@ def trophies(id):
         results = results.get("api", [])
         results = results.get("trophies", [])
 
-
         # RETURN VALUE: list of trophies won
 
         return results
