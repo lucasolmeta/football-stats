@@ -1,5 +1,3 @@
-export { fetchSeasonsById };
-export { fetchGraphsById };
 export { fetchHeadshotById };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -42,17 +40,21 @@ async function submissionMade(e){
             } else if (data.length == 1){
                 let playerId = data[0].player.id;
 
-                let playerStats = await fetchDataById(playerId);
                 let seasons = await fetchSeasonsById(playerId);
                 let graphs = await fetchGraphsById(playerId);
+                let headshot = await fetchHeadshotById(playerId);
+                let trophies = await fetchTrophiesById(playerId);
 
-                playerStats = await JSON.stringify(playerStats);
                 seasons = await JSON.stringify(seasons);
                 graphs = await JSON.stringify(graphs);
+                headshot = await JSON.stringify(headshot);
+                trophies = await JSON.stringify(trophies);
 
-                localStorage.setItem('data', playerStats);
+                localStorage.setItem('data', data);
                 localStorage.setItem('seasons', seasons);
                 localStorage.setItem('graphs', graphs);
+                localStorage.setItem('headshot', headshot);
+                localStorage.setItem('trophies', trophies);
 
                 window.location.href = '/results';
 
@@ -108,21 +110,23 @@ function buildNameOptions(playerNames, playerIds){
 }
 
 async function buttonClicked(playerId){
-    let playerStats = await fetchDataById(playerId);
     let seasons = await fetchSeasonsById(playerId);
     let graphs = await fetchGraphsById(playerId);
+    let headshot = await fetchHeadshotById(playerId);
+    let trophies = await fetchTrophiesById(playerId);
 
-    playerStats = await JSON.stringify(playerStats);
     seasons = await JSON.stringify(seasons);
     graphs = await JSON.stringify(graphs);
+    headshot = await JSON.stringify(headshot);
+    trophies = await JSON.stringify(trophies);
 
-    localStorage.setItem('data', playerStats);
+    localStorage.setItem('data', data);
     localStorage.setItem('seasons', seasons);
     localStorage.setItem('graphs', graphs);
+    localStorage.setItem('headshot', headshot);
+    localStorage.setItem('trophies', trophies);
 
     window.location.href = '/results';
-
-    return;     
 }
 
 async function fetchDataByName(searchQuery) {
@@ -204,6 +208,25 @@ async function fetchGraphsById(id){
 
 async function fetchHeadshotById(id){
     let url = "https://football-stats-8ab918624cd1.herokuapp.com/photo/";
+    url += id;
+
+    try {
+        let data = await fetch(url);
+
+        if (!data.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        data = await data.text();
+
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+async function fetchTrophiesById(id){
+    let url = "https://football-stats-8ab918624cd1.herokuapp.com/trophies/";
     url += id;
 
     try {

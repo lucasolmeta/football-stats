@@ -3,6 +3,8 @@ import { fetchHeadshotById } from './script.mjs';
 let data = localStorage.getItem('data');
 let seasons = localStorage.getItem('seasons');
 let graphs = localStorage.getItem('graphs');
+let headshot = localStorage.getItem('headshot');
+let trophies = localStorage.getItem('trophies');
 
 data = JSON.parse(data);
 seasons = JSON.parse(seasons);
@@ -279,11 +281,9 @@ function displayCareerStats(){
 }
 
 async function displayHeadshot(){
-    const headshot = document.getElementById('headshot');
+    const headshotElement = document.getElementById('headshot');
 
-    let photoLink = await fetchHeadshotById(data[0].player_id);
-
-    headshot.src = photoLink;
+    headshotElement.src = headshot;
 }
 
 function displayGraph(){
@@ -400,9 +400,37 @@ function displaySeasonStats(){
 }
 
 async function displayTrophies(){
-    const trophies = document.getElementById('trophies');
+    const trophiesElement = document.getElementById('trophies');
 
-    trophies.innerHTML = "<span class='title'>TROPHIES: </span><br><br>";
+    trophiesElement.innerHTML = "<span class='title'>TROPHIES: </span><br><br>";
+
+    let trophyCounts = [];
+
+    for(let i = 0; i < trophies.length; i++){
+        if(trophies[i].place == "Winner"){
+            for(let j = 0; j < trophyCounts.length; j++){
+                if(trophyCounts[j][1] == trophies[i].league){
+                    trophyCounts[j][0]++;
+                    break;
+                }
+
+                if(j = trophyCounts.length - 1){
+                    let addTrophy = [1, trophies[i].league];
+                    trophyCounts.append(addTrophy);
+                }
+            }
+        }
+    }
+
+    for(let i = 0; i < trophyCounts.length; i++){
+        let thisTrophy = "";
+        thisTrophy += trophyCounts[i][0];
+        thisTrophy += "x <span class='answer'>";
+        thisTrophy += trophyCounts[i][1];
+        thisTrophy += "</span>";
+
+        trophiesElement.innerHTML += thisTrophy;
+    }
 }
 
 function resizeScreen(){
