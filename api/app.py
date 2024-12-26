@@ -35,8 +35,9 @@ def get_last_word(query):
 def filter_data_to_match_query(data,query):
     players = data.get("response", [])
 
-    filtered_players = [
-        player for player in players
+    filtered_players = []
+
+    for player in players:
 
         # filter by words in search query
 
@@ -44,11 +45,10 @@ def filter_data_to_match_query(data,query):
         full_name = unicodedata.normalize('NFC', full_name)
 
         if all(
-            word.lower() in (
-                full_name
-            ).lower() for word in query.split("-")
-        )
-    ]
+            word.lower() in full_name.lower() for word in query.split("-")
+        ):
+            filtered_players.append(player)
+    
 
     return filtered_players
 
