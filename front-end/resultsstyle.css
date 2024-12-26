@@ -9,6 +9,12 @@ body{
     font-family: "Maven Pro", sans-serif;
 }
 
+a{
+    float: none;
+    text-align: left;
+    position: static;
+}
+
 .box{
     box-shadow: 0 0 15px rgb(75,75,75);
     border-color: rgb(100,100,100);
