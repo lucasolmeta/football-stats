@@ -38,21 +38,24 @@ async function submissionMade(e){
             } else if (data.length == 1){
                 let playerId = data[0].player.id;
 
+                let playerData = await fetchDataById(playerId);
                 let seasons = await fetchSeasonsById(playerId);
                 let graphs = await fetchGraphsById(playerId);
                 let headshot = await fetchHeadshotById(playerId);
                 let trophies = await fetchTrophiesById(playerId);
 
-                seasons = await JSON.stringify(seasons);
-                graphs = await JSON.stringify(graphs);
+                playerData = JSON.stringify(playerData);
+                seasons = JSON.stringify(seasons);
+                graphs = JSON.stringify(graphs);
+                trophies = JSON.stringify(trophies);
 
-                localStorage.setItem('data', data);
+                localStorage.setItem('data', playerData);
                 localStorage.setItem('seasons', seasons);
                 localStorage.setItem('graphs', graphs);
                 localStorage.setItem('headshot', headshot);
                 localStorage.setItem('trophies', trophies);
 
-                window.location.href = './results.html';
+                window.location.href = '/results';
 
                 return;     
             } else {
@@ -106,23 +109,24 @@ function buildNameOptions(playerNames, playerIds){
 }
 
 async function buttonClicked(playerId){
-    let data = await fetchDataById(playerId);
+    let playerData = await fetchDataById(playerId);
     let seasons = await fetchSeasonsById(playerId);
     let graphs = await fetchGraphsById(playerId);
     let headshot = await fetchHeadshotById(playerId);
     let trophies = await fetchTrophiesById(playerId);
 
-    data = await JSON.stringify(data);
-    seasons = await JSON.stringify(seasons);
-    graphs = await JSON.stringify(graphs);
+    playerData = JSON.stringify(playerData);
+    seasons = JSON.stringify(seasons);
+    graphs = JSON.stringify(graphs);
+    trophies = JSON.stringify(trophies);
 
-    localStorage.setItem('data', data);
+    localStorage.setItem('data', playerData);
     localStorage.setItem('seasons', seasons);
     localStorage.setItem('graphs', graphs);
     localStorage.setItem('headshot', headshot);
     localStorage.setItem('trophies', trophies);
 
-    window.location.href = './results.html';
+    window.location.href = '/results';
 }
 
 async function fetchDataByName(searchQuery) {
@@ -137,7 +141,7 @@ async function fetchDataByName(searchQuery) {
             throw new Error('Network response was not ok');
         }
 
-        data = await data.json();
+        data = data.json();
 
         return data;
     } catch (error) {
@@ -156,7 +160,7 @@ async function fetchDataById(id) {
             throw new Error('Network response was not ok');
         }
 
-        data = await data.json();
+        data = data.json();
         
         return data;
     } catch (error) {
@@ -175,7 +179,7 @@ async function fetchSeasonsById(id){
             throw new Error('Network response was not ok');
         }
 
-        data = await data.json();
+        data = data.json();
 
         return data;
     } catch (error) {
@@ -194,7 +198,7 @@ async function fetchGraphsById(id){
             throw new Error('Network response was not ok');
         }
 
-        data = await data.json();
+        data = data.json();
 
         return data;
     } catch (error) {
@@ -213,7 +217,7 @@ async function fetchHeadshotById(id){
             throw new Error('Network response was not ok');
         }
 
-        data = await data.json();
+        data = data.text()
 
         return data;
     } catch (error) {
@@ -232,7 +236,7 @@ async function fetchTrophiesById(id){
             throw new Error('Network response was not ok');
         }
 
-        data = await data.json();
+        data = data.json();
 
         return data;
     } catch (error) {

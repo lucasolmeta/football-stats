@@ -4,14 +4,10 @@ let graphs = localStorage.getItem('graphs');
 let headshot = localStorage.getItem('headshot');
 let trophies = localStorage.getItem('trophies');
 
-console.log(data);
 data = JSON.parse(data);
-console.log(trophies);
 seasons = JSON.parse(seasons);
 graphs = JSON.parse(graphs);
 trophies = JSON.parse(trophies);
-
-console.log(trophies);
 
 let yearSelected = seasons[seasons.length - 1];
 
@@ -281,7 +277,6 @@ function displayCareerStats(){
 }
 
 async function displayHeadshot(){
-    console.log(headshot);
     document.getElementById('headshot').src = headshot;
 }
 
@@ -407,20 +402,33 @@ async function displayTrophies(){
 
     for(let i = 0; i < trophies.length; i++){
         if(trophies[i].place == "Winner"){
-            console.log("winner: " + trophies[i]);
-            for(let j = 0; j < trophyCounts.length; j++){
-                if(trophyCounts[j][1] == trophies[i].league){
-                    trophyCounts[j][0]++;
-                    break;
+            if(!trophyCounts.length){
+                let addTrophy = [1, trophies[i].league];
+                trophyCounts.push(addTrophy);
+            } else {
+                let trophyAdded = false;
+                let addedIndex;
+
+                for(let j = 0; j < trophyCounts.length; j++){
+                    if(trophyCounts[j][1] == trophies[i].league){
+                        trophyAdded = true;
+                        addedIndex = j;
+                    }
                 }
 
-                if(j = trophyCounts.length - 1){
+                if(trophyAdded){
+                    trophyCounts[addedIndex][0]++;
+                } else {
                     let addTrophy = [1, trophies[i].league];
-                    trophyCounts.append(addTrophy);
+                    trophyCounts.push(addTrophy);
                 }
             }
         }
     }
+
+    trophyCounts.sort((a, b) => {
+        return a[1].toLowerCase().localeCompare(b[1].toLowerCase());
+    });
 
     for(let i = 0; i < trophyCounts.length; i++){
         let thisTrophy = "";
@@ -428,8 +436,6 @@ async function displayTrophies(){
         thisTrophy += "x <span class='answer'>";
         thisTrophy += trophyCounts[i][1];
         thisTrophy += "</span><br>";
-
-        console.log(thisTrophy);
 
         trophiesElement.innerHTML += thisTrophy;
     }
