@@ -110,11 +110,13 @@ function buildNameOptions(playerNames, playerIds){
 }
 
 async function buttonClicked(playerId){
+    let data = await fetchDataById(playerId);
     let seasons = await fetchSeasonsById(playerId);
     let graphs = await fetchGraphsById(playerId);
     let headshot = await fetchHeadshotById(playerId);
     let trophies = await fetchTrophiesById(playerId);
 
+    data = await JSON.stringify(data);
     seasons = await JSON.stringify(seasons);
     graphs = await JSON.stringify(graphs);
     headshot = await JSON.stringify(headshot);
