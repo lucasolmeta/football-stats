@@ -10,6 +10,8 @@ trophies = JSON.parse(trophies);
 
 if(isValidJSON(graphs)){
     graphs = JSON.parse(graphs);
+} else {
+    graphs = undefined;
 }
 
 let yearSelected = seasons[seasons.length - 1];
@@ -296,7 +298,7 @@ function displayGraph(){
 
     let imgData = "";
 
-    if(graphs.goals == "error" || graphs.assists == "error" || graphs.games == "error" || graphs.ratings == "error"){
+    if(!graphs || graphs.goals == "error" || graphs.assists == "error" || graphs.games == "error" || graphs.ratings == "error"){
         const sectionTwo = document.getElementById('section2');
         sectionTwo.remove();
 
