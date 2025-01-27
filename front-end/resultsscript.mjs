@@ -8,7 +8,7 @@ data = JSON.parse(data);
 seasons = JSON.parse(seasons);
 trophies = JSON.parse(trophies);
 
-if(graphs){
+if(isValidJSON(graphs)){
     graphs = JSON.parse(graphs);
 }
 
@@ -443,6 +443,15 @@ async function displayTrophies(){
         trophiesElement.innerHTML += thisTrophy;
     }
 }
+
+function isValidJSON(str) {
+    try {
+      JSON.parse(str);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
 function resizeScreen(){
 
