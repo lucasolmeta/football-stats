@@ -50,16 +50,16 @@ async function submissionMade(e){
 
                 if(graphs){
                     graphs = JSON.stringify(graphs);
+                } else {
+                    graphs = undefined;
                 }
 
                 localStorage.setItem('data', playerData);
                 localStorage.setItem('seasons', seasons);
                 localStorage.setItem('headshot', headshot);
                 localStorage.setItem('trophies', trophies);
-
-                if(graphs){
-                    localStorage.setItem('graphs', graphs);
-                }                
+    
+                localStorage.setItem('graphs', graphs);          
 
                 window.location.href = '/results';
 
@@ -127,6 +127,8 @@ async function buttonClicked(playerId){
 
     if(graphs){
         graphs = JSON.stringify(graphs);
+    } else {
+        graphs = undefined;
     }
 
     localStorage.setItem('data', playerData);
@@ -134,9 +136,7 @@ async function buttonClicked(playerId){
     localStorage.setItem('headshot', headshot);
     localStorage.setItem('trophies', trophies);
 
-    if(graphs){
-        localStorage.setItem('graphs', graphs);
-    }
+    localStorage.setItem('graphs', graphs);
 
     window.location.href = '/results';
 }
