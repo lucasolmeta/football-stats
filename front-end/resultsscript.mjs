@@ -296,7 +296,7 @@ function displayGraph(){
 
     let imgData = "";
 
-    if(!graphs || graphs.goals == "error" || graphs.assists == "error" || graphs.games == "error" || graphs.ratings == "error"){
+    if(!isValidJSON(graphs) || graphs.goals == "error" || graphs.assists == "error" || graphs.games == "error" || graphs.ratings == "error"){
         const sectionTwo = document.getElementById('section2');
         sectionTwo.remove();
 
