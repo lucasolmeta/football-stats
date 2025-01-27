@@ -6,8 +6,11 @@ let trophies = localStorage.getItem('trophies');
 
 data = JSON.parse(data);
 seasons = JSON.parse(seasons);
-graphs = JSON.parse(graphs);
 trophies = JSON.parse(trophies);
+
+if(graphs){
+    graphs = JSON.parse(graphs);
+}
 
 let yearSelected = seasons[seasons.length - 1];
 
@@ -293,7 +296,7 @@ function displayGraph(){
 
     let imgData = "";
 
-    if(graphs.goals == "error" || graphs.assists == "error" || graphs.games == "error" || graphs.ratings == "error"){
+    if(!graphs || graphs.goals == "error" || graphs.assists == "error" || graphs.games == "error" || graphs.ratings == "error"){
         const sectionTwo = document.getElementById('section2');
         sectionTwo.remove();
 

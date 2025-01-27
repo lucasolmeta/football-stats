@@ -41,27 +41,25 @@ async function submissionMade(e){
                 let playerData = await fetchDataById(playerId);
                 let seasons = await fetchSeasonsById(playerId);
                 let headshot = await fetchHeadshotById(playerId);
-                let graphs = await fetchGraphsById(playerId);
                 let trophies = await fetchTrophiesById(playerId);
+                let graphs = await fetchGraphsById(playerId);
 
                 playerData = JSON.stringify(playerData);
                 seasons = JSON.stringify(seasons);
+                trophies = JSON.stringify(trophies);
+
                 if(graphs){
                     graphs = JSON.stringify(graphs);
-                }
-                if(trophies){
-                    trophies = JSON.stringify(trophies);
                 }
 
                 localStorage.setItem('data', playerData);
                 localStorage.setItem('seasons', seasons);
                 localStorage.setItem('headshot', headshot);
+                localStorage.setItem('trophies', trophies);
+
                 if(graphs){
                     localStorage.setItem('graphs', graphs);
-                }
-                if(trophies){
-                    localStorage.setItem('trophies', trophies);
-                }
+                }                
 
                 window.location.href = '/results';
 
@@ -120,28 +118,24 @@ async function buttonClicked(playerId){
     let playerData = await fetchDataById(playerId);
     let seasons = await fetchSeasonsById(playerId);
     let headshot = await fetchHeadshotById(playerId);
-    let graphs = await fetchGraphsById(playerId);
     let trophies = await fetchTrophiesById(playerId);
+    let graphs = await fetchGraphsById(playerId);
 
     playerData = JSON.stringify(playerData);
     seasons = JSON.stringify(seasons);
+    trophies = JSON.stringify(trophies);
 
     if(graphs){
         graphs = JSON.stringify(graphs);
-    }
-    if(trophies){
-        trophies = JSON.stringify(trophies);
     }
 
     localStorage.setItem('data', playerData);
     localStorage.setItem('seasons', seasons);
     localStorage.setItem('headshot', headshot);
+    localStorage.setItem('trophies', trophies);
 
     if(graphs){
         localStorage.setItem('graphs', graphs);
-    }
-    if(trophies){
-        localStorage.setItem('trophies', trophies);
     }
 
     window.location.href = '/results';
